@@ -72,7 +72,7 @@
 # MAGIC 
 # MAGIC MLflow is an open source software project developed by Databricks available to developers regardless of which platform they are using.  Databricks hosts MLflow for you, which reduces deployment configuration and adds security benefits.  It is accessible on all Databricks workspaces in Azure, Google, and AWS.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** See <a href="https://mlflow.org/docs/latest/quickstart.html#" target="_blank">the MLflow quickstart guide</a> for details on setting up MLflow locally or on your own server.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> See <a href="https://mlflow.org/docs/latest/quickstart.html#" target="_blank">the MLflow quickstart guide</a> for details on setting up MLflow locally or on your own server.
 
 # COMMAND ----------
 
@@ -98,7 +98,7 @@ X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), 
 
 # MAGIC %md **Navigate to the MLflow UI by clicking on the `Runs` button on the top of the screen.**
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Every Python notebook in a Databricks Workspace has its own experiment. When you use MLflow in a notebook, it records runs in the notebook experiment. A notebook experiment shares the same name and ID as its corresponding notebook.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Every Python notebook in a Databricks Workspace has its own experiment. When you use MLflow in a notebook, it records runs in the notebook experiment. A notebook experiment shares the same name and ID as its corresponding notebook.
 
 # COMMAND ----------
 
@@ -165,7 +165,7 @@ with mlflow.start_run(run_name="Basic RF Experiment") as run:
 # MAGIC 
 # MAGIC First, create a function to perform this.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** To log artifacts, we have to save them somewhere before MLflow can log them.  This code accomplishes that by using a temporary file that it then deletes.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> To log artifacts, we have to save them somewhere before MLflow can log them.  This code accomplishes that by using a temporary file that it then deletes.
 
 # COMMAND ----------
 

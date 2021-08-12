@@ -180,7 +180,7 @@ with mlflow.start_run(run_name="RF-Grid-Search") as run:
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** See the solutions folder for an example solution to this lab.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> See the solutions folder for an example solution to this lab.
 
 # COMMAND ----------
 

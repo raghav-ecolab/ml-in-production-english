@@ -99,7 +99,7 @@ with mlflow.start_run() as run:
 # MAGIC 
 # MAGIC In this lesson, we are going to demonstrate how to use both the `click` library and MLflow Model Serving API. 
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Models can be served in this way in other languages as well.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Models can be served in this way in other languages as well.
 
 # COMMAND ----------
 
@@ -304,14 +304,14 @@ score_model(pd.DataFrame([0]))
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** **Remember to shut down the Model Serving Cluster to avoid incurring unexpected cost**. It does not terminate automatically! Click on `Stop` next to `Status` to stop the serving cluster.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> **Remember to shut down the Model Serving Cluster to avoid incurring unexpected cost**. It does not terminate automatically! Click on `Stop` next to `Status` to stop the serving cluster.
 # MAGIC <Br>
 # MAGIC 
 # MAGIC <div><img src="http://files.training.databricks.com/images/mlflow/demo_model_hex.png" style="height: 250px; margin: 20px"/></div>
 
 # COMMAND ----------
 
-# MAGIC %md <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
+# MAGIC %md <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
 
 # COMMAND ----------
 

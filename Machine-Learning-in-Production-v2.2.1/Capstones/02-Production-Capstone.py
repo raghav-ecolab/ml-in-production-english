@@ -17,7 +17,7 @@
 # MAGIC  - Deploy a rest endpoint
 # MAGIC  - _Optional:_ Create a monitoring and alerting solution
 # MAGIC  
-# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
 
 # COMMAND ----------
 
@@ -56,7 +56,7 @@ display(sparkDF)
 
 # MAGIC %md Train an AdaBoost regressor.  AdaBoost is meta-estimator that works by fitting one regressor to a dataset and then fits many additional copies of that same regressor to the dataset but with different weights for different errors.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Knowing how this algorithm works is not necessary for this capstone.  To deploy a model, we just need to know its inputs and outputs.  To read more about AdaBoost, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostRegressor.html#sklearn.ensemble.AdaBoostRegressor" target="_blank">see the `sklearn` documentation.</a>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Knowing how this algorithm works is not necessary for this capstone.  To deploy a model, we just need to know its inputs and outputs.  To read more about AdaBoost, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostRegressor.html#sklearn.ensemble.AdaBoostRegressor" target="_blank">see the `sklearn` documentation.</a>
 
 # COMMAND ----------
 
@@ -279,7 +279,7 @@ Query the REST endpoint
 
 # COMMAND ----------
 
-# MAGIC %md <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
+# MAGIC %md <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
 
 # COMMAND ----------
 

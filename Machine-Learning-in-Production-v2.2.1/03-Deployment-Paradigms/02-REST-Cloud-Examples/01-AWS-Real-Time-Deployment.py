@@ -109,8 +109,8 @@
 # MAGIC docker tag mlflow-pyfunc:latest ${ACCOUNTID}.dkr.ecr.${REGION}.amazonaws.com/mlflow-pyfunc:latest
 # MAGIC docker push ${ACCOUNTID}.dkr.ecr.${REGION}.amazonaws.com/mlflow-pyfunc:latest```
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** This step is left up to the user since it depends on your IAM roles
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** You must create a new SageMaker endpoint for each new region
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> This step is left up to the user since it depends on your IAM roles
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> You must create a new SageMaker endpoint for each new region
 
 # COMMAND ----------
 
@@ -131,7 +131,7 @@
 # MAGIC 
 # MAGIC The following is read-only credentials for a pre-made SageMaker endpoint.  They will not work for deploying a model.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** See the Secrets API and IAM roles for more secure ways of storing keys.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> See the Secrets API and IAM roles for more secure ways of storing keys.
 
 # COMMAND ----------
 

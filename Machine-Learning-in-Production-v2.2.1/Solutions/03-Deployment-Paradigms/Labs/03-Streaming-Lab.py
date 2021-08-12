@@ -128,9 +128,9 @@ rf.fit(X_train, y_train)
 # MAGIC 
 # MAGIC Complete the `postprocess_result()` method to change the predicted value from a number to one of 3 categorical labels, "High", "Medium", or "Low". Then finish the line in `predict()` to return the desired output.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** This can be done in pure Python where you apply the logic to `results` and return the transformed data in a list.  For a more performant solution, use broadcasting on a `pandas` series or DataFrame.
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Check out <a href="https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#pyfunc-create-custom" target="_blank">the `pyfunc` documentation for details</a><br>
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Check out <a href="https://github.com/mlflow/mlflow/blob/master/docs/source/models.rst#custom-python-models" target="_blank">the example code in the `mlflow` github repository</a><br>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> This can be done in pure Python where you apply the logic to `results` and return the transformed data in a list.  For a more performant solution, use broadcasting on a `pandas` series or DataFrame.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#pyfunc-create-custom" target="_blank">the `pyfunc` documentation for details</a><br>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://github.com/mlflow/mlflow/blob/master/docs/source/models.rst#custom-python-models" target="_blank">the example code in the `mlflow` github repository</a><br>
 
 # COMMAND ----------
 

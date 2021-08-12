@@ -121,7 +121,7 @@ display(prediction_df)
 # MAGIC 
 # MAGIC There are a variety of features to take advantage of, but we'll just partition our written files by the `neighbourhood_cleansed` column here.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** If needed, you can overwrite the file.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> If needed, you can overwrite the file.
 
 # COMMAND ----------
 

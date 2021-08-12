@@ -23,7 +23,7 @@
 # MAGIC %md
 # MAGIC To start this off, we will need to load the data, build a model, and register that model.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** We're building a random forest model to predict Airbnb listing prices.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> We're building a random forest model to predict Airbnb listing prices.
 
 # COMMAND ----------
 

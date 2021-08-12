@@ -24,7 +24,7 @@
 # MAGIC  - Update a model in production to new version including a staging phase for testing
 # MAGIC  - Archive and delete models
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** This notebook makes use of the model registry. If you are using the Databricks Community Edition, click the `Upgrade` button on the landing page <a href="https://accounts.cloud.databricks.com/registration.html#login" target="_blank">or navigate here</a> to start a free trial.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> This notebook makes use of the model registry. If you are using the Databricks Community Edition, click the `Upgrade` button on the landing page <a href="https://accounts.cloud.databricks.com/registration.html#login" target="_blank">or navigate here</a> to start a free trial.
 
 # COMMAND ----------
 
@@ -47,7 +47,7 @@
 # MAGIC 
 # MAGIC <div><img src="https://files.training.databricks.com/images/eLearning/ML-Part-4/model-registry.png" style="height: 400px; margin: 20px"/></div>
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** See <a href="https://mlflow.org/docs/latest/registry.html" target="_blank">the MLflow docs</a> for more details on the model registry.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> See <a href="https://mlflow.org/docs/latest/registry.html" target="_blank">the MLflow docs</a> for more details on the model registry.
 
 # COMMAND ----------
 
@@ -55,7 +55,7 @@
 # MAGIC 
 # MAGIC The following workflow will work with either the UI or in pure Python.  This notebook will use pure Python.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Explore the UI throughout this lesson by clicking the "Models" tab on the left-hand side of the screen.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Explore the UI throughout this lesson by clicking the "Models" tab on the left-hand side of the screen.
 
 # COMMAND ----------
 
@@ -198,7 +198,7 @@ print("The current model stage is: '{stage}'".format(stage=model_version_details
 
 # MAGIC %md Fetch the latest model using a `pyfunc`.  Loading the model in this way allows us to use the model regardless of the package that was used to train it.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** You can load a specific version of the model too.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> You can load a specific version of the model too.
 
 # COMMAND ----------
 
@@ -335,7 +335,7 @@ client.transition_model_version_stage(
 
 # MAGIC %md Delete version 1.  
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** You cannot delete a model that is not first archived.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> You cannot delete a model that is not first archived.
 
 # COMMAND ----------
 

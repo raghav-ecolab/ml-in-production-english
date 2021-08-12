@@ -72,7 +72,7 @@
 # MAGIC 
 # MAGIC We'll simulate a stream using the `maxFilesPerTrigger` option.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:**  There are a number of ways to stream data.  One other common design pattern is to stream from an an object store where any new files that appear will be read by the stream.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>  There are a number of ways to stream data.  One other common design pattern is to stream from an an object store where any new files that appear will be read by the stream.
 
 # COMMAND ----------
 
@@ -249,7 +249,7 @@ for stream in spark.streams.active:
 # MAGIC 
 # MAGIC You can perform writes to any target database.  In this case, write to a Delta file.  This file will always be up to date, another component of an application can query this endpoint at any time.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Delta is an open-source storage layer that brings ACID transactions to Spark and big data workloads.  It is built on the Parquet format.  <a href="https://databricks.com/product/databricks-delta" target="_blank">Find out more about Delta here.</a>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Delta is an open-source storage layer that brings ACID transactions to Spark and big data workloads.  It is built on the Parquet format.  <a href="https://databricks.com/product/databricks-delta" target="_blank">Find out more about Delta here.</a>
 
 # COMMAND ----------
 

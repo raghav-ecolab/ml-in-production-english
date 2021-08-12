@@ -315,7 +315,7 @@ loaded_postprocess_model.predict(X_test)
 # MAGIC %md
 # MAGIC Given any unmodified raw data, our model can perform the pre-processing steps, apply the trained model, and follow the post-processing step all in one `.predict` function call!
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** See the solutions folder for an example solution to this lab.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> See the solutions folder for an example solution to this lab.
 
 # COMMAND ----------
 

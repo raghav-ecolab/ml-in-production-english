@@ -65,8 +65,8 @@
 # MAGIC %md 
 # MAGIC Define a Slack webhook.  This has **not** been done for you.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Define your own Slack webhook <a href="https://api.slack.com/incoming-webhooks#getting-started" target="_blank">Using these 4 steps.</a><br>
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** This same approach applies to PagerDuty as well.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Define your own Slack webhook <a href="https://api.slack.com/incoming-webhooks#getting-started" target="_blank">Using these 4 steps.</a><br>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> This same approach applies to PagerDuty as well.
 
 # COMMAND ----------
 
@@ -159,9 +159,9 @@ postToAPIEndpoint(webhookMLProductionAPIDemo, "The newly trained model MSE is no
 # MAGIC 
 # MAGIC A custom `SparkListener` allows for custom actions taken on cluster activity.  **This API is only available in Scala.**  Take a look at the following code.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** See [SparkListener](https://spark.apache.org/docs/latest/api/java/index.html?org/apache/spark/scheduler/SparkListener.html) docs</a>. You can refer to this [doc](https://kb.databricks.com/metrics/explore-spark-metrics.html).
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> See [SparkListener](https://spark.apache.org/docs/latest/api/java/index.html?org/apache/spark/scheduler/SparkListener.html) docs</a>. You can refer to this [doc](https://kb.databricks.com/metrics/explore-spark-metrics.html).
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** Be sure to update the webhook variable in the following cell.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> Be sure to update the webhook variable in the following cell.
 
 # COMMAND ----------
 
