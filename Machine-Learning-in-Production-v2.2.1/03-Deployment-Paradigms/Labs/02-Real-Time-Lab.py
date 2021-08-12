@@ -105,15 +105,6 @@ client.transition_model_version_stage(
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC -- ANSWER
-# MAGIC 
-# MAGIC Users can head to the registered model's page in the Model Registry to enable Model Serving.
-# MAGIC 
-# MAGIC <img src="http://files.training.databricks.com/images/mlflow/demo_model_register.png" width="600" height="20"/>
-
-# COMMAND ----------
-
-# MAGIC %md
 # MAGIC ## Compute Real-time Predictions
 # MAGIC 
 # MAGIC Now that your model is registered, you will query the model with inputs.

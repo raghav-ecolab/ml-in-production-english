@@ -6,12 +6,6 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC -- INSTRUCTOR_NOTE
-# MAGIC * [See this demo for serving models with Sagemaker](https://field-eng.cloud.databricks.com/#notebook/915990/command/959390)
-
-# COMMAND ----------
-
 # MAGIC %md # Real Time Deployment
 # MAGIC 
 # MAGIC While real time deployment represents a smaller share of the deployment landscape, many of these deployments represent high value tasks.  This lesson surveys real time deployment options ranging from proofs of concept to both custom and managed solutions with a focus on RESTful services.

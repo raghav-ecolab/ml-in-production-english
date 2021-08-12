@@ -119,28 +119,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC -- INSTRUCTOR_NOTE
-# MAGIC     
-# MAGIC Internal Resources:
-# MAGIC   - [Go to market strategy](https://docs.google.com/document/d/11TY2A6MNPvFy1O-XmKalp59vC0vDbqN5-MAZXsJ1Pe4/edit#)
-# MAGIC   - [Golden pitch deck](https://docs.google.com/presentation/d/1wkqmBxFTBCTf_GwD46W77-wFgXKWFStmEwYIpyBA7zI/edit#slide=id.p16)
-# MAGIC   - [MLflow strategy](https://docs.google.com/presentation/d/1jqL54c-usY5SZyyL9C6AxISBrArSGLlHSnmNV6LWdOs/edit#slide=id.g41fc7cf04d_0_117)
-# MAGIC   - [Drift detection presentation](https://docs.google.com/presentation/d/1pyk7fOHNPbz4hjXC8vZm_3xQ4nrDNOhegVoQsJGFt4Y/edit#slide=id.g5e1d1858d7_12_0) and [webinar](https://pages.databricks.com/ProductionizingMLWebinar_ty-wb-databricks-mlflow.html)
-# MAGIC   - [Demo from ILT](https://databricks-prod-cloudfront.cloud.databricks.com/public/793177bc53e528530b06c78a4fa0e086/0/5769800/100020/latest.html)
-# MAGIC   - [Andy's talk on multi-step workflows](https://drive.google.com/drive/u/0/folders/0B86uHPNtT6KsflAzRGZwcmVCTkZ5cEhqRjhuVWhpb2lDSElGVzdWcmlVX1hkb1hCOUd0cnM)
-# MAGIC   - [Andre's links of available resources](https://databricks.atlassian.net/wiki/spaces/~andre.mesarovic/pages/571244676/MLflow+Links#MLflowLinks-DatabricksInternal)
-# MAGIC   - [MLflow Galleries README](https://demo.cloud.databricks.com/#notebook/1564377/command/2395991) 
-# MAGIC   - [CI/CD Pitch](https://docs.google.com/presentation/d/1rwsqGcvCYOFoqAWWZcDR04b-VMHxD_iK2agFQpoArSI/edit#slide=id.g50e53f9326_1_27) and [blog](https://databricks.com/blog/2017/10/30/continuous-integration-continuous-delivery-databricks.html)
-# MAGIC   - For MLeap, See [Adam's talk](https://www.youtube.com/watch?v=KOehXxEgXFM) and [his notebook](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/7033591513855707/699028214697099/6890845802385168/latest.html) 
-# MAGIC   - [Mani's doc on data drift](https://docs.google.com/document/d/1CFT42OjkpaE4Lm0j2xBZCQ6--_N1DMdirgO1WG_9hkc/edit?ts=5ca7fac3#heading=h.q2dag7y3ql7w)
-# MAGIC   - [Compare/Contrast MLflow and Azure ML](https://docs.google.com/presentation/d/13T84QxS3QNfQzzwP7EngtNIwSTmcvjvFJ-FSa4CaLj4/edit?ts=5ca4fb30#slide=id.g55c496f54c_4_7)
-# MAGIC   
-# MAGIC External Resources:
-# MAGIC   - [Webinar on ML Production](https://pages.databricks.com/ProductionizingMLWebinar_ty-wb-databricks-mlflow.html) and [slide deck](https://docs.google.com/presentation/d/1pyk7fOHNPbz4hjXC8vZm_3xQ4nrDNOhegVoQsJGFt4Y/edit#slide=id.g5e1d1858d7_12_0)
-# MAGIC   - [Docs](https://mlflow.org/docs/latest/index.html)
-# MAGIC   - [github](https://github.com/mlflow/mlflow/)
-# MAGIC   - [Richard's talk](https://www.datasciencecentral.com/video/apache-sparkm-mllib-2-x-productionize-your-machine-learning-model)
+{dbr}
 
 # COMMAND ----------
 

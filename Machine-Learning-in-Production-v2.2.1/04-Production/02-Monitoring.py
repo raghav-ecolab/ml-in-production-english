@@ -50,24 +50,6 @@
 
 # COMMAND ----------
 
-# MAGIC %md 
-# MAGIC -- INSTRUCTOR_NOTE
-# MAGIC 
-# MAGIC Handling Drift 
-# MAGIC 
-# MAGIC It is important to note that each situation will need to be handled differently and that the presence of drift does not immediately indicate a need to replace the current model. 
-# MAGIC 
-# MAGIC For example:
-# MAGIC * Imagine a model designed to predict snow cone sales with temperature as an input variable. If more recent data has higher temperatures and higher snow cone sales, we have both feature and label drift, but as long as the model is performing well, then there is not an issue. However, we might still want to take other business action given the change, so it is important to monitor for this anyway. 
-# MAGIC 
-# MAGIC * However, if temperature rose and sales increased, but our predictions did not match this change, we could have concept drift and will need to retrain the model. 
-# MAGIC 
-# MAGIC * In either case, we may want to alert the company of the changes in case they impact other business processes, so it is important to track all potential drift. 
-# MAGIC 
-# MAGIC **In order to best adapt to possible changes, we compare data and models across time windows to identify any kind of drift that could be occuring, and then analyze and diagnose the issue after looking closer.**
-
-# COMMAND ----------
-
 # MAGIC %md
 # MAGIC ## Testing for Drift
 # MAGIC 

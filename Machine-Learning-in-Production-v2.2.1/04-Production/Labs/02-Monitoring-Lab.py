@@ -189,15 +189,6 @@ driftMonitor.generateNullCounts()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC -- INSTRUCTOR_NOTE
-# MAGIC 
-# MAGIC NOTE: `most_popular_sorbet_flavor` had nulls introduced, but they were introduced evenly i.e. the distribution of the remaining data is the same as the first time period, so despite a 20% null count, since the test drops nulls, it is not flagged by the statistical tests called in `driftMonitor.run()`.
-# MAGIC 
-# MAGIC In practice, you could either define a separate field for nulls (fill them with something) for the Chi-Squared test, or just make sure to check nulls in addition to the tests.
-
-# COMMAND ----------
-
 driftMonitor.run()
 
 # COMMAND ----------

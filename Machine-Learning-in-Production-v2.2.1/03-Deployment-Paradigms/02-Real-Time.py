@@ -233,23 +233,6 @@ model_version_1 = mlflow.pyfunc.load_model(model_version_uri)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC -- INSTRUCTOR_NOTE
-# MAGIC 
-# MAGIC In the future, it'll be possible to enable model serving programmatically using API as well. `/api/2.0/mlflow/endpoints/enable` can take `{"registered_model_name": "foo_model"}`. The other commands available are `-/disable`, `-/get-status`.
-# MAGIC 
-# MAGIC Sample code looks like this: 
-# MAGIC ```
-# MAGIC token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)
-# MAGIC instance = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags().apply('browserHostName')
-# MAGIC headers = {'Authorization': f'Bearer {token}'}
-# MAGIC url = f'http://{instance}/api/2.0/mlflow/endpoints/enable'
-# MAGIC 
-# MAGIC requests.post(url, headers, json={"registered_model_name": "test"})
-# MAGIC ```
-
-# COMMAND ----------
-
 # We need both a token for the API, which we can get from the notebook.
 token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)
 # With the token, we can create our authorization header for our subsequent REST calls
