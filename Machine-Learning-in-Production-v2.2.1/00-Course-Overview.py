@@ -58,7 +58,7 @@
 # MAGIC - Python (`pandas`, `sklearn`, `numpy`)
 # MAGIC - Background in machine learning and data science
 # MAGIC 
-# MAGIC :CAUTION: **Certain features used in this course, such as the notebooks API and model registry, are only available to paid or trial subscription users of Databricks.**
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** **Certain features used in this course, such as the notebooks API and model registry, are only available to paid or trial subscription users of Databricks.**
 # MAGIC If you are using the Databricks Community Edition, click the `Upgrade` button on the landing page <a href="https://accounts.cloud.databricks.com/registration.html#login" target="_blank">or navigate here</a> to start a free trial.
 
 # COMMAND ----------
@@ -71,9 +71,9 @@
 # MAGIC 
 # MAGIC Please configure your cluster to use the Databricks **ML Runtime** version **{{dbr}}**.
 # MAGIC 
-# MAGIC :CAUTION: Do not use the stock or GPU accelerated runtimes
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** Do not use the stock or GPU accelerated runtimes
 # MAGIC 
-# MAGIC :SIDENOTE: This courseware has been tested against the specific DBR listed above. Using an untested DBR may yield unexpected results and/or various errors.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** This courseware has been tested against the specific DBR listed above. Using an untested DBR may yield unexpected results and/or various errors.
 
 # COMMAND ----------
 
@@ -85,11 +85,11 @@
 # MAGIC * Databricks (an Google hosted service)
 # MAGIC * Azure-Databricks (an Azure-hosted service)
 # MAGIC 
-# MAGIC :CAUTION: Some features are not available on the Community Edition, which limits the ability of some courses to be executed in that environment. Please see the course's prerequisites for specific information on this topic.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** Some features are not available on the Community Edition, which limits the ability of some courses to be executed in that environment. Please see the course's prerequisites for specific information on this topic.
 # MAGIC 
-# MAGIC :CAUTION: Additionally, private installations of Databricks (e.g., accounts provided by your employer) may have other limitations imposed, such as aggressive permissions and or language restrictions such as prohibiting the use of Scala which will further inhibit some courses from being executed in those environments.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** Additionally, private installations of Databricks (e.g., accounts provided by your employer) may have other limitations imposed, such as aggressive permissions and or language restrictions such as prohibiting the use of Scala which will further inhibit some courses from being executed in those environments.
 # MAGIC 
-# MAGIC :HINT: All courses provided by Databricks Academy rely on custom variables, functions, and settings to provide you with the best experience possible.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_hint_24.png"/>&nbsp;**Hint:** All courses provided by Databricks Academy rely on custom variables, functions, and settings to provide you with the best experience possible.
 # MAGIC 
 # MAGIC For each lesson to execute correctly, please make sure to run the **`Classroom-Setup`** cell at the start of each lesson (see the next cell).
 

@@ -79,7 +79,7 @@ df.iloc[:10]
 # MAGIC 
 # MAGIC Fill in the pre-processing lines to create the `X_test_processed` and `X_train_processed` DataFrames. Then we will train a new random forest model off this pre-processed data.
 # MAGIC 
-# MAGIC :HINT: Take a look at python's built in `round` function.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_hint_24.png"/>&nbsp;**Hint:** Take a look at python's built in `round` function.
 
 # COMMAND ----------
 
@@ -283,7 +283,7 @@ loaded_postprocess_model.predict(X_test)
 # MAGIC %md
 # MAGIC Given any unmodified raw data, our model can perform the pre-processing steps, apply the trained model, and follow the post-processing step all in one `.predict` function call!
 # MAGIC 
-# MAGIC :SIDENOTE: See the solutions folder for an example solution to this lab.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** See the solutions folder for an example solution to this lab.
 
 # COMMAND ----------
 

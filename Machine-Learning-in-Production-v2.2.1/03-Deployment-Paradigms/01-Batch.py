@@ -81,7 +81,7 @@
 # MAGIC 
 # MAGIC Models trained in various machine learning libraries can be applied at scale using Spark.  To do this, use `mlflow.pyfunc.spark_udf` and pass in the `SparkSession`, name of the model, and run id.
 # MAGIC 
-# MAGIC :SIDENOTE: Using UDF's in Spark means that supporting libraries must be installed on every node in the cluster.  In the case of `sklearn`, this is installed in Databricks clusters by default.  When using other libraries, you will need to install them to ensure that they will work as UDFs.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Using UDF's in Spark means that supporting libraries must be installed on every node in the cluster.  In the case of `sklearn`, this is installed in Databricks clusters by default.  When using other libraries, you will need to install them to ensure that they will work as UDFs.
 
 # COMMAND ----------
 
@@ -89,7 +89,7 @@
 # MAGIC 
 # MAGIC Import the data.  **Do not perform a train/test split.**
 # MAGIC 
-# MAGIC :SIDENOTE: It is common to skip the train/test split in training a final model.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** It is common to skip the train/test split in training a final model.
 
 # COMMAND ----------
 
@@ -198,7 +198,7 @@ display(dbutils.fs.ls(delta_partitioned_path))
 
 # MAGIC %md Bucket by zipcode.  This is for high cardinality columns.  `.bucketBy()` is a `DataFrameWriter` method that will create a certain number of buckets determined in advance and hashes each value into its respective bucket or folder.
 # MAGIC 
-# MAGIC :SIDENOTE: Writing using `.bucketBy()` currently needs to work through the Hive Metastore using `.saveAsTable()`.  For details, [see the JIRA ticket.](https://issues.apache.org/jira/browse/SPARK-19256)
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Writing using `.bucketBy()` currently needs to work through the Hive Metastore using `.saveAsTable()`.  For details, [see the JIRA ticket.](https://issues.apache.org/jira/browse/SPARK-19256)
 
 # COMMAND ----------
 

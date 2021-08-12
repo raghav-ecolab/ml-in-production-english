@@ -101,7 +101,7 @@ with mlflow.start_run(run_name= FILL_IN) as run:
 # MAGIC 
 # MAGIC Load the trained and tuned model we just saved. Check that the hyperparameters of this model matches that of the best model we found earlier.
 # MAGIC 
-# MAGIC :HINT: Use the `artifactURI` variable declared above.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_hint_24.png"/>&nbsp;**Hint:** Use the `artifactURI` variable declared above.
 
 # COMMAND ----------
 
@@ -180,7 +180,7 @@ with mlflow.start_run(run_name="RF-Grid-Search") as run:
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC :SIDENOTE: See the solutions folder for an example solution to this lab.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** See the solutions folder for an example solution to this lab.
 
 # COMMAND ----------
 

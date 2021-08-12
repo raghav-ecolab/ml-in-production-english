@@ -170,7 +170,7 @@ import mlflow.pyfunc
 
 # MAGIC %md Fill in the following model class to add in a post-processing step which will get us from total price per night to **price per person per night**.
 # MAGIC 
-# MAGIC :SIDENOTE: Check out <a href="https://www.mlflow.org/docs/latest/models.html#id13" target="_blank">the MLFlow docs for help.</a>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Check out <a href="https://www.mlflow.org/docs/latest/models.html#id13" target="_blank">the MLFlow docs for help.</a>
 
 # COMMAND ----------
 
@@ -219,7 +219,7 @@ final_model_path =  f"{working_path}/final-model"
 
 # MAGIC %md First save your testing data at `test_data_path` so we can test the packaged model.
 # MAGIC 
-# MAGIC :HINT: When using `.to_csv` make sure to set `index=False` so you don't end up with an extra index column in your saved dataframe.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_hint_24.png"/>&nbsp;**Hint:** When using `.to_csv` make sure to set `index=False` so you don't end up with an extra index column in your saved dataframe.
 
 # COMMAND ----------
 

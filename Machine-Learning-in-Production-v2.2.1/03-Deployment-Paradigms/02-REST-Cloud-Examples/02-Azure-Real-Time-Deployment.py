@@ -75,7 +75,7 @@
 # MAGIC 
 # MAGIC Let's create a Sklearn random forest model for the airbnb data we have been working with.
 # MAGIC 
-# MAGIC :CAUTION: **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
 
 # COMMAND ----------
 
@@ -107,8 +107,8 @@ model_uri = f"runs:/{run.info.run_id}/{modelPath}"
 
 # MAGIC %md Before models can be deployed to Azure ML, you must create or obtain an Azure ML Workspace. The `azureml.core.Workspace.create()` function will load a workspace of a specified name or create one if it does not already exist. For more information about creating an Azure ML Workspace, see the [Azure ML Workspace management documentation](https://docs.microsoft.com/en-us/azure/machine-learning/service/how-to-manage-workspace).
 # MAGIC 
-# MAGIC :SIDENOTE: Provide your own subscription ID and resource group in the cell below.<br>
-# MAGIC :SIDENOTE: Follow the instructions that will be printed out when the cell is run to authenticate yourself.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Provide your own subscription ID and resource group in the cell below.<br>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** Follow the instructions that will be printed out when the cell is run to authenticate yourself.
 
 # COMMAND ----------
 
@@ -143,7 +143,7 @@ subscription_id = ""
 # MAGIC %md 
 # MAGIC Use the `mlflow.azuereml.build_image` function to build an Azure Container Image for the trained MLflow model. This function also registers the MLflow model with a specified Azure ML workspace. The resulting image can be deployed to **Azure Container Instances (ACI)** or **Azure Kubernetes Service (AKS)** for real-time serving.
 # MAGIC 
-# MAGIC :SIDENOTE: ACI is a good solution for prototyping.  For production deployments, AKS is generally preferred.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** ACI is a good solution for prototyping.  For production deployments, AKS is generally preferred.
 
 # COMMAND ----------
 
@@ -374,7 +374,7 @@ query_input
 
 # COMMAND ----------
 
-# MAGIC %md :CAUTION: **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
+# MAGIC %md <img src="https://files.training.databricks.com/images/icon_warn_24.png"/>&nbsp;**Caution:** **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
 
 # COMMAND ----------
 

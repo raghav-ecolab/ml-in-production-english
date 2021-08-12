@@ -23,7 +23,7 @@
 # MAGIC %md
 # MAGIC To start this off, we will need to load the data, build a model, and register that model.
 # MAGIC 
-# MAGIC :SIDENOTE: We're building a random forest model to predict Airbnb listing prices.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>&nbsp;**Note:** We're building a random forest model to predict Airbnb listing prices.
 
 # COMMAND ----------
 
@@ -100,7 +100,7 @@ client.transition_model_version_stage(
 # MAGIC 
 # MAGIC Your first task is to enable MLflow Model Serving for the model that was just registered.
 # MAGIC 
-# MAGIC :HINT: Check out the [documentation](https://docs.databricks.com/applications/mlflow/model-serving.html#enable-and-disable-model-serving) for a demo of how to enable model serving via the GUI.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_hint_24.png"/>&nbsp;**Hint:** Check out the [documentation](https://docs.databricks.com/applications/mlflow/model-serving.html#enable-and-disable-model-serving) for a demo of how to enable model serving via the GUI.
 
 # COMMAND ----------
 
