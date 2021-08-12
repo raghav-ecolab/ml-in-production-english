@@ -119,10 +119,6 @@
 
 # COMMAND ----------
 
-{dbr}
-
-# COMMAND ----------
-
 # MAGIC 
 # MAGIC %md-sandbox
 # MAGIC &copy; 2021 Databricks, Inc. All rights reserved.<br/>
