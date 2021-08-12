@@ -61,27 +61,27 @@ from sklearn.metrics import make_scorer, mean_squared_error
 # Start run
 with mlflow.start_run(run_name="xgboost_model") as run:
     
-# Split data
-modeling_pdf = modeling_df.toPandas()
-X_train, X_test, y_train, y_test = train_test_split(
-modeling_pdf.drop(["price", "neighbourhood_cleansed", "listing_id"], axis=1),
-modeling_pdf[["price"]].values.ravel(),
-random_state=42
-)
+    # Split data
+    modeling_pdf = modeling_df.toPandas()
+    X_train, X_test, y_train, y_test = train_test_split(
+        modeling_pdf.drop(["price", "neighbourhood_cleansed", "listing_id"], axis=1), 
+        modeling_pdf[["price"]].values.ravel(), 
+        random_state=42
+    )
     
-# Train model
-regressor = xgb.XGBRegressor(n_estimators=10, max_depth=10)
-regressor.fit(X_train, y_train)
+    # Train model
+    regressor = xgb.XGBRegressor(n_estimators=10, max_depth=10)
+    regressor.fit(X_train, y_train)
     
-# Evaluate model
-train_predictions = regressor.predict(X_train)
-train_rmse = mean_squared_error(train_predictions, y_train, squared = False)
+    # Evaluate model
+    train_predictions = regressor.predict(X_train)
+    train_rmse = mean_squared_error(train_predictions, y_train, squared = False)
     
-# Log params and metric
-<TODO>
+    # Log params and metric
+    <TODO>
     
-# Log model
-<TODO>
+    # Log model
+    <TODO>
     
 # Register model
 model_name = f"xgboost_model_{clean_username}"
@@ -104,8 +104,8 @@ predict = <TODO>
 
 # Compute the predictions
 prediction_df = inference_df.withColumn(
-"prediction",
-<TODO>
+    "prediction", 
+    <TODO>
 ).select("listing_id", "neighbourhood_cleansed", "prediction")
 
 # View the results

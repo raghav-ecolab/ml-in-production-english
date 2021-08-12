@@ -190,14 +190,14 @@ checkpointLocation = f"{working_dir}/ml-deployment-capstone/stream.checkpoint"
 
 # TODO
 (predictionsDF
-.FILL_IN    # Write the stream
-.FILL_IN    # Name the stream
-.FILL_IN    # Use the delta format
-.FILL_IN    # Specify a feature to partition on
-.FILL_IN    # Specify where to log metadata
-.FILL_IN    # Specify the output path
-.FILL_IN    # Append new records to the output path
-.FILL_IN    # Start the operation
+  .FILL_IN    # Write the stream
+  .FILL_IN    # Name the stream
+  .FILL_IN    # Use the delta format
+  .FILL_IN    # Specify a feature to partition on
+  .FILL_IN    # Specify where to log metadata
+  .FILL_IN    # Specify the output path
+  .FILL_IN    # Append new records to the output path
+  .FILL_IN    # Start the operation
 )
 
 

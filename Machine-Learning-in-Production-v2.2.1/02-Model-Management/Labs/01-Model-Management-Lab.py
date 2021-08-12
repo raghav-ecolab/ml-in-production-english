@@ -174,17 +174,17 @@ except ValueError as e:
 # Define the model class
 class RF_with_preprocess(mlflow.pyfunc.PythonModel):
 
-def __init__(self, trained_rf):
-self.rf = trained_rf
+    def __init__(self, trained_rf):
+        self.rf = trained_rf
 
-def preprocess_input(self, model_input):
-'''return pre-processed model_input'''
-# FILL_IN
-return
+    def preprocess_input(self, model_input):
+        '''return pre-processed model_input'''
+        # FILL_IN
+        return
     
-def predict(self, context, model_input):
-processed_model_input = self.preprocess_input(model_input.copy())
-return self.rf.predict(processed_model_input)
+    def predict(self, context, model_input):
+        processed_model_input = self.preprocess_input(model_input.copy())
+        return self.rf.predict(processed_model_input)
 
 
 # COMMAND ----------
@@ -233,25 +233,25 @@ loaded_preprocess_model.predict(X_test)
 # Define the model class
 class RF_with_postprocess(mlflow.pyfunc.PythonModel):
 
-def __init__(self, trained_rf):
-self.rf = trained_rf
+    def __init__(self, trained_rf):
+        self.rf = trained_rf
 
-def preprocess_input(self, model_input):
-'''return pre-processed model_input'''
-# FILL_IN
-return
+    def preprocess_input(self, model_input):
+        '''return pre-processed model_input'''
+        # FILL_IN
+        return 
       
-def postprocess_result(self, results):
-'''return post-processed results
-Expensive: predicted price > 100
-Not Expensive: predicted price <= 100'''
-# FILL_IN
-return
+    def postprocess_result(self, results):
+        '''return post-processed results
+        Expensive: predicted price > 100
+        Not Expensive: predicted price <= 100'''
+        # FILL_IN
+        return 
     
-def predict(self, context, model_input):
-processed_model_input = self.preprocess_input(model_input.copy())
-results = self.rf.predict(processed_model_input)
-return self.postprocess_result(results)
+    def predict(self, context, model_input):
+        processed_model_input = self.preprocess_input(model_input.copy())
+        results = self.rf.predict(processed_model_input)
+        return self.postprocess_result(results)
 
 
 # COMMAND ----------

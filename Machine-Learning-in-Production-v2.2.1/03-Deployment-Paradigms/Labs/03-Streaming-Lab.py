@@ -66,11 +66,11 @@ spark.conf.set("spark.sql.shuffle.partitions", "8")
 
 # TODO
 streamingData = (spark
-.readStream
-.schema(FILL_IN)
-.option("maxFilesPerTrigger", 1)
-.parquet("/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet/")
-.drop("price"))
+                 .readStream
+                 .schema(FILL_IN)
+                 .option("maxFilesPerTrigger", 1)
+                 .parquet("/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet/")
+                 .drop("price"))
 
 
 # COMMAND ----------
@@ -142,21 +142,21 @@ from mlflow.pyfunc import PythonModel
 # Define the model class
 class streaming_model(PythonModel):
 
-def __init__(self, trained_rf):
-self.rf = trained_rf
+    def __init__(self, trained_rf):
+        self.rf = trained_rf
 
-def postprocess_result(self, results):
-'''return post-processed results
-High: predicted price >= 120
-Medium: predicted price < 120 and >= 70
-Low: predicted price < 70'''
+    def postprocess_result(self, results):
+        '''return post-processed results
+        High: predicted price >= 120
+        Medium: predicted price < 120 and >= 70
+        Low: predicted price < 70'''
         
-# FILL_IN
-return []
+        # FILL_IN
+        return []
     
-def predict(self, context, model_input):
-results = self.rf.predict(model_input)
-return # FILL_IN
+    def predict(self, context, model_input):
+        results = self.rf.predict(model_input)
+        return # FILL_IN
 
 
 # COMMAND ----------
@@ -248,9 +248,9 @@ checkpointLocation = f"{working_dir}/ml-deployment/stream-lab4.checkpoint"
 writePath = f"{working_dir}/ml-deployment/lab4-predictions"
 
 (streamingData
-.writeStream
-.queryName(myStreamName)
-.FILL_IN
+  .writeStream
+  .queryName(myStreamName)
+  .FILL_IN
 )
 
 

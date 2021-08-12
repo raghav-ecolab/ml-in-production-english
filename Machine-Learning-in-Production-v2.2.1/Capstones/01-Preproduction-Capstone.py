@@ -178,11 +178,11 @@ import mlflow.pyfunc
 
 class Airbnb_Model(mlflow.pyfunc.PythonModel):
 
-def __init__(self, model):
-self.model = model
+    def __init__(self, model):
+        self.model = model
     
-def predict(self, context, model_input):
-# <FILL_IN>
+    def predict(self, context, model_input):
+        # <FILL_IN>
 
 
 # COMMAND ----------
@@ -224,7 +224,7 @@ final_model_path =  f"{working_path}/final-model"
 # COMMAND ----------
 
 # TODO
-save the testing data
+save the testing data 
 test_data_path = f"{working_path}/test_data.csv"
 # FILL_IN
 
@@ -249,17 +249,17 @@ import pandas as pd
 @click.option("--test_data_path", default="", type=str)
 @click.option("--prediction_path", default="", type=str)
 def model_predict(final_model_path, test_data_path, prediction_path):
-# FILL_IN
+    # FILL_IN
 
 
-# test model_predict function
+# test model_predict function    
 demo_prediction_path = f"{working_path}/predictions.csv"
 
 from click.testing import CliRunner
 runner = CliRunner()
-result = runner.invoke(model_predict, ['--final_model_path', final_model_path,
-'--test_data_path', test_data_path,
-'--prediction_path', demo_prediction_path], catch_exceptions=True)
+result = runner.invoke(model_predict, ['--final_model_path', final_model_path, 
+                                       '--test_data_path', test_data_path,
+                                       '--prediction_path', demo_prediction_path], catch_exceptions=True)
 
 assert result.exit_code == 0, "Code failed" # Check to see that it worked
 print("Price per person predictions: ")
@@ -281,10 +281,10 @@ name: Capstone-Project
 conda_env: conda.yaml
 
 entry_points:
-main:
-parameters:
-#FILL_IN
-command:  "python predict.py #FILL_IN"
+  main:
+    parameters:
+      #FILL_IN
+    command:  "python predict.py #FILL_IN"
 '''.strip(), overwrite=True)
 
 
@@ -342,7 +342,7 @@ import pandas as pd
 # put model_predict function with decorators here
     
 if __name__ == "__main__":
-model_predict()
+  model_predict()
 
 '''.strip(), overwrite=True)
 
@@ -371,7 +371,7 @@ display( dbutils.fs.ls(working_dir) )
 # TODO
 second_prediction_path = f"{working_path}/predictions-2.csv"
 mlflow.projects.run(working_path,
-# FILL_IN
+   # FILL_IN
 )
 
 

@@ -9,8 +9,8 @@
 # MAGIC %md # Project Information
 # MAGIC 
 # MAGIC * Name: **Developer Advanced Capstone**
-# MAGIC * Version:  **2.2.0**
-# MAGIC * Built On: **Aug 12, 2021 at 02:40:59 UTC**
+# MAGIC * Version:  **2.2.1**
+# MAGIC * Built On: **Aug 12, 2021 at 18:55:00 UTC**
 
 # COMMAND ----------
 

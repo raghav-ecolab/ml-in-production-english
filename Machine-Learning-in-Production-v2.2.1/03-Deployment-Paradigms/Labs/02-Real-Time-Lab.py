@@ -142,19 +142,19 @@ instance = tags['browserHostName']
 # COMMAND ----------
 
 # TODO
-
+ 
 import pandas as pd
 import requests
 
 def score_model(dataset: pd.DataFrame, model_name: str, token: str, instance: str):
-url = f'https://{instance}/model/{model_name}/1/invocations'
-data_json = dataset.to_dict(orient='split')
-
-response = <FILL_IN>
-
-if response.status_code != 200:
-raise Exception(f'Request failed with status {response.status_code}, {response.text}')
-return response.json()
+    url = f'https://{instance}/model/{model_name}/1/invocations'
+    data_json = dataset.to_dict(orient='split')
+ 
+    response = <FILL_IN>
+ 
+    if response.status_code != 200:
+        raise Exception(f'Request failed with status {response.status_code}, {response.text}')
+    return response.json()
 
 
 # COMMAND ----------
@@ -180,8 +180,8 @@ single_row_df = pd.DataFrame([[2, 2, 150]], columns=["bathrooms", "bedrooms", "n
 inference_pdf = inference_df.toPandas().loc[:, ["bathrooms", "bedrooms", "number_of_reviews"]]
 
 def score_n_records(n, df=df):
-sample_df = <FILL_IN>
-return score_model(sample_df, model_name, token, instance)
+    sample_df = <FILL_IN>
+    return score_model(sample_df, model_name, token, instance)
 
 score_n_records(4, inference_pdf)
 
