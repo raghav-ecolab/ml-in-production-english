@@ -1,5 +1,7 @@
 # Databricks notebook source
+# MAGIC 
 # MAGIC %md-sandbox
+# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -54,7 +56,7 @@ rf_mse
 
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC ## Pre-processing Our Data
 # MAGIC 
 # MAGIC We would like to add some pre-processing steps to our data before training a RF model in order to decrease the MSE and improve our model's performance.
@@ -67,7 +69,7 @@ df.iloc[:10]
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md-sandbox
 # MAGIC Notice that all the values in the `latitude` and `longitude` columns are very similar (up to tenth place) since all the Airbnb listings are in San Francisco. The Airbnb pricing probably will not vary too much between longitude and latitude differences of 0.0001 so we can facilitate the splitting factors of our tree by rounding the `latitude` and `longitude` values to the nearest hundredth instead of worrying about all 6 digits after the decimal point. We will create these values in new columns called `trunc_lat` and `trunc_long` and drop the original `latitude` and `longitude` columns.
 # MAGIC 
 # MAGIC Additionally, notice that the 'review_scores_accuracy',
@@ -79,7 +81,7 @@ df.iloc[:10]
 # MAGIC 
 # MAGIC Fill in the pre-processing lines to create the `X_test_processed` and `X_train_processed` DataFrames. Then we will train a new random forest model off this pre-processed data.
 # MAGIC 
-# MAGIC :HINT: Take a look at python's built in `round` function.
+# MAGIC <img alt="Hint" title="Hint" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.3em" src="https://files.training.databricks.com/static/images/icon-light-bulb.svg"/>&nbsp;**Hint:** Take a look at python's built in `round` function.
 
 # COMMAND ----------
 
@@ -107,7 +109,6 @@ rf2.fit(X_train_processed, y_train)
 rf2_mse = mean_squared_error(y_test, rf2.predict(X_test_processed))
 
 rf2_mse
-
 
 # COMMAND ----------
 
@@ -153,7 +154,8 @@ except ValueError as e:
 
 # COMMAND ----------
 
-# MAGIC %md Why did this fail?
+# MAGIC %md
+# MAGIC Why did this fail?
 
 # COMMAND ----------
 
@@ -174,18 +176,17 @@ except ValueError as e:
 # Define the model class
 class RF_with_preprocess(mlflow.pyfunc.PythonModel):
 
-def __init__(self, trained_rf):
-self.rf = trained_rf
+    def __init__(self, trained_rf):
+        self.rf = trained_rf
 
-def preprocess_input(self, model_input):
-'''return pre-processed model_input'''
-# FILL_IN
-return
+    def preprocess_input(self, model_input):
+        '''return pre-processed model_input'''
+        # FILL_IN
+        return
     
-def predict(self, context, model_input):
-processed_model_input = self.preprocess_input(model_input.copy())
-return self.rf.predict(processed_model_input)
-
+    def predict(self, context, model_input):
+        processed_model_input = self.preprocess_input(model_input.copy())
+        return self.rf.predict(processed_model_input)
 
 # COMMAND ----------
 
@@ -233,26 +234,25 @@ loaded_preprocess_model.predict(X_test)
 # Define the model class
 class RF_with_postprocess(mlflow.pyfunc.PythonModel):
 
-def __init__(self, trained_rf):
-self.rf = trained_rf
+    def __init__(self, trained_rf):
+        self.rf = trained_rf
 
-def preprocess_input(self, model_input):
-'''return pre-processed model_input'''
-# FILL_IN
-return
+    def preprocess_input(self, model_input):
+        '''return pre-processed model_input'''
+        # FILL_IN
+        return 
       
-def postprocess_result(self, results):
-'''return post-processed results
-Expensive: predicted price > 100
-Not Expensive: predicted price <= 100'''
-# FILL_IN
-return
+    def postprocess_result(self, results):
+        '''return post-processed results
+        Expensive: predicted price > 100
+        Not Expensive: predicted price <= 100'''
+        # FILL_IN
+        return 
     
-def predict(self, context, model_input):
-processed_model_input = self.preprocess_input(model_input.copy())
-results = self.rf.predict(processed_model_input)
-return self.postprocess_result(results)
-
+    def predict(self, context, model_input):
+        processed_model_input = self.preprocess_input(model_input.copy())
+        results = self.rf.predict(processed_model_input)
+        return self.postprocess_result(results)
 
 # COMMAND ----------
 
@@ -280,10 +280,10 @@ loaded_postprocess_model.predict(X_test)
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md-sandbox
 # MAGIC Given any unmodified raw data, our model can perform the pre-processing steps, apply the trained model, and follow the post-processing step all in one `.predict` function call!
 # MAGIC 
-# MAGIC :SIDENOTE: See the solutions folder for an example solution to this lab.
+# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> See the solutions folder for an example solution to this lab.
 
 # COMMAND ----------
 
@@ -295,7 +295,6 @@ loaded_postprocess_model.predict(X_test)
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md-sandbox
 # MAGIC &copy; 2021 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>

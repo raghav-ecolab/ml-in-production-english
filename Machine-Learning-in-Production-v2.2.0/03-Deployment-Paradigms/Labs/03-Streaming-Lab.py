@@ -1,5 +1,7 @@
 # Databricks notebook source
+# MAGIC 
 # MAGIC %md-sandbox
+# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -60,26 +62,27 @@ spark.conf.set("spark.sql.shuffle.partitions", "8")
 
 # COMMAND ----------
 
-# MAGIC %md Create the stream using the schema defined above.
+# MAGIC %md
+# MAGIC Create the stream using the schema defined above.
 
 # COMMAND ----------
 
 # TODO
 streamingData = (spark
-.readStream
-.schema(FILL_IN)
-.option("maxFilesPerTrigger", 1)
-.parquet("/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet/")
-.drop("price"))
-
-
-# COMMAND ----------
-
-# MAGIC %md And to help us manage our streams better, we will make use of **`untilStreamIsReady()`**, **`stopAllStreams()`** and define the following, **`myStreamName`**:
+                 .readStream
+                 .schema(FILL_IN)
+                 .option("maxFilesPerTrigger", 1)
+                 .parquet("/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet/")
+                 .drop("price"))
 
 # COMMAND ----------
 
-myStreamName = "lesson03"
+# MAGIC %md
+# MAGIC And to help us manage our streams better, we will make use of **`untilStreamIsReady()`**, **`stopAllStreams()`** and define the following, **`myStreamName`**:
+
+# COMMAND ----------
+
+myStreamName = "lesson03_pi"
 
 # COMMAND ----------
 
@@ -122,16 +125,16 @@ rf.fit(X_train, y_train)
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md-sandbox
 # MAGIC ## Define Post-Processing Logic
 # MAGIC 
 # MAGIC When processing our data stream, we are interested in seeing whether each predicted price is "High", "Medium", or "Low". To accomplish this, we are going to define a model class that will apply the desired post-processing step to our random forest `rf`'s results with a `.predict()` call.
 # MAGIC 
 # MAGIC Complete the `postprocess_result()` method to change the predicted value from a number to one of 3 categorical labels, "High", "Medium", or "Low". Then finish the line in `predict()` to return the desired output.
 # MAGIC 
-# MAGIC :SIDENOTE: This can be done in pure Python where you apply the logic to `results` and return the transformed data in a list.  For a more performant solution, use broadcasting on a `pandas` series or DataFrame.
-# MAGIC :SIDENOTE: Check out <a href="https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#pyfunc-create-custom" target="_blank">the `pyfunc` documentation for details</a><br>
-# MAGIC :SIDENOTE: Check out <a href="https://github.com/mlflow/mlflow/blob/master/docs/source/models.rst#custom-python-models" target="_blank">the example code in the `mlflow` github repository</a><br>
+# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> This can be done in pure Python where you apply the logic to `results` and return the transformed data in a list.  For a more performant solution, use broadcasting on a `pandas` series or DataFrame.
+# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Check out <a href="https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#pyfunc-create-custom" target="_blank">the `pyfunc` documentation for details</a><br>
+# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Check out <a href="https://github.com/mlflow/mlflow/blob/master/docs/source/models.rst#custom-python-models" target="_blank">the example code in the `mlflow` github repository</a><br>
 
 # COMMAND ----------
 
@@ -142,22 +145,21 @@ from mlflow.pyfunc import PythonModel
 # Define the model class
 class streaming_model(PythonModel):
 
-def __init__(self, trained_rf):
-self.rf = trained_rf
+    def __init__(self, trained_rf):
+        self.rf = trained_rf
 
-def postprocess_result(self, results):
-'''return post-processed results
-High: predicted price >= 120
-Medium: predicted price < 120 and >= 70
-Low: predicted price < 70'''
+    def postprocess_result(self, results):
+        '''return post-processed results
+        High: predicted price >= 120
+        Medium: predicted price < 120 and >= 70
+        Low: predicted price < 70'''
         
-# FILL_IN
-return []
+        # FILL_IN
+        return []
     
-def predict(self, context, model_input):
-results = self.rf.predict(model_input)
-return # FILL_IN
-
+    def predict(self, context, model_input):
+        results = self.rf.predict(model_input)
+        return # FILL_IN
 
 # COMMAND ----------
 
@@ -215,7 +217,6 @@ predictionsDF = #FILL_IN
 
 display(predictionsDF, streamName=myStreamName)
 
-
 # COMMAND ----------
 
 # Wait until the stream is ready
@@ -248,11 +249,10 @@ checkpointLocation = f"{working_dir}/ml-deployment/stream-lab4.checkpoint"
 writePath = f"{working_dir}/ml-deployment/lab4-predictions"
 
 (streamingData
-.writeStream
-.queryName(myStreamName)
-.FILL_IN
+  .writeStream
+  .queryName(myStreamName)
+  .FILL_IN
 )
-
 
 # COMMAND ----------
 
@@ -297,7 +297,6 @@ for stream in spark.streams.active:
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md-sandbox
 # MAGIC &copy; 2021 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>

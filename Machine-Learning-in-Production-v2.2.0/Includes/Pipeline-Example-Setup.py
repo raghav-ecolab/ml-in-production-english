@@ -1,4 +1,5 @@
 # Databricks notebook source
+# MAGIC 
 # MAGIC %run ./Classroom-Setup
 
 # COMMAND ----------
@@ -32,3 +33,4 @@ df1.write.format("delta").mode("overwrite").save(data_path1)
 df2.write.format("delta").mode("overwrite").save(data_path2)
 
 None # Suppress Output
+

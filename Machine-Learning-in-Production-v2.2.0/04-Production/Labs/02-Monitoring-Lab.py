@@ -1,12 +1,14 @@
 # Databricks notebook source
+# MAGIC 
 # MAGIC %md-sandbox
+# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC # Drift Monitoring Lab
 # MAGIC 
 # MAGIC In this lab, you will look at simulated data for an ice cream shop. This data contains a first and second period of data, like we saw in the previous lesson. Your job is to use the techniques you just learned to identify any potential drift occuring across the two time periods. 
@@ -26,7 +28,7 @@
 # MAGIC 
 # MAGIC 
 # MAGIC In this situation, we have an imaginary model attempting to predict the total sales at the store of other, non ice cream items at the store, such as t-shirts or other merchandise. 
-# MAGIC Given the first and second time period of simulated data, identify any potential drift and analyze how you might handle it.
+# MAGIC Given the first and second time period of simulated data, identify any potential drift and analyze how you might handle it. 
 
 # COMMAND ----------
 
@@ -34,7 +36,8 @@
 
 # COMMAND ----------
 
-# MAGIC %md Let's take a look at the first time period ice cream dataframe!
+# MAGIC %md
+# MAGIC Let's take a look at the first time period ice cream dataframe!
 
 # COMMAND ----------
 
@@ -42,7 +45,8 @@ df.head()
 
 # COMMAND ----------
 
-# MAGIC %md You will try to identify the forms of simulated drift in this dataset. The dataset was changed in the following ways:
+# MAGIC %md
+# MAGIC You will try to identify the forms of simulated drift in this dataset. The dataset was changed in the following ways:
 # MAGIC 
 # MAGIC 1. An upstream data management error converted Fahrenheit to Celsius
 # MAGIC 2. The number of cones sold stayed constant
@@ -52,11 +56,12 @@ df.head()
 # MAGIC 6. The `total_store_sales` of other, non ice cream merchandise, increased
 # MAGIC 7. The prediction of `total_store_sales` decreased
 # MAGIC 
-# MAGIC Keep these changes in mind and see how we would detect them using the tools we have learned.
+# MAGIC Keep these changes in mind and see how we would detect them using the tools we have learned. 
 
 # COMMAND ----------
 
-# MAGIC %md %md Let's take a look at the second time period ice cream dataframe!
+# MAGIC %md
+# MAGIC %md Let's take a look at the second time period ice cream dataframe!
 
 # COMMAND ----------
 
@@ -64,7 +69,8 @@ df2.head()
 
 # COMMAND ----------
 
-# MAGIC %md We have defined a `Monitor` class for you. Please invoke it below to answer the following questions.
+# MAGIC %md
+# MAGIC We have defined a `Monitor` class for you. Please invoke it below to answer the following questions.
 
 # COMMAND ----------
 
@@ -154,7 +160,8 @@ class Monitor():
 
 # COMMAND ----------
 
-# MAGIC %md Create a `Monitor` object based on our first and second period of ice cream data to identify drift.
+# MAGIC %md
+# MAGIC Create a `Monitor` object based on our first and second period of ice cream data to identify drift.
 
 # COMMAND ----------
 
@@ -164,7 +171,7 @@ driftMonitor = (Monitor(df, df2,
 
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC ### Summary Statistics
 # MAGIC 
 # MAGIC Look over and compare some of the data and their summary stats. Use the `driftMonitor` class to generate the null counts and percent changes. Does anything jump out at you?
@@ -179,22 +186,14 @@ driftMonitor.generateNullCounts()
 
 # COMMAND ----------
 
-# MAGIC %md ### Statistical Tests
+# MAGIC %md
+# MAGIC ### Statistical Tests
 # MAGIC 
 # MAGIC Now let's try the Two Sample KS and Two-Way Chi-Squared Test with Bonferroni Correction. 
 # MAGIC 
 # MAGIC Both of these are implemented for you when you call `driftMonitor.run()`. It will print a feature name if a statisitically significant p-value was found by the respective test on that feature. 
 # MAGIC 
-# MAGIC Examine the results and compare them to the changes we made.
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC -- INSTRUCTOR_NOTE
-# MAGIC 
-# MAGIC NOTE: `most_popular_sorbet_flavor` had nulls introduced, but they were introduced evenly i.e. the distribution of the remaining data is the same as the first time period, so despite a 20% null count, since the test drops nulls, it is not flagged by the statistical tests called in `driftMonitor.run()`.
-# MAGIC 
-# MAGIC In practice, you could either define a separate field for nulls (fill them with something) for the Chi-Squared test, or just make sure to check nulls in addition to the tests.
+# MAGIC Examine the results and compare them to the changes we made. 
 
 # COMMAND ----------
 
@@ -202,7 +201,8 @@ driftMonitor.run()
 
 # COMMAND ----------
 
-# MAGIC %md ### Closer Look
+# MAGIC %md
+# MAGIC ### Closer Look
 # MAGIC 
 # MAGIC ***Using these summary statistics and statistical tests were we able to catch all of our drift?***
 # MAGIC 
@@ -212,7 +212,6 @@ driftMonitor.run()
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md-sandbox
 # MAGIC &copy; 2021 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>

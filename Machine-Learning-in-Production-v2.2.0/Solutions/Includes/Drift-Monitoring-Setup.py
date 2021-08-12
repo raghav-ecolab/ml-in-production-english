@@ -1,4 +1,5 @@
 # Databricks notebook source
+
 import numpy as np 
 import pandas as pd
 from scipy import stats
@@ -32,3 +33,7 @@ np.random.shuffle(sorbet)
 df2['most_popular_sorbet_flavor'] = sorbet
 df2['total_store_sales'] = np.random.normal(150, 10, 1000) # increased
 df2['total_sales_predicted'] = np.random.normal(80, 10, 1000) # decreased
+
+# COMMAND ----------
+
+

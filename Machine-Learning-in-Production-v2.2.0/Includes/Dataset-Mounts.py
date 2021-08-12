@@ -1,7 +1,6 @@
 # Databricks notebook source
-# MAGIC %scala
-# MAGIC // ALL_NOTEBOOKS
 # MAGIC 
+# MAGIC %scala
 # MAGIC def cloudAndRegion(cloudAndRegionOverride:Tuple2[String,String]) = {
 # MAGIC   import com.databricks.backend.common.util.Project
 # MAGIC   import com.databricks.conf.trusted.ProjectConf
@@ -200,7 +199,11 @@
 
 # COMMAND ----------
 
-# Utility method to get the Azure datasource.
+#**********************************
+# GET AZURE DATASOURCE
+#**********************************
+
+
 def getAzureDataSource(): 
   datasource = spark.conf.get("com.databricks.training.azure.datasource").split("\t")
   source = datasource[0]
@@ -208,4 +211,6 @@ def getAzureDataSource():
   sasToken = datasource[2]
   return (source, sasEntity, sasToken)
 
+
 None # Suppress output
+

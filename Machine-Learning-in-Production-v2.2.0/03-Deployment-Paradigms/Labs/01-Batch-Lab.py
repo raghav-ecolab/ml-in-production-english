@@ -1,5 +1,7 @@
 # Databricks notebook source
+# MAGIC 
 # MAGIC %md-sandbox
+# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -61,33 +63,32 @@ from sklearn.metrics import make_scorer, mean_squared_error
 # Start run
 with mlflow.start_run(run_name="xgboost_model") as run:
     
-# Split data
-modeling_pdf = modeling_df.toPandas()
-X_train, X_test, y_train, y_test = train_test_split(
-modeling_pdf.drop(["price", "neighbourhood_cleansed", "listing_id"], axis=1),
-modeling_pdf[["price"]].values.ravel(),
-random_state=42
-)
+    # Split data
+    modeling_pdf = modeling_df.toPandas()
+    X_train, X_test, y_train, y_test = train_test_split(
+        modeling_pdf.drop(["price", "neighbourhood_cleansed", "listing_id"], axis=1), 
+        modeling_pdf[["price"]].values.ravel(), 
+        random_state=42
+    )
     
-# Train model
-regressor = xgb.XGBRegressor(n_estimators=10, max_depth=10)
-regressor.fit(X_train, y_train)
+    # Train model
+    regressor = xgb.XGBRegressor(n_estimators=10, max_depth=10)
+    regressor.fit(X_train, y_train)
     
-# Evaluate model
-train_predictions = regressor.predict(X_train)
-train_rmse = mean_squared_error(train_predictions, y_train, squared = False)
+    # Evaluate model
+    train_predictions = regressor.predict(X_train)
+    train_rmse = mean_squared_error(train_predictions, y_train, squared = False)
     
-# Log params and metric
-<TODO>
+    # Log params and metric
+    <TODO>
     
-# Log model
-<TODO>
+    # Log model
+    <TODO>
     
 # Register model
 model_name = f"xgboost_model_{clean_username}"
 model_uri = f"runs:/{run.info.run_id}/model"
 model_details = <TODO>
-
 
 # COMMAND ----------
 
@@ -104,24 +105,23 @@ predict = <TODO>
 
 # Compute the predictions
 prediction_df = inference_df.withColumn(
-"prediction",
-<TODO>
+    "prediction", 
+    <TODO>
 ).select("listing_id", "neighbourhood_cleansed", "prediction")
 
 # View the results
 display(prediction_df)
 
-
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md-sandbox
 # MAGIC ### Optimize the predictions for reading using Delta
 # MAGIC 
 # MAGIC Now that the predictions are computed, you'll want to write them so they can be accessed efficiently.
 # MAGIC 
 # MAGIC There are a variety of features to take advantage of, but we'll just partition our written files by the `neighbourhood_cleansed` column here.
 # MAGIC 
-# MAGIC :SIDENOTE: If needed, you can overwrite the file.
+# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> If needed, you can overwrite the file.
 
 # COMMAND ----------
 
@@ -130,7 +130,6 @@ delta_partitioned_path = f"{working_dir}/batch-predictions-partitioned-lab.delta
 
 # Write prediction_df to delta_partitioned_path using column-based partitioning and Delta
 <TODO>
-
 
 # COMMAND ----------
 
@@ -148,7 +147,6 @@ delta_partitioned_path = f"{working_dir}/batch-predictions-partitioned-lab.delta
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md-sandbox
 # MAGIC &copy; 2021 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>

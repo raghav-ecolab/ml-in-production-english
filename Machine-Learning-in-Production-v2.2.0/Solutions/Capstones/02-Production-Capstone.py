@@ -1,12 +1,14 @@
 # Databricks notebook source
+# MAGIC 
 # MAGIC %md-sandbox
+# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md-sandbox
 # MAGIC # Capstone Project: 3 Production Deployments
 # MAGIC 
 # MAGIC The goal of this project is to deploy a trained machine learning model into production using all three deployment paradigms: batch, streaming, and REST.  An optional exercise entails creating a monitoring and alerting infrastructure.
@@ -17,7 +19,7 @@
 # MAGIC  - Deploy a rest endpoint
 # MAGIC  - _Optional:_ Create a monitoring and alerting solution
 # MAGIC  
-# MAGIC :CAUTION: **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
+# MAGIC <img alt="Caution" title="Caution" style="vertical-align: text-bottom; position: relative; height:1.3em; top:0.0em" src="https://files.training.databricks.com/static/images/icon-warning.svg"/> **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
 
 # COMMAND ----------
 
@@ -25,15 +27,17 @@
 
 # COMMAND ----------
 
-# MAGIC %md Define a name for the stream to be used later in this lesson.
+# MAGIC %md
+# MAGIC Define a name for the stream to be used later in this lesson.
 
 # COMMAND ----------
 
-myStreamName = "capstone"
+myStreamName = "capstone_pi"
 
 # COMMAND ----------
 
-# MAGIC %md Import the AirBnB dataset.  Create the following objects:<br><br>
+# MAGIC %md
+# MAGIC Import the AirBnB dataset.  Create the following objects:<br><br>
 # MAGIC 
 # MAGIC * `pandasDF`: a Pandas DataFrame of all the data
 # MAGIC * `pandasX`: a Pandas DataFrame of the `X` values
@@ -54,9 +58,10 @@ display(sparkDF)
 
 # COMMAND ----------
 
-# MAGIC %md Train an AdaBoost regressor.  AdaBoost is meta-estimator that works by fitting one regressor to a dataset and then fits many additional copies of that same regressor to the dataset but with different weights for different errors.
+# MAGIC %md-sandbox
+# MAGIC Train an AdaBoost regressor.  AdaBoost is meta-estimator that works by fitting one regressor to a dataset and then fits many additional copies of that same regressor to the dataset but with different weights for different errors.
 # MAGIC 
-# MAGIC :SIDENOTE: Knowing how this algorithm works is not necessary for this capstone.  To deploy a model, we just need to know its inputs and outputs.  To read more about AdaBoost, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostRegressor.html#sklearn.ensemble.AdaBoostRegressor" target="_blank">see the `sklearn` documentation.</a>
+# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Knowing how this algorithm works is not necessary for this capstone.  To deploy a model, we just need to know its inputs and outputs.  To read more about AdaBoost, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostRegressor.html#sklearn.ensemble.AdaBoostRegressor" target="_blank">see the `sklearn` documentation.</a>
 
 # COMMAND ----------
 
@@ -76,7 +81,8 @@ mse = mean_squared_error(pandasy, predictions["prediction"]) # This is on the sa
 
 # COMMAND ----------
 
-# MAGIC %md ### Apply a model trained in `sklearn` across a Spark DataFrame
+# MAGIC %md
+# MAGIC ### Apply a model trained in `sklearn` across a Spark DataFrame
 # MAGIC 
 # MAGIC Perform the following steps to apply the AdaBoost model to a Spark DataFrame:<br><br>
 # MAGIC 
@@ -111,7 +117,8 @@ display(predictionDF)
 
 # COMMAND ----------
 
-# MAGIC %md ### Perform predictions on an incoming stream of data
+# MAGIC %md
+# MAGIC ### Perform predictions on an incoming stream of data
 # MAGIC 
 # MAGIC Perform the following steps to apply the AdaBoost model to a stream of incoming data:<br><br>
 # MAGIC 
@@ -213,7 +220,8 @@ for stream in spark.streams.active:
 
 # COMMAND ----------
 
-# MAGIC %md Check to see if your files are there
+# MAGIC %md
+# MAGIC Check to see if your files are there
 
 # COMMAND ----------
 
@@ -226,7 +234,8 @@ except AnalysisException:
 
 # COMMAND ----------
 
-# MAGIC %md Stop the streams.
+# MAGIC %md
+# MAGIC Stop the streams.
 
 # COMMAND ----------
 
@@ -234,7 +243,8 @@ except AnalysisException:
 
 # COMMAND ----------
 
-# MAGIC %md ### Deploy a rest endpoint
+# MAGIC %md
+# MAGIC ### Deploy a rest endpoint
 # MAGIC 
 # MAGIC Perform the following steps to deploy the AdaBoost model as a REST endpoint:<br><br>
 # MAGIC 
@@ -335,15 +345,13 @@ except AnalysisException:
 
 # COMMAND ----------
 
-# MAGIC %md ### _Optional:_ Create a monitoring and alerting solution
+# MAGIC %md
+# MAGIC ### _Optional:_ Create a monitoring and alerting solution
 
 # COMMAND ----------
 
-# ANSWER
-
-# COMMAND ----------
-
-# MAGIC %md :CAUTION: **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
+# MAGIC %md-sandbox
+# MAGIC <img alt="Caution" title="Caution" style="vertical-align: text-bottom; position: relative; height:1.3em; top:0.0em" src="https://files.training.databricks.com/static/images/icon-warning.svg"/> **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
 
 # COMMAND ----------
 
@@ -355,7 +363,6 @@ except AnalysisException:
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md-sandbox
 # MAGIC &copy; 2021 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>

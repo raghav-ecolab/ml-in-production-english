@@ -1,4 +1,5 @@
 # Databricks notebook source
+
 def get_cloud():
   with open("/databricks/common/conf/deploy.conf") as f:
     for line in f:
@@ -129,3 +130,5 @@ def assertDbrVersion(expected:str, latestMajor:int=latestDbrMajor, latestMinor:i
   return f"{major}.{minor}"
 
 displayHTML("Defining courseware-specific utility methods...")
+
+

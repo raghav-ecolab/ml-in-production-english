@@ -1,12 +1,14 @@
 # Databricks notebook source
+# MAGIC 
 # MAGIC %md-sandbox
+# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC # Capstone Project: Managing the Machine Learning Lifecycle
 # MAGIC 
 # MAGIC Create a workflow that includes pre-processing logic, the optimal ML algorithm and hyperparameters, and post-processing logic.
@@ -37,7 +39,7 @@ working_path = working_dir.replace("dbfs:", "/dbfs")
 # MAGIC Take a look at the dataset and notice that there are plenty of strings and `NaN` values present. Our end goal is to train a sklearn regression model to predict the price of an airbnb listing.
 # MAGIC 
 # MAGIC 
-# MAGIC Before we can start training, we need to pre-process our data to be compatible with sklearn models by making all features purely numerical.
+# MAGIC Before we can start training, we need to pre-process our data to be compatible with sklearn models by making all features purely numerical. 
 
 # COMMAND ----------
 
@@ -54,7 +56,7 @@ display(airbnbDF)
 
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC 
 # MAGIC First, convert the `price` from a string to a float since the regression model will be predicting numerical values.
 
@@ -62,10 +64,9 @@ display(airbnbDF)
 
 # TODO
 
-
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC Take a look at our remaining columns with strings (or numbers) and decide if you would like to keep them as features or not.
 # MAGIC 
 # MAGIC Remove the features you decide not to keep.
@@ -74,17 +75,15 @@ display(airbnbDF)
 
 # TODO
 
-
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC 
 # MAGIC For the string columns that you've decided to keep, pick a numerical encoding for the string columns. Don't forget to deal with the `NaN` entries in those columns first.
 
 # COMMAND ----------
 
 # TODO
-
 
 # COMMAND ----------
 
@@ -101,14 +100,14 @@ from sklearn.model_selection import train_test_split
 
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC ## Model
 # MAGIC 
 # MAGIC After cleaning our data, we can start creating our model!
 
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC 
 # MAGIC Firstly, if there are still `NaN`'s in your data, you may want to impute these values instead of dropping those entries entirely. Make sure that any further processing/imputing steps after the train test split is part of a model/pipeline that can be saved.
 # MAGIC 
@@ -118,20 +117,18 @@ from sklearn.model_selection import train_test_split
 
 # TODO
 
-
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC Pick and calculate a regression metric for evaluating your model.
 
 # COMMAND ----------
 
 # TODO
 
-
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC 
 # MAGIC Log your model on MLflow with the same metric you calculated above so we can compare all the different models you have tried! Make sure to also log any hyperparameters that you plan on tuning!
 
@@ -149,7 +146,7 @@ import mlflow.sklearn
 
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC 
 # MAGIC Look through the MLflow UI for the best model. Copy its `URI` so you can load it as a `pyfunc` model.
 
@@ -158,19 +155,19 @@ import mlflow.sklearn
 # TODO
 import mlflow.pyfunc
 
-
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC ## Post-processing
 # MAGIC 
-# MAGIC Our model currently gives us the predicted price per night for each Airbnb listing. Now we would like our model to tell us what the price per person would be for each listing, assuming the number of renters is equal to the `accommodates` value.
+# MAGIC Our model currently gives us the predicted price per night for each Airbnb listing. Now we would like our model to tell us what the price per person would be for each listing, assuming the number of renters is equal to the `accommodates` value. 
 
 # COMMAND ----------
 
-# MAGIC %md Fill in the following model class to add in a post-processing step which will get us from total price per night to **price per person per night**.
+# MAGIC %md-sandbox
+# MAGIC Fill in the following model class to add in a post-processing step which will get us from total price per night to **price per person per night**.
 # MAGIC 
-# MAGIC :SIDENOTE: Check out <a href="https://www.mlflow.org/docs/latest/models.html#id13" target="_blank">the MLFlow docs for help.</a>
+# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Check out <a href="https://www.mlflow.org/docs/latest/models.html#id13" target="_blank">the MLFlow docs for help.</a>
 
 # COMMAND ----------
 
@@ -178,16 +175,16 @@ import mlflow.pyfunc
 
 class Airbnb_Model(mlflow.pyfunc.PythonModel):
 
-def __init__(self, model):
-self.model = model
+    def __init__(self, model):
+        self.model = model
     
-def predict(self, context, model_input):
-# <FILL_IN>
+    def predict(self, context, model_input):
+        # FILL_IN
 
 
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC Construct and save the model to the given `final_model_path`.
 
 # COMMAND ----------
@@ -197,43 +194,42 @@ final_model_path =  f"{working_path}/final-model"
 
 # FILL_IN
 
-
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC Load the model in `python_function` format and apply it to our test data `X_test` to check that we are getting price per person predictions now.
 
 # COMMAND ----------
 
 # TODO
 
-
 # COMMAND ----------
 
 # MAGIC %md
 # MAGIC ## Packaging your Model
 # MAGIC 
-# MAGIC Now we would like to package our completed model!
+# MAGIC Now we would like to package our completed model! 
 
 # COMMAND ----------
 
-# MAGIC %md First save your testing data at `test_data_path` so we can test the packaged model.
+# MAGIC %md-sandbox
+# MAGIC First save your testing data at `test_data_path` so we can test the packaged model.
 # MAGIC 
-# MAGIC :HINT: When using `.to_csv` make sure to set `index=False` so you don't end up with an extra index column in your saved dataframe.
+# MAGIC <img alt="Hint" title="Hint" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.3em" src="https://files.training.databricks.com/static/images/icon-light-bulb.svg"/>&nbsp;**Hint:** When using `.to_csv` make sure to set `index=False` so you don't end up with an extra index column in your saved dataframe.
 
 # COMMAND ----------
 
 # TODO
-save the testing data
+save the testing data 
 test_data_path = f"{working_path}/test_data.csv"
 # FILL_IN
 
 prediction_path = f"{working_path}/predictions.csv"
 
-
 # COMMAND ----------
 
-# MAGIC %md First we will determine what the project script should do. Fill out the `model_predict` function to load out the trained model you just saved (at `final_model_path`) and make price per person predictions on the data at `test_data_path`. Then those predictions should be saved under `prediction_path` for the user to access later.
+# MAGIC %md
+# MAGIC First we will determine what the project script should do. Fill out the `model_predict` function to load out the trained model you just saved (at `final_model_path`) and make price per person predictions on the data at `test_data_path`. Then those predictions should be saved under `prediction_path` for the user to access later.
 # MAGIC 
 # MAGIC Run the cell to check that your function is behaving correctly and that you have predictions saved at `demo_prediction_path`.
 
@@ -249,22 +245,21 @@ import pandas as pd
 @click.option("--test_data_path", default="", type=str)
 @click.option("--prediction_path", default="", type=str)
 def model_predict(final_model_path, test_data_path, prediction_path):
-# FILL_IN
+    # FILL_IN
 
 
-# test model_predict function
+# test model_predict function    
 demo_prediction_path = f"{working_path}/predictions.csv"
 
 from click.testing import CliRunner
 runner = CliRunner()
-result = runner.invoke(model_predict, ['--final_model_path', final_model_path,
-'--test_data_path', test_data_path,
-'--prediction_path', demo_prediction_path], catch_exceptions=True)
+result = runner.invoke(model_predict, ['--final_model_path', final_model_path, 
+                                       '--test_data_path', test_data_path,
+                                       '--prediction_path', demo_prediction_path], catch_exceptions=True)
 
 assert result.exit_code == 0, "Code failed" # Check to see that it worked
 print("Price per person predictions: ")
 print(pd.read_csv(demo_prediction_path))
-
 
 # COMMAND ----------
 
@@ -281,12 +276,11 @@ name: Capstone-Project
 conda_env: conda.yaml
 
 entry_points:
-main:
-parameters:
-#FILL_IN
-command:  "python predict.py #FILL_IN"
+  main:
+    parameters:
+      #FILL_IN
+    command:  "python predict.py #FILL_IN"
 '''.strip(), overwrite=True)
-
 
 # COMMAND ----------
 
@@ -325,7 +319,7 @@ print(file_contents)
 
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC Now we will put the **`predict.py`** script into our project package.
 # MAGIC 
 # MAGIC Complete the **`.py`** file by copying and placing the **`model_predict`** function you defined above.
@@ -342,10 +336,9 @@ import pandas as pd
 # put model_predict function with decorators here
     
 if __name__ == "__main__":
-model_predict()
+  model_predict()
 
 '''.strip(), overwrite=True)
-
 
 # COMMAND ----------
 
@@ -361,7 +354,7 @@ display( dbutils.fs.ls(working_dir) )
 
 # COMMAND ----------
 
-# MAGIC %md 
+# MAGIC %md
 # MAGIC Under **`working_dir`** is your completely packaged project.
 # MAGIC 
 # MAGIC Run the project to use the model saved at **`final_model_path`** to predict the price per person of each Airbnb listing in **`test_data_path`** and save those predictions under **`second_prediction_path`** (defined below).
@@ -371,9 +364,8 @@ display( dbutils.fs.ls(working_dir) )
 # TODO
 second_prediction_path = f"{working_path}/predictions-2.csv"
 mlflow.projects.run(working_path,
-# FILL_IN
+   # FILL_IN
 )
-
 
 # COMMAND ----------
 
@@ -395,7 +387,6 @@ print(pd.read_csv(second_prediction_path))
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md-sandbox
 # MAGIC &copy; 2021 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>

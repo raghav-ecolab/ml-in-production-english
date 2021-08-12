@@ -1,4 +1,5 @@
 # Databricks notebook source
+
 spark.conf.set("com.databricks.training.module-name", "ml-in-production")
 
 None # Suppress Output
@@ -39,3 +40,4 @@ def init_mlflow_as_job():
 init_mlflow_as_job()
 
 None # Suppress output
+
