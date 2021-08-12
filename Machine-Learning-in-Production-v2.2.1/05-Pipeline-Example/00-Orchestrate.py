@@ -178,7 +178,6 @@ dbutils.notebook.run("./06-Monitor", 0, params)
 
 # COMMAND ----------
 
-# MAGIC 
 # MAGIC %md-sandbox
 # MAGIC &copy; 2021 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>
