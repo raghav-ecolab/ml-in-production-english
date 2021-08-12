@@ -10,7 +10,7 @@
 # MAGIC 
 # MAGIC * Name: **Developer Advanced Capstone**
 # MAGIC * Version:  **2.2.1**
-# MAGIC * Built On: **Aug 12, 2021 at 20:43:50 UTC**
+# MAGIC * Built On: **Aug 12, 2021 at 20:57:11 UTC**
 
 # COMMAND ----------
 

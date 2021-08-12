@@ -54,7 +54,7 @@
 # MAGIC 
 # MAGIC ## Prerequisites
 # MAGIC - Web browser: Chrome
-# MAGIC - A cluster configured with **DBR {{dbr}}**
+# MAGIC - A properly configured cluster
 # MAGIC - Python (`pandas`, `sklearn`, `numpy`)
 # MAGIC - Background in machine learning and data science
 # MAGIC 
@@ -69,7 +69,7 @@
 # MAGIC 
 # MAGIC Before starting this course, you will need to create a cluster and attach it to this notebook.
 # MAGIC 
-# MAGIC Please configure your cluster to use the Databricks **ML Runtime** version **{{dbr}}**.
+# MAGIC Please configure your cluster to use the correct Databricks **ML Runtime** version.
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> Do not use the stock or GPU accelerated runtimes
 # MAGIC 
