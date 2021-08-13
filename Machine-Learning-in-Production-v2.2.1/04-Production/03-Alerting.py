@@ -80,6 +80,7 @@
 
 webhookMLProductionAPIDemo = "" # FILL_IN
 
+
 # COMMAND ----------
 
 # MAGIC %md Send a test message and check Slack.
@@ -103,6 +104,7 @@ def postToAPIEndpoint(content, webhook=""):
     print("Please define an appropriate API endpoint use by defining the `webhook` argument")
 
 postToAPIEndpoint("This is my post from Python", webhookMLProductionAPIDemo)
+
 
 # COMMAND ----------
 
@@ -152,6 +154,7 @@ postToAPIEndpoint("This is my post from Python", webhookMLProductionAPIDemo)
 mse = .45
 
 postToAPIEndpoint(webhookMLProductionAPIDemo, "The newly trained model MSE is now {}".format(mse))
+
 
 # COMMAND ----------
 
@@ -333,6 +336,7 @@ postToAPIEndpoint(webhookMLProductionAPIDemo, "The newly trained model MSE is no
   .parquet("/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet")
   .count()
 )
+
 
 # COMMAND ----------
 

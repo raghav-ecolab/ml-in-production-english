@@ -36,6 +36,7 @@ from sklearn.model_selection import train_test_split
 df = pd.read_csv("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.csv")
 X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), df[["price"]].values.ravel(), random_state=42)
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -52,6 +53,7 @@ rf_mse = mean_squared_error(y_test, rf.predict(X_test))
 
 rf_mse
 
+
 # COMMAND ----------
 
 # MAGIC %md 
@@ -64,6 +66,7 @@ rf_mse
 # COMMAND ----------
 
 df.iloc[:10]
+
 
 # COMMAND ----------
 
@@ -109,6 +112,7 @@ rf2_mse = mean_squared_error(y_test, rf2.predict(X_test_processed))
 rf2_mse
 
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -125,6 +129,7 @@ with mlflow.start_run(run_name="RF Model Pre-process") as run:
   experimentID = run.info.experiment_id
   artifactURI = mlflow.get_artifact_uri()
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -139,6 +144,7 @@ rf2_path = rf2_artifact_uri+"/random-forest-model-preprocess/"
 
 rf2_pyfunc_model = mlflow.pyfunc.load_model(rf2_path)
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -150,6 +156,7 @@ try:
   rf2_pyfunc_model.predict(X_test)
 except ValueError as e:
   print("ERROR: " + str(e))
+
 
 # COMMAND ----------
 
@@ -187,6 +194,7 @@ class RF_with_preprocess(mlflow.pyfunc.PythonModel):
         return self.rf.predict(processed_model_input)
 
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -208,6 +216,7 @@ mlflow.pyfunc.save_model(path=model_path.replace("dbfs:", "/dbfs"), python_model
 # Load the model in `python_function` format
 loaded_preprocess_model = mlflow.pyfunc.load_model(model_path.replace("dbfs:", "/dbfs"))
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -217,6 +226,7 @@ loaded_preprocess_model = mlflow.pyfunc.load_model(model_path.replace("dbfs:", "
 
 # Apply the model
 loaded_preprocess_model.predict(X_test)
+
 
 # COMMAND ----------
 
@@ -254,6 +264,7 @@ class RF_with_postprocess(mlflow.pyfunc.PythonModel):
         return self.postprocess_result(results)
 
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -277,6 +288,7 @@ loaded_postprocess_model = mlflow.pyfunc.load_model(model_path.replace("dbfs:", 
 
 # Apply the model
 loaded_postprocess_model.predict(X_test)
+
 
 # COMMAND ----------
 

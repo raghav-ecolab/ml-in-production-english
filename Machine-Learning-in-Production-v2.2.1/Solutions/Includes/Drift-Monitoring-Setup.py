@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 
+
 # COMMAND ----------
 
 # Simulate original ice cream dataset 

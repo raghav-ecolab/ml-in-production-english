@@ -31,7 +31,7 @@
 # MAGIC * `df`: original time period of airbnb data we will create our production model on.
 # MAGIC * `df2`: the second time period of data we will drift detect against later, drift simulated as described above.
 # MAGIC * `data_path1`: The delta path that we can access `df1` from.
-# MAGIC * `data_path2`: The delta path that we can access `df2` from.
+# MAGIC * `data_path2`: The delta path that we can access `df2` from. 
 
 # COMMAND ----------
 
@@ -54,13 +54,14 @@ result = dbutils.notebook.run("./01-Data-Validate", 0, params)
 
 result
 
+
 # COMMAND ----------
 
 # MAGIC %md ### Featurize
 # MAGIC 
 # MAGIC In this example, we will simply be String Encoding the categorical features and creating our feature vectors.
 # MAGIC 
-# MAGIC First, we need a new path to store the featurized version of the data, since we do not want to overwrite our original data.
+# MAGIC First, we need a new path to store the featurized version of the data, since we do not want to overwrite our original data. 
 
 # COMMAND ----------
 
@@ -68,9 +69,10 @@ data_featurized_path = f"{working_dir}/driftexample/data_featurized"
 dbutils.fs.rm(data_featurized_path, True)
 dbutils.fs.mkdirs(data_featurized_path)
 
+
 # COMMAND ----------
 
-# MAGIC %md Now run the featurize notebook. After running this we will have a featurized dataset in the `data_featurized_path` ready for training.
+# MAGIC %md Now run the featurize notebook. After running this we will have a featurized dataset in the `data_featurized_path` ready for training. 
 
 # COMMAND ----------
 
@@ -80,13 +82,14 @@ params = {
 }
 dbutils.notebook.run("./02-Featurize", 0, params)
 
+
 # COMMAND ----------
 
 # MAGIC %md ### Train
 # MAGIC 
 # MAGIC For this notebook, we will pass in the path to the featurized data we want to train on, an experiment path for MLflow, and a registry model name.
 # MAGIC 
-# MAGIC The notebook will train a model on the data, log the run under the experiment provided, and push the model to the Staging branch in the MLflow model registry.
+# MAGIC The notebook will train a model on the data, log the run under the experiment provided, and push the model to the Staging branch in the MLflow model registry.  
 
 # COMMAND ----------
 
@@ -102,15 +105,16 @@ params = {
 }
 dbutils.notebook.run("./03-Train", 0, params)
 
+
 # COMMAND ----------
 
-# MAGIC %md If you look at the MLflow model registry, you can see our model in Staging.
+# MAGIC %md If you look at the MLflow model registry, you can see our model in Staging. 
 
 # COMMAND ----------
 
 # MAGIC %md ### Model Validation
 # MAGIC 
-# MAGIC This notebook will run some basic checks to make sure it is working well, and then it will push the model into production. In this example, we will make sure the model signature is as expected and that we can successfully generate predictions with the model.
+# MAGIC This notebook will run some basic checks to make sure it is working well, and then it will push the model into production. In this example, we will make sure the model signature is as expected and that we can successfully generate predictions with the model. 
 
 # COMMAND ----------
 
@@ -120,9 +124,10 @@ params = {
 }
 dbutils.notebook.run("./04-Model-Validate", 0, params)
 
+
 # COMMAND ----------
 
-# MAGIC %md If you look at the MLflow model registry, our model is now in Production.
+# MAGIC %md If you look at the MLflow model registry, our model is now in Production. 
 
 # COMMAND ----------
 
@@ -143,6 +148,7 @@ params = {
 }
 dbutils.notebook.run('./05-Score', 0, params)
 
+
 # COMMAND ----------
 
 # MAGIC %md Now we can see our scored featurized dataset with predictions!
@@ -150,6 +156,7 @@ dbutils.notebook.run('./05-Score', 0, params)
 # COMMAND ----------
 
 display(spark.read.format("delta").load(store_scored_path))
+
 
 # COMMAND ----------
 
@@ -159,7 +166,7 @@ display(spark.read.format("delta").load(store_scored_path))
 # MAGIC 
 # MAGIC For this example, let's run this notebook to compare the first time period of data to the more recent one we simulated earlier. 
 # MAGIC 
-# MAGIC **Note:** We will want the column types, so those are passed in here as well.
+# MAGIC **Note:** We will want the column types, so those are passed in here as well. 
 
 # COMMAND ----------
 
@@ -171,6 +178,7 @@ params = {
   "drift_path": drift_path
 }
 dbutils.notebook.run("./06-Monitor", 0, params)
+
 
 # COMMAND ----------
 

@@ -1,17 +1,18 @@
 # Databricks notebook source
 # MAGIC %md ### Score
 # MAGIC 
-# MAGIC This notebook is called from Orchestrate to score a new dataset with the current production model's predictions, and then store it in the given path.
+# MAGIC This notebook is called from Orchestrate to score a new dataset with the current production model's predictions, and then store it in the given path. 
 
 # COMMAND ----------
 
-# MAGIC %md Let's import what we need and load the data passed from Orchestrate.
+# MAGIC %md Let's import what we need and load the data passed from Orchestrate. 
 
 # COMMAND ----------
 
 import mlflow
 from sklearn.metrics import mean_squared_error
 from mlflow.tracking import MlflowClient
+
 
 # COMMAND ----------
 
@@ -23,17 +24,20 @@ data_to_score = dbutils.widgets.get("readPath")
 store_path = dbutils.widgets.get("storePath")
 registry_model_name = dbutils.widgets.get("registry_model_name")
 
+
 # COMMAND ----------
 
-# MAGIC %md Next, let's get the current production model and load the dataset.
+# MAGIC %md Next, let's get the current production model and load the dataset. 
 
 # COMMAND ----------
 
 model = mlflow.spark.load_model(model_uri=f"models:/{registry_model_name}/Production")
 
+
 # COMMAND ----------
 
 df = spark.read.format('delta').load(data_to_score)
+
 
 # COMMAND ----------
 
@@ -43,6 +47,7 @@ df = spark.read.format('delta').load(data_to_score)
 
 scored_df = model.transform(df)
 display(scored_df)
+
 
 # COMMAND ----------
 

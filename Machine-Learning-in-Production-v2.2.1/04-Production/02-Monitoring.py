@@ -93,7 +93,7 @@
 # MAGIC - Returns a higher KS statistic when there is a higher probability of having two different distributions
 # MAGIC - Returns a lower P value the higher the statistical significance
 # MAGIC 
-# MAGIC In practice, we need a thershold for the p-value, where we will consider it ***unlikely enough*** that the samples did not come from the same distribution. Usually this threshold, or alpha level, is 0.05.
+# MAGIC In practice, we need a thershold for the p-value, where we will consider it ***unlikely enough*** that the samples did not come from the same distribution. Usually this threshold, or alpha level, is 0.05. 
 
 # COMMAND ----------
 
@@ -106,6 +106,7 @@ sample2 = np.random.normal(loc=4, scale=1, size=1000)
 
 stats.ks_2samp(sample1, sample2)
 
+
 # COMMAND ----------
 
 # MAGIC %md The above has two samples from the same distribution. Try this again with two different distributions.
@@ -117,9 +118,10 @@ sample2 = np.random.normal(loc=4, scale=1, size=1000)
 
 stats.ks_2samp(sample1, sample2)
 
+
 # COMMAND ----------
 
-# MAGIC %md In practice, you would have data over a period of time, divide it into groups based on time (e.g. weekly windows), and then run the tests on the two groups to determine if there was statistically significant change. We'll simulate this with our dataset.
+# MAGIC %md In practice, you would have data over a period of time, divide it into groups based on time (e.g. weekly windows), and then run the tests on the two groups to determine if there was statistically significant change. We'll simulate this with our dataset. 
 
 # COMMAND ----------
 
@@ -136,6 +138,7 @@ airbnb_pdf = airbnb_pdf[num_cols + cat_cols]
 # Split Dataset into the two groups
 pdf1 = airbnb_pdf.sample(frac = 0.5, random_state=1)
 pdf2 = airbnb_pdf.drop(pdf1.index)
+
 
 # COMMAND ----------
 
@@ -154,11 +157,12 @@ pdf2["price"] = 2 * pdf2["price"]
 pdf2["review_scores_rating"] = pdf2["review_scores_rating"] / 20
 pdf2["neighbourhood_cleansed"] = pdf2["neighbourhood_cleansed"].map(lambda x: None if x == 0 else x)
 
+
 # COMMAND ----------
 
 # MAGIC %md ## Apply Summary Stats
 # MAGIC 
-# MAGIC Start by looking at the summary statistics for the distribution of data in the two datasets.
+# MAGIC Start by looking at the summary statistics for the distribution of data in the two datasets. 
 
 # COMMAND ----------
 
@@ -170,6 +174,7 @@ summary1_pdf = pdf1.describe()[num_cols]
 summary2_pdf = pdf2.describe()[num_cols]
 percent_change = 100 * abs((summary1_pdf - summary2_pdf) / (summary1_pdf + 1e-100))
 percent_change.style.background_gradient(cmap=cm, text_color_threshold=0.5, axis=1)
+
 
 # COMMAND ----------
 
@@ -193,6 +198,7 @@ for num in num_cols:
   if ks_pval <= alpha_corrected:
     print(f"{num} had statistically significant change between the two samples")
 
+
 # COMMAND ----------
 
 # MAGIC %md Now, let's take a look at the categorical features. Check the rate of null values.
@@ -202,11 +208,12 @@ for num in num_cols:
 # Generate missing value counts visual 
 pd.concat([100 * pdf1.isnull().sum() / len(pdf1), 100 * pdf2.isnull().sum() / len(pdf2)], axis=1, keys=['pdf1', 'pdf2']).style.background_gradient(cmap=cm, text_color_threshold=0.5, axis=1)
 
+
 # COMMAND ----------
 
 # MAGIC %md `neighbourhood_cleansed` has some missing values it did not before. Now, let's run the `Two-Way Chi Squared Contigency Test` for this example. This test works by creating a [Contingency Table]("https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them.") with a column for the counts of each feature category for a given categorical feature and a row for `pdf1` and `pdf2`. 
 # MAGIC 
-# MAGIC It will then return a p-value determining whether or not there is an association between the time window of data and the distribution of that feature. If it is significant, we would conclude the distribution did change over time, and so there was drift.
+# MAGIC It will then return a p-value determining whether or not there is an association between the time window of data and the distribution of that feature. If it is significant, we would conclude the distribution did change over time, and so there was drift. 
 
 # COMMAND ----------
 
@@ -224,9 +231,10 @@ for feature in cat_cols:
   else:
     print(f"{feature} did not statistically significantly change")
 
+
 # COMMAND ----------
 
-# MAGIC %md **Note:** The Two-way Chi-Squared test caught this not because nulls were introduced, but because they were introduced into one neighbourhood specifically, leading to an uneven distribution. If nulls were uniform throughout, then the test would see a similar distribution, just with lower counts, which this test would not flag as a change in dependence.
+# MAGIC %md **Note:** The Two-way Chi-Squared test caught this not because nulls were introduced, but because they were introduced into one neighbourhood specifically, leading to an uneven distribution. If nulls were uniform throughout, then the test would see a similar distribution, just with lower counts, which this test would not flag as a change in dependence. 
 
 # COMMAND ----------
 
@@ -242,13 +250,13 @@ for feature in cat_cols:
 # MAGIC 
 # MAGIC The Fisher Exact test is a good alternative in the situation where the counts are too low, however there is currently no python implemenation for this test in a contingency table larger than 2x2. If you are looking to run this test, you should explore using R. 
 # MAGIC 
-# MAGIC These are subtle differences that are worth taking into account, but in either case, a low p-value would indicate significantly different distributions across the time window and therefore drift for the One-Way or Two-way Chi-Squared.
+# MAGIC These are subtle differences that are worth taking into account, but in either case, a low p-value would indicate significantly different distributions across the time window and therefore drift for the One-Way or Two-way Chi-Squared. 
 
 # COMMAND ----------
 
 # MAGIC %md ## Combine into One Class
 # MAGIC 
-# MAGIC Here, we'll combine the tests and code we have seen so far into a class `Monitor` that shows how you might implement the code above in practice.
+# MAGIC Here, we'll combine the tests and code we have seen so far into a class `Monitor` that shows how you might implement the code above in practice. 
 
 # COMMAND ----------
 
@@ -345,13 +353,16 @@ driftMonitor = Monitor(pdf1, pdf2, cat_cols, num_cols)
 
 driftMonitor.run()
 
+
 # COMMAND ----------
 
 driftMonitor.generatePercentChange()
 
+
 # COMMAND ----------
 
 driftMonitor.generateNullCounts()
+
 
 # COMMAND ----------
 
@@ -412,7 +423,7 @@ driftMonitor.generateNullCounts()
 # MAGIC Some common examples: 
 # MAGIC 
 # MAGIC 1. Create a supervised approach on a dataset of data classified as normal or abnormal. Finding such a dataset can be difficult, however. 
-# MAGIC 2. Use a regression method to predict future values for incoming data over time and detect drift if there is strong prediction error.
+# MAGIC 2. Use a regression method to predict future values for incoming data over time and detect drift if there is strong prediction error. 
 
 # COMMAND ----------
 
@@ -420,7 +431,7 @@ driftMonitor.generateNullCounts()
 # MAGIC 
 # MAGIC For more information, a great talk by Chengyin Eng and Niall Turbitt can be found here: [Drifting Away: Testing ML Models in Production](https://databricks.com/session_na21/drifting-away-testing-ml-models-in-production).
 # MAGIC 
-# MAGIC Much of the content in this lesson is adapted from this talk.
+# MAGIC Much of the content in this lesson is adapted from this talk. 
 
 # COMMAND ----------
 

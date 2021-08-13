@@ -39,6 +39,7 @@ df = (spark
 # Split into modeling and inference sets
 modeling_df, inference_df = df.randomSplit([0.5, 0.5], seed=42)
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -89,6 +90,7 @@ model_uri = f"runs:/{run.info.run_id}/model"
 model_details = <TODO>
 
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -112,6 +114,7 @@ prediction_df = inference_df.withColumn(
 display(prediction_df)
 
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -130,6 +133,7 @@ delta_partitioned_path = f"{working_dir}/batch-predictions-partitioned-lab.delta
 
 # Write prediction_df to delta_partitioned_path using column-based partitioning and Delta
 <TODO>
+
 
 
 # COMMAND ----------

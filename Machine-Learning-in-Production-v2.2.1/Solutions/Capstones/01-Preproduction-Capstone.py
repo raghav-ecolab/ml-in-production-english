@@ -29,6 +29,7 @@
 # Adust our working directory from what DBFS sees to what python actually sees
 working_path = working_dir.replace("dbfs:", "/dbfs")
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -37,7 +38,7 @@ working_path = working_dir.replace("dbfs:", "/dbfs")
 # MAGIC Take a look at the dataset and notice that there are plenty of strings and `NaN` values present. Our end goal is to train a sklearn regression model to predict the price of an airbnb listing.
 # MAGIC 
 # MAGIC 
-# MAGIC Before we can start training, we need to pre-process our data to be compatible with sklearn models by making all features purely numerical.
+# MAGIC Before we can start training, we need to pre-process our data to be compatible with sklearn models by making all features purely numerical. 
 
 # COMMAND ----------
 
@@ -46,6 +47,7 @@ import pandas as pd
 airbnbDF = spark.read.parquet("/mnt/training/airbnb/sf-listings/sf-listings-correct-types.parquet").toPandas()
 
 display(airbnbDF)
+
 
 # COMMAND ----------
 
@@ -64,6 +66,7 @@ display(airbnbDF)
 airbnbDF["int_price"] = airbnbDF["price"].apply(lambda s: float(s.replace("$", "").replace(",", "")))
 airbnbDF_cleaned_price = airbnbDF.drop(["price"],axis=1)
 
+
 # COMMAND ----------
 
 # MAGIC %md 
@@ -75,6 +78,7 @@ airbnbDF_cleaned_price = airbnbDF.drop(["price"],axis=1)
 
 # ANSWER
 airbnbDF_cleaned_features = airbnbDF_cleaned_price.drop(["host_is_superhost", "instant_bookable","cancellation_policy"], axis=1)
+
 
 # COMMAND ----------
 
@@ -96,6 +100,8 @@ airbnbDF_cleaned_features['property_type'] = pd.factorize(airbnbDF_cleaned_featu
 airbnbDF_cleaned_features['room_type'] = pd.factorize(airbnbDF_cleaned_features['room_type'])[0]
 airbnbDF_cleaned_features['bed_type'] = pd.factorize(airbnbDF_cleaned_features['bed_type'])[0]
 
+
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -109,6 +115,7 @@ airbnbDF_cleaned_features['bed_type'] = pd.factorize(airbnbDF_cleaned_features['
 from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(airbnbDF_cleaned_features.drop(["int_price"], axis=1), airbnbDF_cleaned_features[["int_price"]].values.ravel(), random_state=42)
+
 
 # COMMAND ----------
 
@@ -148,7 +155,9 @@ model = RandomForestRegressor(n_estimators=n_estimators, max_depth=max_depth)
 
 # create and train pipeline
 pipeline = Pipeline(preprocessing_steps+[("model", model)])
-pipeline.fit(X_train, y_train)
+pipeline.fit(X_train, y_train) 
+
+
 
 # COMMAND ----------
 
@@ -165,6 +174,7 @@ pipeline.predict(X_test)
 
 rmse = np.sqrt(mean_squared_error(y_test, pipeline.predict(X_test)))
 rmse
+
 
 # COMMAND ----------
 
@@ -184,6 +194,7 @@ with mlflow.start_run() as run:
   mlflow.log_metric("rmse", rmse)
 
   experimentID = run.info.experiment_id
+
 
 # COMMAND ----------
 
@@ -208,12 +219,13 @@ best_URI = runsDF.sort_values("metrics.rmse").iloc[0,0]
 best_model_path = best_URI + "/model"
 best_model = mlflow.pyfunc.load_model(model_uri=best_model_path)
 
+
 # COMMAND ----------
 
 # MAGIC %md 
 # MAGIC ## Post-processing
 # MAGIC 
-# MAGIC Our model currently gives us the predicted price per night for each Airbnb listing. Now we would like our model to tell us what the price per person would be for each listing, assuming the number of renters is equal to the `accommodates` value.
+# MAGIC Our model currently gives us the predicted price per night for each Airbnb listing. Now we would like our model to tell us what the price per person would be for each listing, assuming the number of renters is equal to the `accommodates` value. 
 
 # COMMAND ----------
 
@@ -236,6 +248,7 @@ class Airbnb_Model(mlflow.pyfunc.PythonModel):
         results = self.model.predict(model_input)
         return self.postprocess_result(model_input, results)
 
+
 # COMMAND ----------
 
 # MAGIC %md 
@@ -253,6 +266,7 @@ except: pass # ignore any errors
 price_per_person = Airbnb_Model(best_model)
 mlflow.pyfunc.save_model(path=final_model_path, python_model=price_per_person)
 
+
 # COMMAND ----------
 
 # MAGIC %md 
@@ -267,12 +281,13 @@ final_model = mlflow.pyfunc.load_model(final_model_path)
 # Apply the model
 final_model.predict(X_test)
 
+
 # COMMAND ----------
 
 # MAGIC %md
 # MAGIC ## Packaging your Model
 # MAGIC 
-# MAGIC Now we would like to package our completed model!
+# MAGIC Now we would like to package our completed model! 
 
 # COMMAND ----------
 
@@ -288,6 +303,7 @@ test_data_path = f"{working_path}/test_data.csv"
 X_test.to_csv(test_data_path, index=False)
 
 prediction_path = f"{working_path}/predictions.csv"
+
 
 # COMMAND ----------
 
@@ -325,6 +341,7 @@ assert result.exit_code == 0, "Code failed" # Check to see that it worked
 print("Price per person predictions: ")
 print(pd.read_csv(demo_prediction_path))
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -349,9 +366,11 @@ entry_points:
     command: "python predict.py --test_data_path {test_data_path} --final_model_path {final_model_path} --prediction_path {prediction_path} --stacktrace_path {stacktrace_path}"
 '''.strip(), overwrite=True)
 
+
 # COMMAND ----------
 
 print(prediction_path)
+
 
 # COMMAND ----------
 
@@ -383,6 +402,7 @@ dependencies:
 dbutils.fs.put(f"{working_dir}/conda.yaml", file_contents, overwrite=True)
 
 print(file_contents)
+
 
 # COMMAND ----------
 
@@ -423,6 +443,7 @@ if __name__ == "__main__":
 
 '''.strip(), overwrite=True)
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -434,6 +455,7 @@ if __name__ == "__main__":
 # COMMAND ----------
 
 display( dbutils.fs.ls(working_dir) )
+
 
 # COMMAND ----------
 
@@ -459,6 +481,7 @@ mlflow.projects.run(working_path,
 try: print( dbutils.fs.head(f"{working_dir}/stacktrace.txt") )
 except: print("No errors detected") # No file, then no error
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -468,6 +491,7 @@ except: print("No errors detected") # No file, then no error
 
 print("Price per person predictions: ")
 print(pd.read_csv(second_prediction_path))
+
 
 # COMMAND ----------
 

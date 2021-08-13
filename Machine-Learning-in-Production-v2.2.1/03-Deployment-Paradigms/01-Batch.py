@@ -81,7 +81,7 @@
 # MAGIC 
 # MAGIC Models trained in various machine learning libraries can be applied at scale using Spark.  To do this, use `mlflow.pyfunc.spark_udf` and pass in the `SparkSession`, name of the model, and run id.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Using UDF's in Spark means that supporting libraries must be installed on every node in the cluster.  In the case of `sklearn`, this is installed in Databricks clusters by default.  When using other libraries, you will need to install them to ensure that they will work as UDFs.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Using UDF's in Spark means that supporting libraries must be installed on every node in the cluster.  In the case of `sklearn`, this is installed in Databricks clusters by default.  When using other libraries, you will need to install them to ensure that they will work as UDFs.  
 
 # COMMAND ----------
 
@@ -101,6 +101,7 @@ df = pd.read_csv("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.cs
 X = df.drop(["price"], axis=1)
 y = df["price"]
 
+
 # COMMAND ----------
 
 # MAGIC %md Train a final model
@@ -118,6 +119,7 @@ predictions["prediction"] = rf.predict(X)
 
 mse = mean_squared_error(y, predictions["prediction"]) # This is on the same data the model was trained
 
+
 # COMMAND ----------
 
 # MAGIC %md Log the model.
@@ -131,6 +133,7 @@ with mlflow.start_run(run_name="Final RF Model") as run:
   mlflow.sklearn.log_model(rf, "random-forest-model")
   mlflow.log_metric("Train data MSE", mse)
 
+
 # COMMAND ----------
 
 # MAGIC %md Create a Spark DataFrame from the Pandas DataFrame.
@@ -141,6 +144,7 @@ XDF = spark.createDataFrame(X)
 
 display(XDF)
 
+
 # COMMAND ----------
 
 # MAGIC %md MLflow easily produces a Spark user defined function (UDF).  This bridges the gap between Python environments and applying models at scale using Spark.
@@ -148,6 +152,7 @@ display(XDF)
 # COMMAND ----------
 
 predict = mlflow.pyfunc.spark_udf(spark, run.info.artifact_uri + "/random-forest-model")
+
 
 # COMMAND ----------
 
@@ -158,6 +163,7 @@ predict = mlflow.pyfunc.spark_udf(spark, run.info.artifact_uri + "/random-forest
 predictionDF = XDF.withColumn("prediction", predict(*X.columns))
 
 display(predictionDF)
+
 
 # COMMAND ----------
 
@@ -186,6 +192,7 @@ delta_partitioned_path = f"{working_dir}/batch-predictions-partitioned.delta"
 
 predictionDF.write.partitionBy("zipcode").mode("OVERWRITE").format("delta").save(delta_partitioned_path)
 
+
 # COMMAND ----------
 
 # MAGIC %md Take a look at the files.
@@ -193,6 +200,7 @@ predictionDF.write.partitionBy("zipcode").mode("OVERWRITE").format("delta").save
 # COMMAND ----------
 
 display(dbutils.fs.ls(delta_partitioned_path))
+
 
 # COMMAND ----------
 
@@ -206,6 +214,7 @@ parquet_bucketed_path = f"{working_dir}/mlflow-model-training/batch-predictions-
 
 predictionDF.write.bucketBy(5, "neighbourhood_cleansed").mode("OVERWRITE").option("path", parquet_bucketed_path).format("parquet").saveAsTable("batchPredictionsBucketed")
 
+
 # COMMAND ----------
 
 # MAGIC %md Take a look at the underlying files.  You'll see 5 parts, one for each bucket.
@@ -213,6 +222,7 @@ predictionDF.write.bucketBy(5, "neighbourhood_cleansed").mode("OVERWRITE").optio
 # COMMAND ----------
 
 display(dbutils.fs.ls(parquet_bucketed_path))
+
 
 # COMMAND ----------
 

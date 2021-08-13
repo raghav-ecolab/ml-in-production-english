@@ -31,6 +31,7 @@
 
 myStreamName = "capstone"
 
+
 # COMMAND ----------
 
 # MAGIC %md Import the AirBnB dataset.  Create the following objects:<br><br>
@@ -51,6 +52,7 @@ pandasy = pandasDF["price"]
 
 sparkDF = spark.createDataFrame(pandasDF)
 display(sparkDF)
+
 
 # COMMAND ----------
 
@@ -74,6 +76,7 @@ predictions["prediction"] = ada.predict(pandasX)
 
 mse = mean_squared_error(pandasy, predictions["prediction"]) # This is on the same data the model was trained
 
+
 # COMMAND ----------
 
 # MAGIC %md ### Apply a model trained in `sklearn` across a Spark DataFrame
@@ -90,16 +93,19 @@ mse = mean_squared_error(pandasy, predictions["prediction"]) # This is on the sa
 # Log the model `ada` and evaluation metric `mse` using `mlflow`
 
 
+
 # COMMAND ----------
 
 # TODO
 # Create a Spark UDF from this logged model
 
 
+
 # COMMAND ----------
 
 # TODO
 Apply the UDF to `sparkDF` (you may have to drop columns)
+
 
 
 # COMMAND ----------
@@ -149,6 +155,7 @@ streamingData = (spark
   .parquet("/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet/")
 )
 
+
 # COMMAND ----------
 
 # TODO
@@ -160,12 +167,14 @@ Preview our stream - you must stop the stream before resuming
 display(predictionsDF, streamName = myStreamName)
 
 
+
 # COMMAND ----------
 
 # Wait until the stream is ready for processing
 from time import sleep
 
 sleep(15)
+
 
 # COMMAND ----------
 
@@ -174,6 +183,7 @@ sleep(15)
 for stream in spark.streams.active:
   print(f"Stopping {stream.name}")
   stream.stop() # Stop the stream
+
 
 # COMMAND ----------
 
@@ -185,6 +195,7 @@ writePath = f"{working_dir}/ml-deployment-capstone/predictions"
 
 # Make sure to specify the following checkpoint-location as identified by:
 checkpointLocation = f"{working_dir}/ml-deployment-capstone/stream.checkpoint"
+
 
 # COMMAND ----------
 
@@ -201,12 +212,14 @@ checkpointLocation = f"{working_dir}/ml-deployment-capstone/stream.checkpoint"
 )
 
 
+
 # COMMAND ----------
 
 # Wait until the stream is ready for processing
 for stream in spark.streams.active:
   print(f"Stopping {stream.name}")
   stream.stop() # Stop the stream
+
 
 # COMMAND ----------
 
@@ -221,6 +234,7 @@ try:
 except AnalysisException:
   print("Files not found.  This could be because the stream hasn't initialized.  Try again in a moment.")
 
+
 # COMMAND ----------
 
 # MAGIC %md Stop the streams.
@@ -228,6 +242,7 @@ except AnalysisException:
 # COMMAND ----------
 
 [q.stop() for q in spark.streams.active]
+
 
 # COMMAND ----------
 
@@ -250,10 +265,13 @@ resource_group = ""
 subscription_id = ""
 
 
+
 # COMMAND ----------
 
 # TODO
 Build the model image and wait for its creation
+
+
 
 
 # COMMAND ----------
@@ -262,10 +280,12 @@ Build the model image and wait for its creation
 Deploy the model to either ACI or AKS
 
 
+
 # COMMAND ----------
 
 # TODO
 Query the REST endpoint
+
 
 
 # COMMAND ----------
@@ -275,6 +295,7 @@ Query the REST endpoint
 # COMMAND ----------
 
 # TODO
+
 
 
 # COMMAND ----------

@@ -84,6 +84,7 @@ import pandas as pd
 
 df = pd.read_csv("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.csv")
 
+
 # COMMAND ----------
 
 # MAGIC %md Perform a train/test split.
@@ -93,6 +94,7 @@ df = pd.read_csv("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.cs
 from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), df[["price"]].values.ravel(), random_state=42)
+
 
 # COMMAND ----------
 
@@ -136,6 +138,7 @@ with mlflow.start_run(run_name="Basic RF Experiment") as run:
   experimentID = run.info.experiment_id
 
   print(f"Inside MLflow Run with run_id `{runID}` and experiment_id `{experimentID}`")
+
 
 # COMMAND ----------
 
@@ -214,6 +217,7 @@ def log_rf(experimentID, run_name, params, X_train, X_test, y_train, y_test):
 
     return run.info.run_id
 
+
 # COMMAND ----------
 
 # MAGIC %md Run with new parameters.
@@ -227,6 +231,7 @@ params = {
 }
 
 log_rf(experimentID, "Second Run", params, X_train, X_test, y_train, y_test)
+
 
 # COMMAND ----------
 
@@ -244,6 +249,7 @@ params_1000_trees = {
 
 log_rf(experimentID, "Third Run", params_1000_trees, X_train, X_test, y_train, y_test)
 
+
 # COMMAND ----------
 
 # MAGIC %md-sandbox
@@ -259,6 +265,7 @@ from mlflow.tracking import MlflowClient
 
 client = MlflowClient()
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -268,6 +275,7 @@ client = MlflowClient()
 
 display(client.list_run_infos(experimentID))
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -276,6 +284,7 @@ display(client.list_run_infos(experimentID))
 # COMMAND ----------
 
 client.list_artifacts(runID)
+
 
 # COMMAND ----------
 
@@ -287,6 +296,7 @@ client.list_artifacts(runID)
 runs = spark.read.format("mlflow-experiment").load(experimentID)
 
 display(runs)
+
 
 # COMMAND ----------
 
@@ -301,6 +311,7 @@ run_rf = runs.orderBy(col("start_time").desc()).first()
 
 client.list_artifacts(run_rf.run_id)
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -309,6 +320,7 @@ client.list_artifacts(run_rf.run_id)
 # COMMAND ----------
 
 client.get_run(run_rf.run_id).data.metrics
+
 
 # COMMAND ----------
 
@@ -321,6 +333,7 @@ import mlflow.sklearn
 
 model = mlflow.sklearn.load_model(run_rf.artifact_uri+"/random-forest-model")
 model.feature_importances_
+
 
 # COMMAND ----------
 

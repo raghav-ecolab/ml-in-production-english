@@ -73,7 +73,7 @@
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> Do not use the stock or GPU accelerated runtimes
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> This courseware has been tested against the specific DBR listed above. Using an untested DBR may yield unexpected results and/or various errors.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> This courseware has been tested against the specific DBR listed above. Using an untested DBR may yield unexpected results and/or various errors. 
 
 # COMMAND ----------
 

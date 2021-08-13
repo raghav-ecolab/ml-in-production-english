@@ -58,6 +58,7 @@ schema = (StructType()
 
 spark.conf.set("spark.sql.shuffle.partitions", "8")
 
+
 # COMMAND ----------
 
 # MAGIC %md Create the stream using the schema defined above.
@@ -73,6 +74,7 @@ streamingData = (spark
                  .drop("price"))
 
 
+
 # COMMAND ----------
 
 # MAGIC %md And to help us manage our streams better, we will make use of **`untilStreamIsReady()`**, **`stopAllStreams()`** and define the following, **`myStreamName`**:
@@ -80,6 +82,7 @@ streamingData = (spark
 # COMMAND ----------
 
 myStreamName = "lesson03"
+
 
 # COMMAND ----------
 
@@ -101,6 +104,7 @@ rf = RandomForestRegressor(n_estimators=100, max_depth=25)
 # fit and evaluate new rf model
 rf.fit(X_train, y_train)
 
+
 # COMMAND ----------
 
 # import pandas as pd
@@ -119,6 +123,7 @@ rf.fit(X_train, y_train)
 
 # # fit and evaluate new rf model
 # rf.fit(X_train, y_train)
+
 
 # COMMAND ----------
 
@@ -159,6 +164,7 @@ class streaming_model(PythonModel):
         return # FILL_IN
 
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -195,6 +201,7 @@ loaded_model = mlflow.pyfunc.load_model(model_path)
 # Apply the model
 loaded_model.predict(X_test)
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -216,6 +223,7 @@ predictionsDF = #FILL_IN
 display(predictionsDF, streamName=myStreamName)
 
 
+
 # COMMAND ----------
 
 # Wait until the stream is ready
@@ -223,12 +231,14 @@ from time import sleep
 
 sleep(10)
 
+
 # COMMAND ----------
 
 # When you are done previewing the results, stop the stream.
 for stream in spark.streams.active:
   print(f"Stopping {stream.name}")
   stream.stop() # Stop the stream
+
 
 # COMMAND ----------
 
@@ -254,12 +264,14 @@ writePath = f"{working_dir}/ml-deployment/lab4-predictions"
 )
 
 
+
 # COMMAND ----------
 
 # Wait until the stream is ready
 from time import sleep
 
 sleep(10)
+
 
 # COMMAND ----------
 
@@ -276,6 +288,7 @@ try:
 except AnalysisException:
   print("Files not found.  This could be because the stream hasn't initialized.  Try again in a moment.")
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -287,6 +300,7 @@ except AnalysisException:
 for stream in spark.streams.active:
   print(f"Stopping {stream.name}")
   stream.stop() # Stop the stream
+
 
 # COMMAND ----------
 

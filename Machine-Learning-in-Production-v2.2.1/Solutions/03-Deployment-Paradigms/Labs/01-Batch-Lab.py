@@ -39,6 +39,7 @@ df = (spark
 # Split into modeling and inference sets
 modeling_df, inference_df = df.randomSplit([0.5, 0.5], seed=42)
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -90,6 +91,7 @@ model_name = f"xgboost_model_{clean_username}"
 model_uri = f"runs:/{run.info.run_id}/xgboost-model"
 model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -111,6 +113,7 @@ prediction_df = inference_df.withColumn(
 
 # View the results
 display(prediction_df)
+
 
 # COMMAND ----------
 
@@ -134,6 +137,7 @@ delta_partitioned_path = f"{working_dir}/batch-predictions-partitioned-lab.delta
     .mode("overwrite")
     .format("delta")
     .save(delta_partitioned_path))
+
 
 # COMMAND ----------
 

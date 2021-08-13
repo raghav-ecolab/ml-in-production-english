@@ -58,6 +58,7 @@ X = pdf.drop("price", axis=1)
 y = pdf["price"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
+
 # COMMAND ----------
 
 # MAGIC %md Now, let's train our model and log it with MLflow. This time, we will add a `signature` and `input_examples` when we log our model.
@@ -79,6 +80,7 @@ with mlflow.start_run(run_name="Signature Example") as run:
   signature = infer_signature(X_train, pd.DataFrame(y_train))
   input_example = X_train.head(3)
   mlflow.sklearn.log_model(rf_model, "rf_model", signature=signature, input_example=input_example)
+
 
 # COMMAND ----------
 
@@ -108,6 +110,7 @@ with mlflow.start_run(run_name="Nested Example") as run:
   with mlflow.start_run(run_name="Child 2", nested=True):
     mlflow.log_param("run_name", "child_2")
 
+
 # COMMAND ----------
 
 # MAGIC %md Take a look at the MLflow UI to see the nested runs.
@@ -133,7 +136,7 @@ with mlflow.start_run(run_name="Nested Example") as run:
 # MAGIC 
 # MAGIC Hyperopt will work to minimize the objective function, so here we simply return the `loss` as the mse, since that is what we are trying to minimize. 
 # MAGIC 
-# MAGIC **Note**: If you're trying to maximize a metric, such as accuracy or r2, you would need to return `-accuracy` or `-r2` so Hyperopt can minimize it.
+# MAGIC **Note**: If you're trying to maximize a metric, such as accuracy or r2, you would need to return `-accuracy` or `-r2` so Hyperopt can minimize it. 
 
 # COMMAND ----------
 
@@ -151,6 +154,7 @@ def objective(params):
   
   # Hyperopt minimizes score, here we minimize mse. 
   return score
+
 
 # COMMAND ----------
 
@@ -178,6 +182,7 @@ with mlflow.start_run(run_name="Hyperopt"):
     algo=tpe.suggest,
     max_evals=16,
     trials=spark_trials)
+
 
 # COMMAND ----------
 
@@ -221,6 +226,7 @@ with mlflow.start_run(run_name="Feature Importance Scores"):
   
   # Log figure
   mlflow.log_figure(fig, "feature_importance_rf.png")
+
 
 # COMMAND ----------
 
