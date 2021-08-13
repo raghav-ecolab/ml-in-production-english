@@ -1,15 +1,13 @@
 # Databricks notebook source
 # MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC <img src="https://files.training.databricks.com/images/Apache-Spark-Logo_TM_200px.png" style="float: left: margin: 20px"/>
+# MAGIC %md-sandbox <img src="https://files.training.databricks.com/images/Apache-Spark-Logo_TM_200px.png" style="float: left: margin: 20px"/>
 # MAGIC # Course Overview
 # MAGIC ## Machine Learning in Production
 # MAGIC ### Managing the Complete Machine Learning Lifecycle with MLflow, Deployment and CI/CD
@@ -65,9 +63,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC 
-# MAGIC <h2><img src="https://files.training.databricks.com/images/105/logo_spark_tiny.png"> Before You Start</h2>
+# MAGIC %md-sandbox <h2><img src="https://files.training.databricks.com/images/105/logo_spark_tiny.png"> Before You Start</h2>
 # MAGIC 
 # MAGIC Before starting this course, you will need to create a cluster and attach it to this notebook.
 # MAGIC 
@@ -79,8 +75,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Classroom-Setup
+# MAGIC %md-sandbox ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Classroom-Setup
 # MAGIC In general, all courses are designed to run on one of the following Databricks platforms:
 # MAGIC * Databricks Community Edition (CE)
 # MAGIC * Databricks (an AWS hosted service)
@@ -101,8 +96,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC ### Agile Data Science
+# MAGIC %md-sandbox ### Agile Data Science
 # MAGIC 
 # MAGIC Deploying machine learning models into production comes with a wide array of challenges, distinct from those data scientists face when they're initially training models.  Teams often solve these challenges with custom, in-house solutions that are often brittle, monolithic, time consuming, and difficult to maintain.
 # MAGIC 

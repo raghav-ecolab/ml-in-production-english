@@ -1,15 +1,12 @@
 # Databricks notebook source
 # MAGIC 
-# MAGIC %md-sandbox
-# MAGIC 
-# MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
+# MAGIC %md-sandbox <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Data Management
+# MAGIC %md # Data Management
 # MAGIC 
 # MAGIC Production machine learning solutions start with reproducible data management. Strategies that we'll cover in this notebook include [Delta Table Versioning](https://docs.databricks.com/delta/versioning.html), working with the [Feature Store](https://docs.databricks.com/applications/machine-learning/feature-store.html), and detecting data changes by [hashing](https://en.wikipedia.org/wiki/MD5) our data.
 # MAGIC 
@@ -20,8 +17,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Data Management and Reproducibility
+# MAGIC %md ## Data Management and Reproducibility
 # MAGIC 
 # MAGIC Managing the machine learning lifecycle means...<br><br>
 # MAGIC 
@@ -39,8 +35,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Classroom-Setup
+# MAGIC %md ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Classroom-Setup
 # MAGIC 
 # MAGIC For each lesson to execute correctly, please make sure to run the **`Classroom-Setup`** cell at the start of each lesson.
 
@@ -195,8 +190,7 @@ help(fs.create_feature_table)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC #### Create Feature Table
+# MAGIC %md #### Create Feature Table
 # MAGIC 
 # MAGIC Next, we can create the Feature Table using the `create_feature_table` method.
 # MAGIC 
@@ -220,30 +214,26 @@ fs.create_feature_table(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now let's explore the UI and see how it tracks the tables that we created. Navigate to the UI by first ensuring that you are in the Machine Learning workspace, and then clicking on the Feature Store icon on the bottom-left of the navigation bar.
+# MAGIC %md Now let's explore the UI and see how it tracks the tables that we created. Navigate to the UI by first ensuring that you are in the Machine Learning workspace, and then clicking on the Feature Store icon on the bottom-left of the navigation bar.
 # MAGIC 
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/mlflow/FS_Nav.png" alt="step12" width="150"/>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Take a look at the feature table that you created.
+# MAGIC %md Take a look at the feature table that you created.
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/mlflow/FS_Features.png" alt="step12" width="1000"/>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Here we can see more detail on the table.
+# MAGIC %md Here we can see more detail on the table.
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/mlflow/FS_UI_Created.png" alt="step12" width="800"/>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now let's try updating our feature table. We can begin to refine our table by filtering out some rows which don't match our specifications. We'll start by looking at some of the `bed_type` values.
+# MAGIC %md Now let's try updating our feature table. We can begin to refine our table by filtering out some rows which don't match our specifications. We'll start by looking at some of the `bed_type` values.
 
 # COMMAND ----------
 
@@ -251,8 +241,7 @@ display(airbnb_df.groupBy("bed_type").count())
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Since we only want `real beds`, we can drop the other records from the DataFrame.
+# MAGIC %md Since we only want `real beds`, we can drop the other records from the DataFrame.
 
 # COMMAND ----------
 
@@ -262,8 +251,7 @@ display(airbnb_df_real_beds)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC #### Merge Features
+# MAGIC %md #### Merge Features
 # MAGIC 
 # MAGIC Now that we have filtered some of our data, we can `merge` the existing feature table in the Feature Store with the new table. Merging updates the feature table schema, and adds new feature values based on the primary key.
 
@@ -277,8 +265,7 @@ fs.write_table(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Lastly, we'll condense some of the review columns, we'll do this by finding the average review score for each listing.
+# MAGIC %md Lastly, we'll condense some of the review columns, we'll do this by finding the average review score for each listing.
 
 # COMMAND ----------
 
