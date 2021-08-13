@@ -3,7 +3,7 @@
 # MAGIC 
 # MAGIC In this notebook we will featurize our validated data by String Encoding the categorical columns and generating feature vectors. 
 # MAGIC 
-# MAGIC First, let's load in our data passed from Orchestrate. 
+# MAGIC First, let's load in our data passed from Orchestrate.
 
 # COMMAND ----------
 
@@ -13,7 +13,6 @@ dbutils.widgets.text("savePath", "Default")
 filePath = dbutils.widgets.get("filePath")
 savePath = dbutils.widgets.get("savePath")
 
-
 # COMMAND ----------
 
 # MAGIC %md Now, we can load in the validated data.
@@ -22,10 +21,9 @@ savePath = dbutils.widgets.get("savePath")
 
 df = spark.read.format('delta').load(filePath)
 
-
 # COMMAND ----------
 
-# MAGIC %md Next, we can String Encode the columns and assemble our feature vectors. 
+# MAGIC %md Next, we can String Encode the columns and assemble our feature vectors.
 
 # COMMAND ----------
 
@@ -46,7 +44,6 @@ pipeline = Pipeline(stages=stages)
 
 pipelineModel = pipeline.fit(df)
 featurized_df = pipelineModel.transform(df)
-
 
 # COMMAND ----------
 

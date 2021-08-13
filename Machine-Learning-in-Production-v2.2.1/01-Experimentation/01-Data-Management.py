@@ -61,7 +61,6 @@ airbnb_df = (spark.read
 
 display(airbnb_df)
 
-
 # COMMAND ----------
 
 # MAGIC %md ## Versioning with Delta Tables
@@ -74,7 +73,6 @@ delta_path = working_dir.replace("/dbfs", "dbfs:") + "/delta-example"
 dbutils.fs.rm(delta_path, recurse=True)
 
 airbnb_df.write.format("delta").save(delta_path)
-
 
 # COMMAND ----------
 
@@ -90,7 +88,6 @@ delta_df = (spark.read
 
 display(delta_df)
 
-
 # COMMAND ----------
 
 # MAGIC %md Now we can `overwrite` our Delta Table using the `mode` parameter.
@@ -98,7 +95,6 @@ display(delta_df)
 # COMMAND ----------
 
 delta_df.write.format("delta").mode("overwrite").save(delta_path)
-
 
 # COMMAND ----------
 
@@ -110,7 +106,6 @@ delta_df.write.format("delta").mode("overwrite").save(delta_path)
 
 display(spark.sql(f"DESCRIBE HISTORY delta.`{delta_path}`"))
 
-
 # COMMAND ----------
 
 # MAGIC %md As we can see in the `operationParameters` column in version 1, we overwrote the table. We now need to travel back in time to load in version 0 to get all the original columns, then we can delete just the `instant_bookable` column.
@@ -120,7 +115,6 @@ display(spark.sql(f"DESCRIBE HISTORY delta.`{delta_path}`"))
 delta_df = spark.read.format("delta").option("versionAsOf", 0).load(delta_path)
 
 display(delta_df)
-
 
 # COMMAND ----------
 
@@ -136,7 +130,6 @@ display(spark.read
   .load(delta_path)
 )
 
-
 # COMMAND ----------
 
 # MAGIC %md Now we can drop `instant_bookable` and overwrite the table.
@@ -145,7 +138,6 @@ display(spark.read
 
 delta_df.drop("instant_bookable").write.format("delta").mode("overwrite").save(delta_path)
 
-
 # COMMAND ----------
 
 # MAGIC %md Version 2 is our latest and most accurate table version.
@@ -153,7 +145,6 @@ delta_df.drop("instant_bookable").write.format("delta").mode("overwrite").save(d
 # COMMAND ----------
 
 display(spark.sql(f"DESCRIBE HISTORY delta.`{delta_path}`"))
-
 
 # COMMAND ----------
 
@@ -175,7 +166,6 @@ table_name = f"{clean_username}.airbnb_" + str(uuid.uuid4())[:6]
 
 print(table_name)
 
-
 # COMMAND ----------
 
 # MAGIC %md Let's start creating a [Feature Store Client](https://docs.databricks.com/applications/machine-learning/feature-store.html#create-a-feature-table-in-databricks-feature-store) so we can populate our feature store.
@@ -187,7 +177,6 @@ from databricks import feature_store
 fs = feature_store.FeatureStoreClient()
 
 help(fs.create_feature_table)
-
 
 # COMMAND ----------
 
@@ -212,7 +201,6 @@ fs.create_feature_table(
     partition_columns=["neighbourhood_cleansed"],
     description="Original Airbnb data"
 )
-
 
 # COMMAND ----------
 
@@ -241,7 +229,6 @@ fs.create_feature_table(
 
 display(airbnb_df.groupBy("bed_type").count())
 
-
 # COMMAND ----------
 
 # MAGIC %md Since we only want `real beds`, we can drop the other records from the DataFrame.
@@ -251,7 +238,6 @@ display(airbnb_df.groupBy("bed_type").count())
 airbnb_df_real_beds = airbnb_df.filter("bed_type = 'Real Bed'")
 
 display(airbnb_df_real_beds)
-
 
 # COMMAND ----------
 
@@ -266,7 +252,6 @@ fs.write_table(
   df=airbnb_df_real_beds,
   mode="merge"
 )
-
 
 # COMMAND ----------
 
@@ -286,7 +271,6 @@ airbnb_df_short_reviews = (airbnb_df_real_beds
 
 display(airbnb_df_short_reviews)
 
-
 # COMMAND ----------
 
 # MAGIC %md #### Overwrite Features
@@ -300,7 +284,6 @@ fs.write_table(
   df=airbnb_df_short_reviews,
   mode="overwrite"
 )
-
 
 # COMMAND ----------
 
@@ -320,7 +303,6 @@ feature_df = fs.read_table(
 )
 
 display(feature_df)
-
 
 # COMMAND ----------
 
@@ -346,7 +328,6 @@ pd_df = airbnb_df.toPandas()
 m1 = hashlib.md5(pd.util.hash_pandas_object(pd_df, index=True).values).hexdigest()
 m1
 
-
 # COMMAND ----------
 
 # MAGIC %md Now that we have the `hexdigest` of the original file, any changes that are made to the underlying DataFrame will result in a different `hexdigest`.
@@ -357,7 +338,6 @@ pd_no_cancellation_df = pd_df.drop("cancellation_policy", axis=1)
 
 m2 = hashlib.md5(pd.util.hash_pandas_object(pd_no_cancellation_df, index=True).values).hexdigest()
 m2
-
 
 # COMMAND ----------
 
@@ -371,7 +351,6 @@ try:
 
 except AssertionError:
   print("Failed as expected")
-
 
 # COMMAND ----------
 

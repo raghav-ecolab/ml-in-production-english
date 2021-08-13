@@ -84,7 +84,6 @@ airbnbDF = spark.read.parquet("/mnt/training/airbnb/sf-listings/airbnb-cleaned-m
 
 display(airbnbDF)
 
-
 # COMMAND ----------
 
 # MAGIC %md Create a schema for the data stream.  Data streams need a schema defined in advance.
@@ -118,7 +117,6 @@ schema = (StructType()
 .add("price", DoubleType())
 )
 
-
 # COMMAND ----------
 
 # MAGIC %md Check to make sure the schemas match.
@@ -126,7 +124,6 @@ schema = (StructType()
 # COMMAND ----------
 
 schema == airbnbDF.schema
-
 
 # COMMAND ----------
 
@@ -136,7 +133,6 @@ schema == airbnbDF.schema
 
 spark.conf.get("spark.sql.shuffle.partitions")
 
-
 # COMMAND ----------
 
 # MAGIC %md Change this to 8.
@@ -144,7 +140,6 @@ spark.conf.get("spark.sql.shuffle.partitions")
 # COMMAND ----------
 
 spark.conf.set("spark.sql.shuffle.partitions", "8")
-
 
 # COMMAND ----------
 
@@ -159,12 +154,11 @@ streamingData = (spark
                  .parquet("/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet/")
                  .drop("price"))
 
-
 # COMMAND ----------
 
 # MAGIC %md ### Apply an `sklearn` Model on the Stream
 # MAGIC 
-# MAGIC Using the DataFrame API, Spark allows us to interact with a stream of incoming data in much the same way that we did with a batch of data.  
+# MAGIC Using the DataFrame API, Spark allows us to interact with a stream of incoming data in much the same way that we did with a batch of data.
 
 # COMMAND ----------
 
@@ -191,7 +185,6 @@ with mlflow.start_run(run_name="Final RF Model") as run:
   experimentId = run.info.experiment_id
   URI = run.info.artifact_uri
 
-
 # COMMAND ----------
 
 # MAGIC %md Create a UDF from the model you just trained in `sklearn` so that you can apply it in Spark.
@@ -202,7 +195,6 @@ import mlflow.pyfunc
 
 pyfunc_udf = mlflow.pyfunc.spark_udf(spark, URI + "/random-forest-model")
 
-
 # COMMAND ----------
 
 # MAGIC %md Before working with our stream, we need to establish a stream name so that we can have better control over it.
@@ -210,7 +202,6 @@ pyfunc_udf = mlflow.pyfunc.spark_udf(spark, URI + "/random-forest-model")
 # COMMAND ----------
 
 myStreamName = "lesson03_stream"
-
 
 # COMMAND ----------
 
@@ -231,8 +222,6 @@ def until_stream_is_ready(name, progressions=3):
 
   print("The stream {} is active and ready.".format(name))
 
-
-
 # COMMAND ----------
 
 # MAGIC %md Now we can transform the stream with a prediction and preview it with the **`display()`** command.
@@ -243,11 +232,9 @@ predictionsDF = streamingData.withColumn("prediction", pyfunc_udf(*streamingData
 
 display(predictionsDF, streamName=myStreamName)
 
-
 # COMMAND ----------
 
 until_stream_is_ready(myStreamName)
-
 
 # COMMAND ----------
 
@@ -255,7 +242,6 @@ until_stream_is_ready(myStreamName)
 for stream in spark.streams.active:
   print(f"Stopping {stream.name}")
   stream.stop() # Stop the stream
-
 
 # COMMAND ----------
 
@@ -282,11 +268,9 @@ writePath = f"{working_dir}/ml-deployment/predictions"
   .start()                                               # Start the operation
 )
 
-
 # COMMAND ----------
 
 until_stream_is_ready(myStreamName)
-
 
 # COMMAND ----------
 
@@ -301,14 +285,12 @@ from pyspark.sql.utils import AnalysisException
 total = spark.read.format("delta").load(writePath).count()
 print(total)
 
-
 # COMMAND ----------
 
 # When you are done previewing the results, stop the stream.
 for stream in spark.streams.active:
   print(f"Stopping {stream.name}")
   stream.stop() # Stop the stream
-
 
 # COMMAND ----------
 
@@ -336,7 +318,7 @@ for stream in spark.streams.active:
 # MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Lab<br>
 # MAGIC 
-# MAGIC Start the labs for this lesson, [Streaming Lab]($./Labs/03-Streaming-Lab) 
+# MAGIC Start the labs for this lesson, [Streaming Lab]($./Labs/03-Streaming-Lab)
 
 # COMMAND ----------
 

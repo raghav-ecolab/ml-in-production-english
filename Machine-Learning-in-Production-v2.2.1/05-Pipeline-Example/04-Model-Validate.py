@@ -3,7 +3,7 @@
 # MAGIC 
 # MAGIC This notebook is called from Orchestrate to test the current Staging model and then push it into production.
 # MAGIC 
-# MAGIC First, let's load the data passed from Orchestrate. 
+# MAGIC First, let's load the data passed from Orchestrate.
 
 # COMMAND ----------
 
@@ -13,10 +13,9 @@ dbutils.widgets.text("registry_model_name", "Default")
 filePath = dbutils.widgets.get("filePath")
 registry_model_name = dbutils.widgets.get("registry_model_name")
 
-
 # COMMAND ----------
 
-# MAGIC %md Now we can load the model in the current Staging branch. 
+# MAGIC %md Now we can load the model in the current Staging branch.
 
 # COMMAND ----------
 
@@ -35,20 +34,17 @@ spark_model = mlflow.spark.load_model(
     model_uri=f"models:/{registry_model_name}/{stage}"
 )
 
-
 # COMMAND ----------
 
-# MAGIC %md Next, let's load the data and use the model to make some example predictions on the featurized data. 
+# MAGIC %md Next, let's load the data and use the model to make some example predictions on the featurized data.
 
 # COMMAND ----------
 
 df = spark.read.format('delta').load(filePath)
 
-
 # COMMAND ----------
 
 display(spark_model.transform(df))
-
 
 # COMMAND ----------
 
@@ -70,37 +66,31 @@ expected_input_schema = (StructType([
   StructField("room_type", StringType(), True)                             
 ]))
 
-
 # COMMAND ----------
 
 expected_output_schema = StructType([StructField("price", DoubleType(), True)])
-
 
 # COMMAND ----------
 
 input_schema = pyfunc_model.metadata.get_input_schema().as_spark_schema()
 output_schema = pyfunc_model.metadata.get_output_schema().as_spark_schema()
 
-
 # COMMAND ----------
 
 assert expected_input_schema.fields.sort(key=lambda x: x.name) == input_schema.fields.sort(key=lambda x: x.name)
 assert expected_output_schema.fields.sort(key=lambda x: x.name) == output_schema.fields.sort(key=lambda x: x.name)
 
-
 # COMMAND ----------
 
-# MAGIC %md Now that the model passed our example checks, let's log it into the production branch. 
+# MAGIC %md Now that the model passed our example checks, let's log it into the production branch.
 
 # COMMAND ----------
 
 client = MlflowClient()
 
-
 # COMMAND ----------
 
 model_version = client.get_latest_versions(registry_model_name, stages=['Staging'])[0].version
-
 
 # COMMAND ----------
 

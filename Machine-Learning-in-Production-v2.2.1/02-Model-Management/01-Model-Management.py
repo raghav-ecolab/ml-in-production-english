@@ -87,11 +87,9 @@ from sklearn.model_selection import train_test_split
 df = pd.read_csv("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.csv")
 X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), df[["price"]].values.ravel(), random_state=42)
 
-
 # COMMAND ----------
 
 display(df)
-
 
 # COMMAND ----------
 
@@ -108,7 +106,6 @@ rf.fit(X_train, y_train)
 rf_mse = mean_squared_error(y_test, rf.predict(X_test))
 
 rf_mse
-
 
 # COMMAND ----------
 
@@ -142,7 +139,6 @@ nn_mse = mean_squared_error(y_test, nn.predict(X_test))
 
 nn_mse
 
-
 # COMMAND ----------
 
 # MAGIC %md-sandbox Now log the two models. Make sure to add a [model signature](https://mlflow.org/docs/latest/models.html#model-signature) with the `infer_signature` function. This will allow you to easily view which parameters were factored into the model, and which column was used as the output.
@@ -175,7 +171,6 @@ with mlflow.start_run(run_name="RF Model") as run:
 
   experimentID = run.info.experiment_id
 
-
 # COMMAND ----------
 
 import mlflow.keras
@@ -189,7 +184,6 @@ with mlflow.start_run(run_name="NN Model") as run:
   kerasRunID = run.info.run_id
   kerasURI = run.info.artifact_uri
 
-
 # COMMAND ----------
 
 # MAGIC %md Now we can use both of these models in the same way, even though they were trained by different packages.
@@ -201,12 +195,10 @@ import mlflow.pyfunc
 rf_pyfunc_model = mlflow.pyfunc.load_model(model_uri=(sklearnURI+"/model"))
 type(rf_pyfunc_model)
 
-
 # COMMAND ----------
 
 nn_pyfunc_model = mlflow.pyfunc.load_model(model_uri=(kerasURI+"/model"))
 type(nn_pyfunc_model)
-
 
 # COMMAND ----------
 
@@ -216,11 +208,9 @@ type(nn_pyfunc_model)
 
 rf_pyfunc_model.predict(X_test)
 
-
 # COMMAND ----------
 
 nn_pyfunc_model.predict(X_test)
-
 
 # COMMAND ----------
 
@@ -247,7 +237,6 @@ class AddN(mlflow.pyfunc.PythonModel):
     def predict(self, context, model_input):
         return model_input.apply(lambda column: column + self.n)
 
-
 # COMMAND ----------
 
 # MAGIC %md Construct and save the model.
@@ -267,7 +256,6 @@ add5_model = AddN(n=5)
   
 mlflow.pyfunc.save_model(path=model_path, python_model=add5_model)
 
-
 # COMMAND ----------
 
 # MAGIC %md Load the model in `python_function` format.
@@ -275,7 +263,6 @@ mlflow.pyfunc.save_model(path=model_path, python_model=add5_model)
 # COMMAND ----------
 
 loaded_model = mlflow.pyfunc.load_model(model_path)
-
 
 # COMMAND ----------
 
@@ -291,7 +278,6 @@ model_output = loaded_model.predict(model_input)
 assert model_output.equals(pd.DataFrame([range(5, 15)]))
 
 model_output
-
 
 # COMMAND ----------
 

@@ -52,7 +52,6 @@ X = pdf.drop('price', axis=1)
 y = pdf['price']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-
 # COMMAND ----------
 
 # ANSWER
@@ -102,7 +101,6 @@ with mlflow.start_run(run_name="Parent") as run:
     # Log figure
     mlflow.log_figure(fig, "Feature Importances RF.png")
 
-
 # COMMAND ----------
 
 # MAGIC %md ## Autologging with Hyperopt
@@ -118,7 +116,7 @@ with mlflow.start_run(run_name="Parent") as run:
 # MAGIC 2. Find the nested runs in the MLflow UI
 # MAGIC 3. Generate the Parallel Coordinates Plot as shown in the lesson on your nested runs. 
 # MAGIC 
-# MAGIC **Note:** You will need to select all nested runs and hit compare in the MLflow UI. If you select the bottom-most nested run and then shift-click the top-most nested run, you will select all of them. 
+# MAGIC **Note:** You will need to select all nested runs and hit compare in the MLflow UI. If you select the bottom-most nested run and then shift-click the top-most nested run, you will select all of them.
 
 # COMMAND ----------
 

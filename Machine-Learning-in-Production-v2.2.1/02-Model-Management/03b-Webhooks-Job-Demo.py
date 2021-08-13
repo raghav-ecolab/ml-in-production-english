@@ -19,7 +19,6 @@ model_name = event_message_dict.get("model_name")
 print(event_message_dict)
 print(model_name)
 
-
 # COMMAND ----------
 
 # MAGIC  %md Use the model name to get the latest model version.
@@ -32,7 +31,6 @@ client = MlflowClient()
 version = client.get_registered_model(model_name).latest_versions[0].version
 version
 
-
 # COMMAND ----------
 
 # MAGIC %md Use the model name and version to load a `pyfunc` model of our model in production.
@@ -43,7 +41,6 @@ import mlflow
 
 pyfunc_model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{version}")
 
-
 # COMMAND ----------
 
 # MAGIC %md Get the input and output schema of our logged model.
@@ -52,7 +49,6 @@ pyfunc_model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{versio
 
 input_schema = pyfunc_model.metadata.get_input_schema().as_spark_schema()
 output_schema = pyfunc_model.metadata.get_output_schema().as_spark_schema()
-
 
 # COMMAND ----------
 
@@ -87,16 +83,14 @@ expected_input_schema = (StructType([
 
 expected_output_schema = StructType([StructField("price", DoubleType(), True)])
 
-
 # COMMAND ----------
 
 assert expected_input_schema.fields.sort(key=lambda x: x.name) == input_schema.fields.sort(key=lambda x: x.name)
 assert expected_output_schema.fields.sort(key=lambda x: x.name) == output_schema.fields.sort(key=lambda x: x.name)
 
-
 # COMMAND ----------
 
-# MAGIC %md Load the dataset and generate some predictions to ensure our model is working correctly. 
+# MAGIC %md Load the dataset and generate some predictions to ensure our model is working correctly.
 
 # COMMAND ----------
 
@@ -106,7 +100,6 @@ df = pd.read_csv("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.cs
 predictions = pyfunc_model.predict(df)
 
 predictions
-
 
 # COMMAND ----------
 
@@ -118,7 +111,6 @@ import numpy as np
 
 assert type(predictions) == np.ndarray
 assert type(predictions[0]) == np.float64
-
 
 # COMMAND ----------
 

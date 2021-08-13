@@ -35,7 +35,6 @@ from sklearn.model_selection import train_test_split
 df = pd.read_csv("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.csv")
 X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), df["price"], random_state=42)
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -63,7 +62,6 @@ grid_rf_model.fit(X_train, y_train)
 best_rf = grid_rf_model.best_estimator_
 for p in parameters:
   print("Best '{}': {}".format(p, best_rf.get_params()[p]))
-
 
 # COMMAND ----------
 
@@ -96,7 +94,6 @@ with mlflow.start_run(run_name="RF-Grid-Search") as run:
   artifactURI = mlflow.get_artifact_uri()
   print(f"Inside MLflow Run with id {runID} and artifact URI {artifactURI}")
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -111,7 +108,6 @@ with mlflow.start_run(run_name="RF-Grid-Search") as run:
 # ANSWER
 model = mlflow.sklearn.load_model(artifactURI + "/grid-random-forest-model/")
 
-
 # COMMAND ----------
 
 # MAGIC %md Time permitting, use the `MlflowClient` to interact programatically with your run.
@@ -120,27 +116,24 @@ model = mlflow.sklearn.load_model(artifactURI + "/grid-random-forest-model/")
 
 # ANSWER
 
-
 # COMMAND ----------
 
 # MAGIC %md ### Delta Version and Hash
 # MAGIC 
-# MAGIC We want to make sure we have data reproducibility. Run the following cell to create the delta path for our delta table. 
+# MAGIC We want to make sure we have data reproducibility. Run the following cell to create the delta path for our delta table.
 
 # COMMAND ----------
 
 delta_path = working_dir.replace("/dbfs", "dbfs:") + "/delta-example"
 dbutils.fs.rm(delta_path, recurse=True)
 
-
 # COMMAND ----------
 
-# MAGIC %md Save our data to the delta path. We will have to create a spark DataFrame of our DataFrame first to write to delta. 
+# MAGIC %md Save our data to the delta path. We will have to create a spark DataFrame of our DataFrame first to write to delta.
 
 # COMMAND ----------
 
 spark.createDataFrame(df).write.format("delta").mode("overwrite").save(delta_path)
-
 
 # COMMAND ----------
 
@@ -154,17 +147,15 @@ delta_df = (spark.read
   .drop("cancellation_policy", "instant_bookable")
 )
 
-
 # COMMAND ----------
 
-# MAGIC %md Overwrite our delta path with the dropped columns and view the history of the delta table. 
+# MAGIC %md Overwrite our delta path with the dropped columns and view the history of the delta table.
 
 # COMMAND ----------
 
 delta_df.write.format("delta").mode("overwrite").save(delta_path)
 
 display(spark.sql(f"DESCRIBE HISTORY delta.`{delta_path}`"))
-
 
 # COMMAND ----------
 
@@ -205,8 +196,6 @@ with mlflow.start_run(run_name="RF-Grid-Search") as run:
   # Create and log the hash
   hash_value = hashlib.md5(pd.util.hash_pandas_object(df, index=True).values).hexdigest()
   mlflow.log_param("hash", hash_value)
-
-
 
 # COMMAND ----------
 

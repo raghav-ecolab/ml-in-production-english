@@ -135,7 +135,6 @@
 # os.environ["AWS_SECRET_ACCESS_KEY"] = 'g1lSUmTtP2Y5TM4G3nryqg4TysUeKuJLKG0EYAZE' # READ ONLY ACCESS KEYS
 # os.environ["AWS_DEFAULT_REGION"] = 'us-west-2'
 
-
 # COMMAND ----------
 
 # MAGIC %md Fill in the following command with your region, ARN, and image URL to deploy your model.
@@ -156,7 +155,6 @@
 #            instance_type="ml.t2.medium",
 #            image_url=" < FILL IN> " )
 
-
 # COMMAND ----------
 
 # MAGIC %md ### Test the Connection
@@ -176,7 +174,6 @@
 #   return endpoint_status
 
 # print("Application status is: {}".format(check_status(appName)))
-
 
 # COMMAND ----------
 
@@ -204,8 +201,6 @@ def query_endpoint_example(inputs, appName="airbnb-latest-0001", verbose=True):
     print("Received response: {}".format(preds))
   return preds
 
-
-
 # COMMAND ----------
 
 # query_input = X_train.iloc[[0]].values.flatten().tolist()
@@ -213,7 +208,6 @@ def query_endpoint_example(inputs, appName="airbnb-latest-0001", verbose=True):
 # print("Using input vector: {}".format(query_input))
 
 # prediction = query_endpoint_example(appName=appName, inputs=[query_input])
-
 
 # COMMAND ----------
 
@@ -231,7 +225,6 @@ def random_n_samples(n, df=X_train, verbose=False):
   
   return query_endpoint_example(samples, appName="airbnb-latest-0001", verbose=verbose)
 
-
 # COMMAND ----------
 
 # MAGIC %md Test this using 10 samples.  The payload for SageMaker can be 1 or more samples.
@@ -239,7 +232,6 @@ def random_n_samples(n, df=X_train, verbose=False):
 # COMMAND ----------
 
 # random_n_samples(10, verbose=True)
-
 
 # COMMAND ----------
 
@@ -249,11 +241,9 @@ def random_n_samples(n, df=X_train, verbose=False):
 
 # %timeit -n5 random_n_samples(100)
 
-
 # COMMAND ----------
 
 # %timeit -n5 random_n_samples(1)
-
 
 # COMMAND ----------
 
@@ -267,7 +257,6 @@ def random_n_samples(n, df=X_train, verbose=False):
 # Specify the archive=False option to delete any SageMaker models and configurations
 # associated with the specified application
 # mfs.delete(app_name=appName, region_name="us-west-2", archive=False)
-
 
 # COMMAND ----------
 

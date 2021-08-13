@@ -5,7 +5,7 @@
 # MAGIC 
 # MAGIC It takes in two time periods of data and determines if significant change has occurred in addition to a target directory to write the drift.
 # MAGIC 
-# MAGIC Let's first load the data passed from Orchestrate. 
+# MAGIC Let's first load the data passed from Orchestrate.
 
 # COMMAND ----------
 
@@ -18,12 +18,10 @@ filePath1 = dbutils.widgets.get("filePath1")
 filePath2 = dbutils.widgets.get("filePath2")
 drift_path = dbutils.widgets.get("drift_path")
 
-
 # COMMAND ----------
 
 df1_featurized = spark.read.format("delta").load(filePath1)
 df2 = spark.read.format("delta").load(filePath2)
-
 
 # COMMAND ----------
 
@@ -39,20 +37,18 @@ categoricalCols = [field for (field, dataType) in df2.dtypes if dataType == "str
 numericCols = [field for (field, dataType) in df2.dtypes if ((dataType == "double"))]
 cols = numericCols + categoricalCols
 
-
 # COMMAND ----------
 
-# MAGIC %md Create a path for the second time window featurized data. 
+# MAGIC %md Create a path for the second time window featurized data.
 
 # COMMAND ----------
 
 dbutils.fs.rm(drift_path, True)
 dbutils.fs.mkdirs(drift_path)
 
-
 # COMMAND ----------
 
-# MAGIC %md Run the Featurize notebook on the time window. 
+# MAGIC %md Run the Featurize notebook on the time window.
 
 # COMMAND ----------
 
@@ -62,19 +58,17 @@ params = {
 }
 dbutils.notebook.run("./02-Featurize", 0, params)
 
-
 # COMMAND ----------
 
-# MAGIC %md Load the featurized second time window. 
+# MAGIC %md Load the featurized second time window.
 
 # COMMAND ----------
 
 df2_featurized = spark.read.format("delta").load(drift_path)
 
-
 # COMMAND ----------
 
-# MAGIC %md Load the Monitor class from the lesson. 
+# MAGIC %md Load the Monitor class from the lesson.
 
 # COMMAND ----------
 
@@ -166,16 +160,14 @@ class Monitor():
     '''
     print(f"Drift found in {feature}!")
 
-
 # COMMAND ----------
 
-# MAGIC %md Finally, let's load in our data and run drift monitoring. 
+# MAGIC %md Finally, let's load in our data and run drift monitoring.
 
 # COMMAND ----------
 
 driftMonitor = Monitor(df1_featurized.select(cols).toPandas(), df2_featurized.select(cols).toPandas(), categoricalCols, numericCols)
 driftMonitor.run()
-
 
 # COMMAND ----------
 

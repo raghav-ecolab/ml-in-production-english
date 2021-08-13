@@ -23,7 +23,6 @@
 
 # %pip install azureml-sdk==1.18.0
 
-
 # COMMAND ----------
 
 # MAGIC %run ../../Includes/Classroom-Setup
@@ -104,7 +103,6 @@ with mlflow.start_run(run_name="RF Model") as run:
 print("Run completed with ID {} and path {}".format(runID, modelPath))
 model_uri = f"runs:/{run.info.run_id}/{modelPath}"
 
-
 # COMMAND ----------
 
 # MAGIC %md Before models can be deployed to Azure ML, you must create or obtain an Azure ML Workspace. The `azureml.core.Workspace.create()` function will load a workspace of a specified name or create one if it does not already exist. For more information about creating an Azure ML Workspace, see the [Azure ML Workspace management documentation](https://docs.microsoft.com/en-us/azure/machine-learning/service/how-to-manage-workspace).
@@ -118,7 +116,6 @@ workspace_name = ""
 workspace_location = ""
 resource_group = ""
 subscription_id = ""
-
 
 # COMMAND ----------
 
@@ -140,7 +137,6 @@ subscription_id = ""
 # except Exception as e:
 #   print("Error: Confirm that your workspace name, location, resource group, and subscription id were all correct \n")
 #   print(e)
-
 
 # COMMAND ----------
 
@@ -166,7 +162,6 @@ subscription_id = ""
 # # Wait for the image creation
 # model_image.wait_for_creation(show_output=True)
 
-
 # COMMAND ----------
 
 # MAGIC %md The [Azure Container Instances (ACI) platform](https://docs.microsoft.com/en-us/azure/container-instances/) is the recommended environment for staging and developmental model deployments.
@@ -191,7 +186,6 @@ subscription_id = ""
 # # Wait for the image deployment
 # dev_webservice.wait_for_deployment(show_output=True)
 
-
 # COMMAND ----------
 
 # MAGIC %md Use the `Webservice` constructor to create an object associated with the Workspace.
@@ -201,7 +195,6 @@ subscription_id = ""
 # from azureml.core.webservice import AciWebservice, Webservice
 
 # dev_webservice = Webservice(workspace, dev_webservice_name)
-
 
 # COMMAND ----------
 
@@ -216,7 +209,6 @@ query_input = eval(query_input)
 query_input.pop('index', None)
 
 query_input
-
 
 # COMMAND ----------
 
@@ -240,7 +232,6 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
   print("Received response: {}".format(preds))
   return preds
 
-
 # COMMAND ----------
 
 # MAGIC %md Query the endpoint using the scoring URI.
@@ -248,7 +239,6 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 # COMMAND ----------
 
 # dev_prediction = query_endpoint(scoring_uri=dev_webservice.scoring_uri, inputs=query_input)
-
 
 # COMMAND ----------
 
@@ -286,7 +276,6 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 # print(aks_target.provisioning_state)
 # print(aks_target.provisioning_errors)
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -304,7 +293,6 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 # aks_target = ComputeTarget(workspace, aks_cluster_name)
 # model_image = Image(workspace, name="rfmodel")
 
-
 # COMMAND ----------
 
 # MAGIC %md Now that you have defined an AKS cluster that is up and running, confirm that it is in `Succeeded` status.
@@ -312,7 +300,6 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 # COMMAND ----------
 
 # aks_target.get_status()
-
 
 # COMMAND ----------
 
@@ -338,7 +325,6 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 # # Wait for the deployment to complete
 # prod_webservice.wait_for_deployment(show_output = True)
 
-
 # COMMAND ----------
 
 # MAGIC %md You can also get the webservice this way when it is already up and running.
@@ -348,7 +334,6 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 # from azureml.core.webservice import AciWebservice, Webservice
 
 # prod_webservice = Webservice(workspace, prod_webservice_name)
-
 
 # COMMAND ----------
 
@@ -360,7 +345,6 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # prod_scoring_uri = prod_webservice.scoring_uri
 # prod_service_key = prod_webservice.get_keys()[0] if len(prod_webservice.get_keys()) > 0 else None
-
 
 # COMMAND ----------
 
@@ -380,7 +364,6 @@ def get_queries():
 query_input=get_queries()
 query_input
 
-
 # COMMAND ----------
 
 # MAGIC %md Query the endpoint.
@@ -388,7 +371,6 @@ query_input
 # COMMAND ----------
 
 # prod_prediction = query_endpoint(scoring_uri=prod_scoring_uri, service_key=prod_service_key, inputs=query_input)
-
 
 # COMMAND ----------
 

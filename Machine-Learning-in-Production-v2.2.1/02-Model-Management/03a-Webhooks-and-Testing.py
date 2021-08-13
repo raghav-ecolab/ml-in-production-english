@@ -61,8 +61,7 @@
 
 # Paste your token below
 
-token = "<insert your token here>" 
-
+token = "<insert your token here>"
 
 # COMMAND ----------
 
@@ -93,7 +92,6 @@ with mlflow.start_run(run_name="Webhook RF Experiment") as run:
   run_id = run.info.run_id
   experiment_id = run.info.experiment_id
 
-
 # COMMAND ----------
 
 # MAGIC %md Register the model
@@ -104,7 +102,6 @@ name = f"webhook_demo_{run_id}"
 model_uri = "runs:/{run_id}/random-forest-model".format(run_id=run_id)
 
 model_details = mlflow.register_model(model_uri=model_uri, name=name)
-
 
 # COMMAND ----------
 
@@ -135,8 +132,7 @@ model_details = mlflow.register_model(model_uri=model_uri, name=name)
 
 # Enter Job ID here
 
-job_ID = "<insert your job id here>" 
-
+job_ID = "<insert your job id here>"
 
 # COMMAND ----------
 
@@ -164,7 +160,6 @@ tags = sc._jvm.scala.collection.JavaConversions.mapAsJavaMap(java_tags)
 # Lastly, extract the databricks instance (domain name) from the dictionary
 instance = tags['browserHostName']
 
-
 # COMMAND ----------
 
 import json
@@ -190,7 +185,6 @@ response = urllib.request.urlopen(req)
 
 print(json.load(response))
 
-
 # COMMAND ----------
 
 # MAGIC %md Now that we have registered the webhook, we can **test it by transitioning our model from stage `None` to `Staging` in the Experiment UI.** We should see in the Jobs tab that our Job has run.
@@ -209,7 +203,6 @@ for webhook in response.get("webhooks"):
   print(webhook)
   print()
 
-
 # COMMAND ----------
 
 # MAGIC %md Finally, delete the webhook by copying the webhook ID to the curl or python request. You can confirm that the Webhook was deleted by using the list request.
@@ -224,7 +217,6 @@ req = urllib.request.Request(f"{url}/api/2.0/mlflow/registry-webhooks/delete", d
 response = urllib.request.urlopen(req)
 
 print(json.load(response))
-
 
 # COMMAND ----------
 

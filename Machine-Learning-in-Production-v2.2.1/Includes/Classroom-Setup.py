@@ -3,7 +3,6 @@ spark.conf.set("com.databricks.training.module-name", "ml-in-production")
 
 None # Suppress Output
 
-
 # COMMAND ----------
 
 # MAGIC %run "./Class-Utility-Methods"
@@ -24,7 +23,6 @@ working_dir = getWorkingDir().replace("_pil", "")
 dbutils.fs.mkdirs(userhome.replace("/dbfs/", "dbfs:/"))
 
 None # Suppress output
-
 
 # COMMAND ----------
 

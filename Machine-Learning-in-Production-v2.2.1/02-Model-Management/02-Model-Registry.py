@@ -77,7 +77,6 @@ with mlflow.start_run(run_name="RF Model") as run:
   mlflow.log_metric("mse", mean_squared_error(y_test, rf.predict(X_test)))
   runID = run.info.run_id
 
-
 # COMMAND ----------
 
 # MAGIC %md Create a unique model name so you don't clash with other workspace users.
@@ -89,17 +88,15 @@ import uuid
 model_name = f"airbnb_rf_model_{uuid.uuid4().hex[:10]}"
 model_name
 
-
 # COMMAND ----------
 
-# MAGIC %md Register the model. 
+# MAGIC %md Register the model.
 
 # COMMAND ----------
 
 model_uri = "runs:/{run_id}/model".format(run_id=runID)
 
 model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
-
 
 # COMMAND ----------
 
@@ -114,7 +111,7 @@ model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
 
 # COMMAND ----------
 
-# MAGIC %md Check the status.  It will initially be in `PENDING_REGISTRATION` status. 
+# MAGIC %md Check the status.  It will initially be in `PENDING_REGISTRATION` status.
 
 # COMMAND ----------
 
@@ -124,7 +121,6 @@ client = MlflowClient()
 model_version_details = client.get_model_version(name=model_name, version=1)
 
 model_version_details.status
-
 
 # COMMAND ----------
 
@@ -137,7 +133,6 @@ client.update_registered_model(
   description="This model forecasts Airbnb housing list prices based on various listing inputs."
 )
 
-
 # COMMAND ----------
 
 # MAGIC %md Add a version-specific description.
@@ -149,7 +144,6 @@ client.update_model_version(
   version=model_details.version,
   description="This model version was built using sklearn."
 )
-
 
 # COMMAND ----------
 
@@ -172,7 +166,6 @@ import time
 
 time.sleep(10) # In case the registration is still pending
 
-
 # COMMAND ----------
 
 client.transition_model_version_stage(
@@ -180,7 +173,6 @@ client.transition_model_version_stage(
   version=model_details.version,
   stage='Production',
 )
-
 
 # COMMAND ----------
 
@@ -193,7 +185,6 @@ model_version_details = client.get_model_version(
   version=model_details.version,
 )
 print("The current model stage is: '{stage}'".format(stage=model_version_details.current_stage))
-
 
 # COMMAND ----------
 
@@ -210,7 +201,6 @@ model_version_uri = "models:/{model_name}/1".format(model_name=model_name)
 print("Loading registered model version from URI: '{model_uri}'".format(model_uri=model_version_uri))
 model_version_1 = mlflow.pyfunc.load_model(model_version_uri)
 
-
 # COMMAND ----------
 
 # MAGIC %md Apply the model.
@@ -218,7 +208,6 @@ model_version_1 = mlflow.pyfunc.load_model(model_version_uri)
 # COMMAND ----------
 
 model_version_1.predict(X_test)
-
 
 # COMMAND ----------
 
@@ -263,7 +252,6 @@ with mlflow.start_run(run_name="RF Model") as run:
 
   runID = run.info.run_id
 
-
 # COMMAND ----------
 
 # MAGIC %md-sandbox Check the UI to see the new model version.
@@ -279,7 +267,6 @@ with mlflow.start_run(run_name="RF Model") as run:
 model_version_infos = client.search_model_versions(f"name = '{model_name}'")
 new_model_version = max([model_version_info.version for model_version_info in model_version_infos])
 
-
 # COMMAND ----------
 
 # MAGIC %md Add a description to this new version.
@@ -292,7 +279,6 @@ client.update_model_version(
   description="This model version is a random forest containing 300 decision trees and a max depth of 10 that was trained in scikit-learn."
 )
 
-
 # COMMAND ----------
 
 # MAGIC %md Put this new model version into `Staging`
@@ -303,7 +289,6 @@ import time
 
 time.sleep(10) # In case the registration is still pending
 
-
 # COMMAND ----------
 
 client.transition_model_version_stage(
@@ -311,7 +296,6 @@ client.transition_model_version_stage(
   version=new_model_version,
   stage="Staging",
 )
-
 
 # COMMAND ----------
 
@@ -324,7 +308,6 @@ client.transition_model_version_stage(
   version=new_model_version,
   stage="Production",
 )
-
 
 # COMMAND ----------
 
@@ -340,7 +323,6 @@ client.transition_model_version_stage(
   stage="Archived",
 )
 
-
 # COMMAND ----------
 
 # MAGIC %md Delete version 1.  
@@ -354,7 +336,6 @@ client.delete_model_version(
   version=1
 )
 
-
 # COMMAND ----------
 
 # MAGIC %md Archive version 2 of the model too.
@@ -367,7 +348,6 @@ client.transition_model_version_stage(
   stage="Archived",
 )
 
-
 # COMMAND ----------
 
 # MAGIC %md Now delete the entire registered model.
@@ -375,7 +355,6 @@ client.transition_model_version_stage(
 # COMMAND ----------
 
 client.delete_registered_model(model_name)
-
 
 # COMMAND ----------
 

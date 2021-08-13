@@ -79,7 +79,6 @@ model_uri = f"{run.info.artifact_uri}/model"
 model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
 model_version = model_details.version
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -93,7 +92,6 @@ client.transition_model_version_stage(
   version=model_version,
   stage="Staging",
 )
-
 
 # COMMAND ----------
 
@@ -136,7 +134,6 @@ tags = sc._jvm.scala.collection.JavaConversions.mapAsJavaMap(java_tags)
 # Lastly, extract the databricks instance (domain name) from the dictionary
 instance = tags['browserHostName']
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -158,7 +155,6 @@ def score_model(dataset: pd.DataFrame, model_name: str, token: str, instance: st
         raise Exception(f'Request failed with status {response.status_code}, {response.text}')
     return response.json()
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -169,7 +165,6 @@ def score_model(dataset: pd.DataFrame, model_name: str, token: str, instance: st
 # ANSWER
 single_row_df = pd.DataFrame([[2, 2, 150]], columns=["bathrooms", "bedrooms", "number_of_reviews"])
 score_model(single_row_df, model_name, token, instance)
-
 
 # COMMAND ----------
 
@@ -186,7 +181,6 @@ def score_n_records(n, df=df):
     return score_model(sample_df, model_name, token, instance)
 
 score_n_records(100, inference_pdf)
-
 
 # COMMAND ----------
 

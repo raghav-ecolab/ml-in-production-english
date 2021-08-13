@@ -90,7 +90,6 @@ with mlflow.start_run() as run:
   
   model_uri = f"runs:/{run.info.run_id}/{model_run_name}"
 
-
 # COMMAND ----------
 
 # MAGIC %md There are a few ways to send requests to the development server for testing purpose:
@@ -137,7 +136,6 @@ p.start()                      # Start the process
 time.sleep(5)                  # Give it 5 seconds to startup
 print(p)                       # Print it's status, make sure it's runnning
 
-
 # COMMAND ----------
 
 # MAGIC %md Create an input for our REST input.
@@ -151,7 +149,6 @@ input_df = pd.DataFrame([0])
 input_json = input_df.to_json(orient='split')
 
 input_json
-
 
 # COMMAND ----------
 
@@ -176,7 +173,6 @@ except ConnectionError:
 print(f"Status: {response.status_code}")
 print(f"Value:  {response.text}")
 
-
 # COMMAND ----------
 
 # MAGIC %md Do the same in bash.
@@ -192,7 +188,6 @@ print(f"Value:  {response.text}")
 # COMMAND ----------
 
 p.terminate()
-
 
 # COMMAND ----------
 
@@ -214,7 +209,6 @@ model_name = f"demo-model_{unique_id}"
 client = mlflow.tracking.MlflowClient()
 mlflow.register_model(model_uri=run.info.artifact_uri+"/pyfunc-model", name=model_name)
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -229,7 +223,6 @@ model_version_uri = f"models:/{model_name}/1"
 
 print(f"Loading registered model version from URI: '{model_version_uri}'")
 model_version_1 = mlflow.pyfunc.load_model(model_version_uri)
-
 
 # COMMAND ----------
 
@@ -252,7 +245,6 @@ tags = sc._jvm.scala.collection.JavaConversions.mapAsJavaMap(java_tags)
 # Lastly, extract the databricks instance (domain name) from the dictionary
 instance = tags['browserHostName']
 
-
 # COMMAND ----------
 
 import os
@@ -269,7 +261,6 @@ def score_model(dataset: pd.DataFrame):
     raise Exception(f'Request failed with status {response.status_code}, {response.text}')
   return response.json()
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -278,7 +269,6 @@ def score_model(dataset: pd.DataFrame):
 # COMMAND ----------
 
 score_model(pd.DataFrame([0]))
-
 
 # COMMAND ----------
 
@@ -324,7 +314,7 @@ score_model(pd.DataFrame([0]))
 # MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Lab<br>
 # MAGIC 
-# MAGIC Start the labs for this lesson, [Real Time Lab]($./Labs/02-Real-Time-Lab) 
+# MAGIC Start the labs for this lesson, [Real Time Lab]($./Labs/02-Real-Time-Lab)
 
 # COMMAND ----------
 

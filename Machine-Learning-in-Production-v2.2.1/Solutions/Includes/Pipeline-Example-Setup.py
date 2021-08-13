@@ -17,7 +17,6 @@ df2 = df2.withColumn("review_scores_rating", F.col("review_scores_rating") / 5 )
 
 None # Suppress Output
 
-
 # COMMAND ----------
 
 data_path1 = f"{working_dir}/driftexample/data1"

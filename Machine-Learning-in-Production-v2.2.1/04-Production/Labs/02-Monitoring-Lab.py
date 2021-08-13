@@ -26,7 +26,7 @@
 # MAGIC 
 # MAGIC 
 # MAGIC In this situation, we have an imaginary model attempting to predict the total sales at the store of other, non ice cream items at the store, such as t-shirts or other merchandise. 
-# MAGIC Given the first and second time period of simulated data, identify any potential drift and analyze how you might handle it. 
+# MAGIC Given the first and second time period of simulated data, identify any potential drift and analyze how you might handle it.
 
 # COMMAND ----------
 
@@ -40,7 +40,6 @@
 
 df.head()
 
-
 # COMMAND ----------
 
 # MAGIC %md You will try to identify the forms of simulated drift in this dataset. The dataset was changed in the following ways:
@@ -53,7 +52,7 @@ df.head()
 # MAGIC 6. The `total_store_sales` of other, non ice cream merchandise, increased
 # MAGIC 7. The prediction of `total_store_sales` decreased
 # MAGIC 
-# MAGIC Keep these changes in mind and see how we would detect them using the tools we have learned. 
+# MAGIC Keep these changes in mind and see how we would detect them using the tools we have learned.
 
 # COMMAND ----------
 
@@ -62,7 +61,6 @@ df.head()
 # COMMAND ----------
 
 df2.head()
-
 
 # COMMAND ----------
 
@@ -154,17 +152,15 @@ class Monitor():
     '''
     print(f"Drift found in {feature}!")
 
-
 # COMMAND ----------
 
-# MAGIC %md Create a `Monitor` object based on our first and second period of ice cream data to identify drift. 
+# MAGIC %md Create a `Monitor` object based on our first and second period of ice cream data to identify drift.
 
 # COMMAND ----------
 
 driftMonitor = (Monitor(df, df2, 
                         cat_cols = ['most_popular_ice_cream_flavor', 'most_popular_sorbet_flavor'], 
                         num_cols = ['temperature', 'number_of_cones_sold', 'number_bowls_sold', 'total_store_sales', 'total_sales_predicted']))
-
 
 # COMMAND ----------
 
@@ -177,11 +173,9 @@ driftMonitor = (Monitor(df, df2,
 
 driftMonitor.generatePercentChange()
 
-
 # COMMAND ----------
 
 driftMonitor.generateNullCounts()
-
 
 # COMMAND ----------
 
@@ -191,12 +185,11 @@ driftMonitor.generateNullCounts()
 # MAGIC 
 # MAGIC Both of these are implemented for you when you call `driftMonitor.run()`. It will print a feature name if a statisitically significant p-value was found by the respective test on that feature. 
 # MAGIC 
-# MAGIC Examine the results and compare them to the changes we made. 
+# MAGIC Examine the results and compare them to the changes we made.
 
 # COMMAND ----------
 
 driftMonitor.run()
-
 
 # COMMAND ----------
 

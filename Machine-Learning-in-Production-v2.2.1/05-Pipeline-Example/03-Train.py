@@ -13,10 +13,9 @@ import mlflow
 from mlflow.tracking import MlflowClient
 from mlflow.models.signature import infer_signature
 
-
 # COMMAND ----------
 
-# MAGIC %md Now, let's load the data from Orchestrate. 
+# MAGIC %md Now, let's load the data from Orchestrate.
 
 # COMMAND ----------
 
@@ -29,33 +28,29 @@ filePath = dbutils.widgets.get("filePath")
 experiment_path = dbutils.widgets.get("experiment_path")
 registry_model_name = dbutils.widgets.get("registry_model_name")
 
-
 # COMMAND ----------
 
-# MAGIC %md Set the experiment from the data we loaded. 
+# MAGIC %md Set the experiment from the data we loaded.
 
 # COMMAND ----------
 
 mlflow.set_experiment(experiment_path)
 
-
 # COMMAND ----------
 
-# MAGIC %md Load the data to train. 
+# MAGIC %md Load the data to train.
 
 # COMMAND ----------
 
 df = spark.read.format("delta").load(filePath)
 
-
 # COMMAND ----------
 
-# MAGIC %md Create our example model, making sure to log signature, input example, train mse, and test mse. 
+# MAGIC %md Create our example model, making sure to log signature, input example, train mse, and test mse.
 
 # COMMAND ----------
 
 trainDF, testDF = df.randomSplit([0.9, 0.1], seed=42)
-
 
 # COMMAND ----------
 
@@ -86,10 +81,9 @@ with mlflow.start_run() as run:
   mlflow.log_metric("train_mse", train_mse)
   mlflow.spark.log_model(rf_model, "model", input_example=input_example, signature=sig)
 
-
 # COMMAND ----------
 
-# MAGIC %md Finally, we'll push our model to the Staging branch in the model registry. 
+# MAGIC %md Finally, we'll push our model to the Staging branch in the model registry.
 
 # COMMAND ----------
 

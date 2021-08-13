@@ -29,7 +29,6 @@
 # Adust our working directory from what DBFS sees to what python actually sees
 working_path = working_dir.replace("dbfs:", "/dbfs")
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -38,7 +37,7 @@ working_path = working_dir.replace("dbfs:", "/dbfs")
 # MAGIC Take a look at the dataset and notice that there are plenty of strings and `NaN` values present. Our end goal is to train a sklearn regression model to predict the price of an airbnb listing.
 # MAGIC 
 # MAGIC 
-# MAGIC Before we can start training, we need to pre-process our data to be compatible with sklearn models by making all features purely numerical. 
+# MAGIC Before we can start training, we need to pre-process our data to be compatible with sklearn models by making all features purely numerical.
 
 # COMMAND ----------
 
@@ -47,7 +46,6 @@ import pandas as pd
 airbnbDF = spark.read.parquet("/mnt/training/airbnb/sf-listings/sf-listings-correct-types.parquet").toPandas()
 
 display(airbnbDF)
-
 
 # COMMAND ----------
 
@@ -65,7 +63,6 @@ display(airbnbDF)
 # TODO
 
 
-
 # COMMAND ----------
 
 # MAGIC %md 
@@ -76,7 +73,6 @@ display(airbnbDF)
 # COMMAND ----------
 
 # TODO
-
 
 
 # COMMAND ----------
@@ -90,7 +86,6 @@ display(airbnbDF)
 # TODO
 
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -102,8 +97,6 @@ display(airbnbDF)
 
 # TODO
 from sklearn.model_selection import train_test_split
-
-
 
 
 # COMMAND ----------
@@ -126,7 +119,6 @@ from sklearn.model_selection import train_test_split
 # TODO
 
 
-
 # COMMAND ----------
 
 # MAGIC %md 
@@ -135,7 +127,6 @@ from sklearn.model_selection import train_test_split
 # COMMAND ----------
 
 # TODO
-
 
 
 # COMMAND ----------
@@ -148,8 +139,6 @@ from sklearn.model_selection import train_test_split
 
 # TODO
 import mlflow.sklearn
-
-
 
 
 # COMMAND ----------
@@ -170,13 +159,12 @@ import mlflow.sklearn
 import mlflow.pyfunc
 
 
-
 # COMMAND ----------
 
 # MAGIC %md 
 # MAGIC ## Post-processing
 # MAGIC 
-# MAGIC Our model currently gives us the predicted price per night for each Airbnb listing. Now we would like our model to tell us what the price per person would be for each listing, assuming the number of renters is equal to the `accommodates` value. 
+# MAGIC Our model currently gives us the predicted price per night for each Airbnb listing. Now we would like our model to tell us what the price per person would be for each listing, assuming the number of renters is equal to the `accommodates` value.
 
 # COMMAND ----------
 
@@ -197,8 +185,6 @@ class Airbnb_Model(mlflow.pyfunc.PythonModel):
         # <FILL_IN>
 
 
-
-
 # COMMAND ----------
 
 # MAGIC %md 
@@ -212,7 +198,6 @@ final_model_path =  f"{working_path}/final-model"
 # FILL_IN
 
 
-
 # COMMAND ----------
 
 # MAGIC %md 
@@ -223,13 +208,12 @@ final_model_path =  f"{working_path}/final-model"
 # TODO
 
 
-
 # COMMAND ----------
 
 # MAGIC %md
 # MAGIC ## Packaging your Model
 # MAGIC 
-# MAGIC Now we would like to package our completed model! 
+# MAGIC Now we would like to package our completed model!
 
 # COMMAND ----------
 
@@ -245,7 +229,6 @@ test_data_path = f"{working_path}/test_data.csv"
 # FILL_IN
 
 prediction_path = f"{working_path}/predictions.csv"
-
 
 
 # COMMAND ----------
@@ -283,7 +266,6 @@ print("Price per person predictions: ")
 print(pd.read_csv(demo_prediction_path))
 
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -306,11 +288,9 @@ entry_points:
 '''.strip(), overwrite=True)
 
 
-
 # COMMAND ----------
 
 print(prediction_path)
-
 
 # COMMAND ----------
 
@@ -343,7 +323,6 @@ dbutils.fs.put(f"{working_dir}/conda.yaml", file_contents, overwrite=True)
 
 print(file_contents)
 
-
 # COMMAND ----------
 
 # MAGIC %md 
@@ -368,7 +347,6 @@ if __name__ == "__main__":
 '''.strip(), overwrite=True)
 
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -380,7 +358,6 @@ if __name__ == "__main__":
 # COMMAND ----------
 
 display( dbutils.fs.ls(working_dir) )
-
 
 # COMMAND ----------
 
@@ -398,7 +375,6 @@ mlflow.projects.run(working_path,
 )
 
 
-
 # COMMAND ----------
 
 # MAGIC %md
@@ -408,7 +384,6 @@ mlflow.projects.run(working_path,
 
 print("Price per person predictions: ")
 print(pd.read_csv(second_prediction_path))
-
 
 # COMMAND ----------
 
