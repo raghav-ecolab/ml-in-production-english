@@ -1,7 +1,5 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -47,7 +45,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md 
 # MAGIC Let's start by loading in the dataset
 
 # COMMAND ----------
@@ -62,8 +60,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now, let's train our model and log it with MLflow. This time, we will add a `signature` and `input_examples` when we log our model.
+# MAGIC %md Now, let's train our model and log it with MLflow. This time, we will add a `signature` and `input_examples` when we log our model.
 
 # COMMAND ----------
 
@@ -92,8 +89,7 @@ with mlflow.start_run(run_name="Signature Example") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Nested Runs
+# MAGIC %md ### Nested Runs
 # MAGIC 
 # MAGIC A useful organizational tool provided by MLflow is nested runs. Nested runs allow for parent runs and child runs in a tree structure. In the MLflow UI, you can click on a parent run to expand it and see the child runs. 
 # MAGIC 
@@ -114,13 +110,11 @@ with mlflow.start_run(run_name="Nested Example") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Take a look at the MLflow UI to see the nested runs.
+# MAGIC %md Take a look at the MLflow UI to see the nested runs.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Hyperparameter Tuning
+# MAGIC %md ### Hyperparameter Tuning 
 # MAGIC 
 # MAGIC One of the most common use cases for nested runs is hyperparameter tuning. For example, when running **HyperOpt** with SparkTrials on Databricks, it will automatically track the candidate models, parameters, etc as child runs in the MLflow UI.
 # MAGIC 
@@ -135,12 +129,11 @@ with mlflow.start_run(run_name="Nested Example") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Set up the Hyperopt run.  We need to define an objective function to minimize and a search space for the parameters for our Hyperopt run.
+# MAGIC %md Set up the Hyperopt run.  We need to define an objective function to minimize and a search space for the parameters for our Hyperopt run. 
 # MAGIC 
 # MAGIC Hyperopt will work to minimize the objective function, so here we simply return the `loss` as the mse, since that is what we are trying to minimize. 
 # MAGIC 
-# MAGIC **Note**: If you're trying to maximize a metric, such as accuracy or r2, you would need to return `-accuracy` or `-r2` so Hyperopt can minimize it. 
+# MAGIC **Note**: If you're trying to maximize a metric, such as accuracy or r2, you would need to return `-accuracy` or `-r2` so Hyperopt can minimize it.
 
 # COMMAND ----------
 
@@ -161,8 +154,7 @@ def objective(params):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Execute the MLflow Hyperopt Run
+# MAGIC %md Execute the MLflow Hyperopt Run
 # MAGIC 
 # MAGIC **Note:** This code using autologging.  You can also turn this on for other libraries such as `mlflow.tensorflow.autolog()`
 
@@ -204,8 +196,7 @@ with mlflow.start_run(run_name="Hyperopt"):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Advanced Artifact Tracking
+# MAGIC %md ### Advanced Artifact Tracking
 # MAGIC 
 # MAGIC In addition to the logging of artifacts you have already seen, there are some more advanced options. 
 # MAGIC 
@@ -233,15 +224,13 @@ with mlflow.start_run(run_name="Feature Importance Scores"):
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC Look at this in the MLflow UI
+# MAGIC %md-sandbox Look at this in the MLflow UI
 # MAGIC 
 # MAGIC <img style="width:50%" src="https://files.training.databricks.com/images/mlpupdates/artifact_examples.gif" >
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Additional Resources
+# MAGIC %md ## Additional Resources
 # MAGIC 
 # MAGIC * [Hyperopt Docs]("http://hyperopt.github.io/hyperopt/")
 # MAGIC * [Hyperparamter Tuning Blog post]("https://databricks.com/blog/2019/06/07/hyperparameter-tuning-with-mlflow-apache-spark-mllib-and-hyperopt.html")

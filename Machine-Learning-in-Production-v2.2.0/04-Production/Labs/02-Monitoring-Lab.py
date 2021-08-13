@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Drift Monitoring Lab
+# MAGIC %md # Drift Monitoring Lab
 # MAGIC 
 # MAGIC In this lab, you will look at simulated data for an ice cream shop. This data contains a first and second period of data, like we saw in the previous lesson. Your job is to use the techniques you just learned to identify any potential drift occuring across the two time periods. 
 # MAGIC 
@@ -36,8 +35,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Let's take a look at the first time period ice cream dataframe!
+# MAGIC %md Let's take a look at the first time period ice cream dataframe!
 
 # COMMAND ----------
 
@@ -45,8 +43,7 @@ df.head()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC You will try to identify the forms of simulated drift in this dataset. The dataset was changed in the following ways:
+# MAGIC %md You will try to identify the forms of simulated drift in this dataset. The dataset was changed in the following ways:
 # MAGIC 
 # MAGIC 1. An upstream data management error converted Fahrenheit to Celsius
 # MAGIC 2. The number of cones sold stayed constant
@@ -60,8 +57,7 @@ df.head()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC %md Let's take a look at the second time period ice cream dataframe!
+# MAGIC %md %md Let's take a look at the second time period ice cream dataframe!
 
 # COMMAND ----------
 
@@ -69,8 +65,7 @@ df2.head()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC We have defined a `Monitor` class for you. Please invoke it below to answer the following questions.
+# MAGIC %md We have defined a `Monitor` class for you. Please invoke it below to answer the following questions.
 
 # COMMAND ----------
 
@@ -160,8 +155,7 @@ class Monitor():
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a `Monitor` object based on our first and second period of ice cream data to identify drift.
+# MAGIC %md Create a `Monitor` object based on our first and second period of ice cream data to identify drift.
 
 # COMMAND ----------
 
@@ -171,8 +165,7 @@ driftMonitor = (Monitor(df, df2,
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Summary Statistics
+# MAGIC %md ### Summary Statistics
 # MAGIC 
 # MAGIC Look over and compare some of the data and their summary stats. Use the `driftMonitor` class to generate the null counts and percent changes. Does anything jump out at you?
 
@@ -186,8 +179,7 @@ driftMonitor.generateNullCounts()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Statistical Tests
+# MAGIC %md ### Statistical Tests
 # MAGIC 
 # MAGIC Now let's try the Two Sample KS and Two-Way Chi-Squared Test with Bonferroni Correction. 
 # MAGIC 
@@ -201,8 +193,7 @@ driftMonitor.run()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Closer Look
+# MAGIC %md ### Closer Look
 # MAGIC 
 # MAGIC ***Using these summary statistics and statistical tests were we able to catch all of our drift?***
 # MAGIC 

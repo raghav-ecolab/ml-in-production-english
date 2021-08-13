@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Lab: Grid Search with MLflow
+# MAGIC %md # Lab: Grid Search with MLflow
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lab you:<br>
 # MAGIC  - Import the housing data
@@ -24,8 +23,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Data Import
+# MAGIC %md ## Data Import
 # MAGIC 
 # MAGIC Load in same Airbnb data and create train/test split.
 
@@ -39,8 +37,7 @@ X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), 
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Perform Grid Search using scikit-learn
+# MAGIC %md ## Perform Grid Search using scikit-learn
 # MAGIC 
 # MAGIC We want to know which combination of hyperparameter values is the most effective. Fill in the code below to perform <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV" target="_blank"> grid search using `sklearn`</a>.
 # MAGIC 
@@ -67,8 +64,7 @@ for p in parameters:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Log Best Model with MLflow
+# MAGIC %md ## Log Best Model with MLflow
 # MAGIC 
 # MAGIC Log the best model as `grid-random-forest-model`, its parameters, and its MSE metric under a run with name `RF-Grid-Search` in our new MLflow experiment.
 
@@ -112,13 +108,11 @@ model = mlflow.sklearn.load_model(artifactURI + "/grid-random-forest-model/")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Time permitting, use the `MlflowClient` to interact programatically with your run.
+# MAGIC %md Time permitting, use the `MlflowClient` to interact programatically with your run.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Delta Version and Hash
+# MAGIC %md ### Delta Version and Hash
 # MAGIC 
 # MAGIC We want to make sure we have data reproducibility. Run the following cell to create the delta path for our delta table. 
 
@@ -129,8 +123,7 @@ dbutils.fs.rm(delta_path, recurse=True)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Save our data to the delta path. We will have to create a spark DataFrame of our DataFrame first to write to delta.
+# MAGIC %md Save our data to the delta path. We will have to create a spark DataFrame of our DataFrame first to write to delta.
 
 # COMMAND ----------
 
@@ -138,8 +131,7 @@ spark.createDataFrame(df).write.format("delta").mode("overwrite").save(delta_pat
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Load back the table and drop columns.
+# MAGIC %md Load back the table and drop columns.
 
 # COMMAND ----------
 
@@ -151,8 +143,7 @@ delta_df = (spark.read
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Overwrite our delta path with the dropped columns and view the history of the delta table.
+# MAGIC %md Overwrite our delta path with the dropped columns and view the history of the delta table.
 
 # COMMAND ----------
 
@@ -162,8 +153,7 @@ display(spark.sql(f"DESCRIBE HISTORY delta.`{delta_path}`"))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Log the best model we found with the following additional values:<br><br>
+# MAGIC %md Log the best model we found with the following additional values:<br><br>
 # MAGIC 
 # MAGIC - A copy of the dataset
 # MAGIC - The delta version that was used (before we dropped columns)
@@ -209,7 +199,6 @@ with mlflow.start_run(run_name="RF-Grid-Search") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Steps
 # MAGIC 
 # MAGIC Start the next lesson, [Advanced Experiment Tracking]($../03-Advanced-Experiment-Tracking).

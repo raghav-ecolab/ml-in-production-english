@@ -1,7 +1,6 @@
 # Databricks notebook source
 # MAGIC 
-# MAGIC %md
-# MAGIC ### Featurize
+# MAGIC %md ### Featurize
 # MAGIC 
 # MAGIC In this notebook we will featurize our validated data by String Encoding the categorical columns and generating feature vectors. 
 # MAGIC 
@@ -17,8 +16,7 @@ savePath = dbutils.widgets.get("savePath")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now, we can load in the validated data.
+# MAGIC %md Now, we can load in the validated data.
 
 # COMMAND ----------
 
@@ -26,8 +24,7 @@ df = spark.read.format('delta').load(filePath)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Next, we can String Encode the columns and assemble our feature vectors.
+# MAGIC %md Next, we can String Encode the columns and assemble our feature vectors.
 
 # COMMAND ----------
 
@@ -51,8 +48,7 @@ featurized_df = pipelineModel.transform(df)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Finally, we can save our featurized data to the paths we reserved in Orchestrate.
+# MAGIC %md Finally, we can save our featurized data to the paths we reserved in Orchestrate.
 
 # COMMAND ----------
 

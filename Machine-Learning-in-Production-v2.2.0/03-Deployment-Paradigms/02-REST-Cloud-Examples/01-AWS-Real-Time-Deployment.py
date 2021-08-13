@@ -1,15 +1,12 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Real Time Deployment
+# MAGIC %md # Real Time Deployment
 # MAGIC 
 # MAGIC While real time deployment represents a smaller share of the deployment landscape, many of these deployments represent high value tasks.  This lesson surveys real time deployment options ranging from proofs of concept to both custom and managed solutions with a focus on RESTful services.
 # MAGIC 
@@ -67,8 +64,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Sagemaker Deployment
+# MAGIC %md ## Sagemaker Deployment
 # MAGIC 
 # MAGIC AWS offers the managed service SageMaker.  It allows data scientists a way of deploying machine learning models, offering a REST endpoint to make inference calls to.  MLflow integrates with SageMaker by way of containers using Amazon Container Services (ACS).  In order to use SageMaker you therefore need the following:<br><br>
 # MAGIC 
@@ -79,8 +75,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC ### Set up the `mlflow-pyfunc` Docker Image in ECR
+# MAGIC %md ### Set up the `mlflow-pyfunc` Docker Image in ECR
 # MAGIC 
 # MAGIC During deployment, MLflow will use a specialized Docker container with resources required to load and serve the model. This container is named `mlflow-pyfunc`.
 # MAGIC 
@@ -108,13 +103,12 @@
 # MAGIC docker tag mlflow-pyfunc:latest ${ACCOUNTID}.dkr.ecr.${REGION}.amazonaws.com/mlflow-pyfunc:latest
 # MAGIC docker push ${ACCOUNTID}.dkr.ecr.${REGION}.amazonaws.com/mlflow-pyfunc:latest```
 # MAGIC 
-# MAGIC <img alt="Caution" title="Caution" style="vertical-align: text-bottom; position: relative; height:1.3em; top:0.0em" src="https://files.training.databricks.com/static/images/icon-warning.svg"/> This step is left up to the user since it depends on your IAM roles
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> You must create a new SageMaker endpoint for each new region
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> This step is left up to the user since it depends on your IAM roles
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> You must create a new SageMaker endpoint for each new region
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC ### Deploying the Model
+# MAGIC %md ### Deploying the Model
 # MAGIC 
 # MAGIC Once ECS is set up, you can use `mlflow.sagemaker.deploy` to deploy your model.  **This code depends on you filling out your AWS specification.** This includes:
 # MAGIC <br><br>
@@ -131,7 +125,7 @@
 # MAGIC 
 # MAGIC The following is read-only credentials for a pre-made SageMaker endpoint.  They will not work for deploying a model.
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> See the Secrets API and IAM roles for more secure ways of storing keys.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> See the Secrets API and IAM roles for more secure ways of storing keys.
 
 # COMMAND ----------
 
@@ -143,8 +137,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Fill in the following command with your region, ARN, and image URL to deploy your model.
+# MAGIC %md Fill in the following command with your region, ARN, and image URL to deploy your model.
 
 # COMMAND ----------
 
@@ -164,8 +157,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Test the Connection
+# MAGIC %md ### Test the Connection
 # MAGIC 
 # MAGIC You can test the connection using `boto3`, the library for interacting with AWS in Python. The appName is for a SageMaker endpoint that has already been setup.
 
@@ -185,8 +177,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Evaluate the Input Vector by Sending an HTTP Request
+# MAGIC %md ### Evaluate the Input Vector by Sending an HTTP Request
 # MAGIC Define a helper function that connects to the `sagemaker-runtime` client and sends the record in the appropriate JSON format.
 
 # COMMAND ----------
@@ -210,7 +201,6 @@ def query_endpoint_example(inputs, appName="airbnb-latest-0001", verbose=True):
     print("Received response: {}".format(preds))
   return preds
 
-
 # COMMAND ----------
 
 # query_input = X_train.iloc[[0]].values.flatten().tolist()
@@ -221,8 +211,7 @@ def query_endpoint_example(inputs, appName="airbnb-latest-0001", verbose=True):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now try the same but by using more than just one record.  Create a helper function to query the endpoint with a number of random samples.
+# MAGIC %md Now try the same but by using more than just one record.  Create a helper function to query the endpoint with a number of random samples.
 
 # COMMAND ----------
 
@@ -238,8 +227,7 @@ def random_n_samples(n, df=X_train, verbose=False):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Test this using 10 samples.  The payload for SageMaker can be 1 or more samples.
+# MAGIC %md Test this using 10 samples.  The payload for SageMaker can be 1 or more samples.
 
 # COMMAND ----------
 
@@ -247,8 +235,7 @@ def random_n_samples(n, df=X_train, verbose=False):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Compare the times between payload sizes.  **Notice how sending more records at a time reduces the time to prediction for each individual record.**
+# MAGIC %md Compare the times between payload sizes.  **Notice how sending more records at a time reduces the time to prediction for each individual record.**
 
 # COMMAND ----------
 
@@ -273,7 +260,7 @@ def random_n_samples(n, df=X_train, verbose=False):
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md 
 # MAGIC ## Review
 # MAGIC 
 # MAGIC **Question:** What are the best tools for real time deployment?  

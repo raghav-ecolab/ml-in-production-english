@@ -1,7 +1,6 @@
 # Databricks notebook source
 # MAGIC 
-# MAGIC %md
-# MAGIC ### Data Validate
+# MAGIC %md ### Data Validate
 # MAGIC 
 # MAGIC This notebook is called by the Orchestrate notebook to validate data. 
 # MAGIC 
@@ -21,8 +20,7 @@ df = spark.read.format("delta").load(filePath)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC In this simple example of data validation, we will just assert that the schema is as expected.
+# MAGIC %md In this simple example of data validation, we will just assert that the schema is as expected.
 # MAGIC 
 # MAGIC We define our expected schema and assert that, regardless of the order of the fields, that they are equal. 
 
@@ -52,8 +50,7 @@ observed.sort(key=lambda x: x.name)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now we can return the boolean comparison to the Orchestrate notebook so we can assert it.
+# MAGIC %md Now we can return the boolean comparison to the Orchestrate notebook so we can assert it.
 # MAGIC 
 # MAGIC **Note:** Data passed between notebooks with `dbutils` can only be string, so this will return the string form of the boolean. 
 

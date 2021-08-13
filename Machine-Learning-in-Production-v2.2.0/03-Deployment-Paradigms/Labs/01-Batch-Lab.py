@@ -1,7 +1,5 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -90,6 +88,7 @@ model_name = f"xgboost_model_{clean_username}"
 model_uri = f"runs:/{run.info.run_id}/model"
 model_details = <TODO>
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -112,16 +111,17 @@ prediction_df = inference_df.withColumn(
 # View the results
 display(prediction_df)
 
+
 # COMMAND ----------
 
-# MAGIC %md-sandbox
+# MAGIC %md
 # MAGIC ### Optimize the predictions for reading using Delta
 # MAGIC 
 # MAGIC Now that the predictions are computed, you'll want to write them so they can be accessed efficiently.
 # MAGIC 
 # MAGIC There are a variety of features to take advantage of, but we'll just partition our written files by the `neighbourhood_cleansed` column here.
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> If needed, you can overwrite the file.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> If needed, you can overwrite the file.
 
 # COMMAND ----------
 
@@ -130,6 +130,7 @@ delta_partitioned_path = f"{working_dir}/batch-predictions-partitioned-lab.delta
 
 # Write prediction_df to delta_partitioned_path using column-based partitioning and Delta
 <TODO>
+
 
 # COMMAND ----------
 

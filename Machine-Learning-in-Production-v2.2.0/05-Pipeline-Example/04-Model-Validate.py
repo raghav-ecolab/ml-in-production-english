@@ -1,7 +1,6 @@
 # Databricks notebook source
 # MAGIC 
-# MAGIC %md
-# MAGIC ### Model Validate
+# MAGIC %md ### Model Validate
 # MAGIC 
 # MAGIC This notebook is called from Orchestrate to test the current Staging model and then push it into production.
 # MAGIC 
@@ -17,8 +16,7 @@ registry_model_name = dbutils.widgets.get("registry_model_name")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now we can load the model in the current Staging branch.
+# MAGIC %md Now we can load the model in the current Staging branch.
 
 # COMMAND ----------
 
@@ -39,8 +37,7 @@ spark_model = mlflow.spark.load_model(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Next, let's load the data and use the model to make some example predictions on the featurized data.
+# MAGIC %md Next, let's load the data and use the model to make some example predictions on the featurized data.
 
 # COMMAND ----------
 
@@ -52,8 +49,7 @@ display(spark_model.transform(df))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now, using the signature we logged, we can assert that the input and output schema are as expected.
+# MAGIC %md Now, using the signature we logged, we can assert that the input and output schema are as expected.
 
 # COMMAND ----------
 
@@ -87,8 +83,7 @@ assert expected_output_schema.fields.sort(key=lambda x: x.name) == output_schema
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now that the model passed our example checks, let's log it into the production branch.
+# MAGIC %md Now that the model passed our example checks, let's log it into the production branch.
 
 # COMMAND ----------
 

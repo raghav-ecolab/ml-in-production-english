@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # MLflow Webhooks & Testing
+# MAGIC %md # MLflow Webhooks & Testing
 # MAGIC 
 # MAGIC Webhooks trigger the execution of code (oftentimes tests) upon some event. This lesson explores how to employ webhooks to trigger automated tests against models in the model registry.
 # MAGIC 
@@ -21,8 +20,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Automated Testing
+# MAGIC %md ## Automated Testing
 # MAGIC 
 # MAGIC The backbone of the continuous integration, continuous deployment (CI/CD) process is the automated building, testing, and deployment of code. A **webhook or trigger** causes the execution of code based upon some event.  This is commonly when new code is pushed to a code repository.  In the case of machine learning jobs, this could be the arrival of a new model in the model registry.
 # MAGIC 
@@ -40,8 +38,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Creating a Job
+# MAGIC %md ## Creating a Job
 # MAGIC 
 # MAGIC The following steps will create a Databricks job using another notebook in this directory: `03b-Webhooks-Job-Demo`
 # MAGIC 
@@ -49,8 +46,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a user access token using the following steps:<br><br>
+# MAGIC %md Create a user access token using the following steps:<br><br>
 # MAGIC 
 # MAGIC 1. Click the user profile icon User Profile in the upper right corner of your Databricks workspace
 # MAGIC 1. Click User Settings
@@ -70,8 +66,7 @@ token = "<insert your token here>"
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Log your model
+# MAGIC %md Log your model
 
 # COMMAND ----------
 
@@ -100,8 +95,7 @@ with mlflow.start_run(run_name="Webhook RF Experiment") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Register the model
+# MAGIC %md Register the model
 
 # COMMAND ----------
 
@@ -112,8 +106,7 @@ model_details = mlflow.register_model(model_uri=model_uri, name=name)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a job that executes the notebook `03b-Webhooks-Job-Demo` in the same folder as this notebook.<br><br>
+# MAGIC %md Create a job that executes the notebook `03b-Webhooks-Job-Demo` in the same folder as this notebook.<br><br>
 # MAGIC 
 # MAGIC - Hover over the sidebar in the Databricks UI on the left.
 # MAGIC 
@@ -144,15 +137,13 @@ job_ID = "<insert your job id here>"
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Examine the Job
+# MAGIC %md ## Examine the Job
 # MAGIC 
 # MAGIC Take a look at [the notebook you just scheduled]($./03b-Webhooks-Job-Demo) to see what it accomplishes.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Create a Webhook
+# MAGIC %md ## Create a Webhook
 # MAGIC 
 # MAGIC There are a few different events that can trigger a Webhook. In this notebook, we will be experimenting with triggering a job when our model transitions between stages.
 
@@ -197,13 +188,11 @@ print(json.load(response))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now that we have registered the webhook, we can **test it by transitioning our model from stage `None` to `Staging` in the Experiment UI.** We should see in the Jobs tab that our Job has run.
+# MAGIC %md Now that we have registered the webhook, we can **test it by transitioning our model from stage `None` to `Staging` in the Experiment UI.** We should see in the Jobs tab that our Job has run.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC To get a list of active Webhooks, use a GET request with the LIST endpoint. Note that this command will return an error if no Webhooks have been created for the Model.
+# MAGIC %md To get a list of active Webhooks, use a GET request with the LIST endpoint. Note that this command will return an error if no Webhooks have been created for the Model.
 
 # COMMAND ----------
 
@@ -217,8 +206,7 @@ for webhook in response.get("webhooks"):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Finally, delete the webhook by copying the webhook ID to the curl or python request. You can confirm that the Webhook was deleted by using the list request.
+# MAGIC %md Finally, delete the webhook by copying the webhook ID to the curl or python request. You can confirm that the Webhook was deleted by using the list request.
 
 # COMMAND ----------
 
@@ -233,8 +221,7 @@ print(json.load(response))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Resources
+# MAGIC %md ## Resources
 # MAGIC 
 # MAGIC - [See this blog for more details on CI/CD and webhooks](https://databricks.com/blog/2020/11/19/mlflow-model-registry-on-databricks-simplifies-mlops-with-ci-cd-features.html)
 

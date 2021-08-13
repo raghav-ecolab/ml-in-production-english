@@ -1,7 +1,5 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -65,6 +63,7 @@ best_rf = grid_rf_model.best_estimator_
 for p in parameters:
   print("Best '{}': {}".format(p, best_rf.get_params()[p]))
 
+
 # COMMAND ----------
 
 # MAGIC %md
@@ -94,35 +93,36 @@ with mlflow.start_run(run_name= FILL_IN) as run:
   artifactURI = mlflow.get_artifact_uri()
   print(f"Inside MLflow Run with id {runID} and artifact URI {artifactURI}")
 
+
 # COMMAND ----------
 
-# MAGIC %md-sandbox
+# MAGIC %md
 # MAGIC ## Load the Saved Model
 # MAGIC 
 # MAGIC Load the trained and tuned model we just saved. Check that the hyperparameters of this model matches that of the best model we found earlier.
 # MAGIC 
-# MAGIC <img alt="Hint" title="Hint" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.3em" src="https://files.training.databricks.com/static/images/icon-light-bulb.svg"/>&nbsp;**Hint:** Use the `artifactURI` variable declared above.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_hint_24.png"/>&nbsp;**Hint:** Use the `artifactURI` variable declared above.
 
 # COMMAND ----------
 
 # TODO
 model = < FILL_IN >
 
+
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Time permitting, use the `MlflowClient` to interact programatically with your run.
+# MAGIC %md Time permitting, use the `MlflowClient` to interact programatically with your run.
 
 # COMMAND ----------
 
 # TODO
 
+
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Delta Version and Hash
+# MAGIC %md ### Delta Version and Hash
 # MAGIC 
-# MAGIC We want to make sure we have data reproducibility. Run the following cell to create the delta path for our delta table. 
+# MAGIC We want to make sure we have data reproducibility. Run the following cell to create the delta path for our delta table.
 
 # COMMAND ----------
 
@@ -131,8 +131,7 @@ dbutils.fs.rm(delta_path, recurse=True)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Save our data to the delta path. We will have to create a spark DataFrame of our DataFrame first to write to delta.
+# MAGIC %md Save our data to the delta path. We will have to create a spark DataFrame of our DataFrame first to write to delta.
 
 # COMMAND ----------
 
@@ -140,8 +139,7 @@ spark.createDataFrame(df).write.format("delta").mode("overwrite").save(delta_pat
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Load back the table and drop columns.
+# MAGIC %md Load back the table and drop columns.
 
 # COMMAND ----------
 
@@ -153,8 +151,7 @@ delta_df = (spark.read
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Overwrite our delta path with the dropped columns and view the history of the delta table.
+# MAGIC %md Overwrite our delta path with the dropped columns and view the history of the delta table.
 
 # COMMAND ----------
 
@@ -164,8 +161,7 @@ display(spark.sql(f"DESCRIBE HISTORY delta.`{delta_path}`"))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Log the best model we found with the following additional values:<br><br>
+# MAGIC %md Log the best model we found with the following additional values:<br><br>
 # MAGIC 
 # MAGIC - A copy of the dataset
 # MAGIC - The delta version that was used (before we dropped columns)
@@ -180,14 +176,15 @@ from sklearn.metrics import mean_squared_error
 with mlflow.start_run(run_name="RF-Grid-Search") as run:
   # FILL IN
 
-# COMMAND ----------
-
-# MAGIC %md-sandbox
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> See the solutions folder for an example solution to this lab.
 
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> See the solutions folder for an example solution to this lab.
+
+# COMMAND ----------
+
+# MAGIC %md 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Steps
 # MAGIC 
 # MAGIC Start the next lesson, [Advanced Experiment Tracking]($../03-Advanced-Experiment-Tracking).

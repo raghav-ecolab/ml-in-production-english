@@ -1,7 +1,6 @@
 # Databricks notebook source
 # MAGIC 
-# MAGIC %md
-# MAGIC ### Drift Monitor
+# MAGIC %md ### Drift Monitor
 # MAGIC 
 # MAGIC This notebook is called by Orchestrate to determine if drift has occured over time. 
 # MAGIC 
@@ -27,8 +26,7 @@ df2 = spark.read.format("delta").load(filePath2)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Right now we have our featurized dataset we trained on for the first time period.
+# MAGIC %md Right now we have our featurized dataset we trained on for the first time period.
 # MAGIC 
 # MAGIC The second time period still needs to be featurized, however. 
 # MAGIC 
@@ -42,8 +40,7 @@ cols = numericCols + categoricalCols
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a path for the second time window featurized data.
+# MAGIC %md Create a path for the second time window featurized data.
 
 # COMMAND ----------
 
@@ -52,8 +49,7 @@ dbutils.fs.mkdirs(drift_path)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Run the Featurize notebook on the time window.
+# MAGIC %md Run the Featurize notebook on the time window.
 
 # COMMAND ----------
 
@@ -65,8 +61,7 @@ dbutils.notebook.run("./02-Featurize", 0, params)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Load the featurized second time window.
+# MAGIC %md Load the featurized second time window.
 
 # COMMAND ----------
 
@@ -74,8 +69,7 @@ df2_featurized = spark.read.format("delta").load(drift_path)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Load the Monitor class from the lesson.
+# MAGIC %md Load the Monitor class from the lesson.
 
 # COMMAND ----------
 
@@ -169,8 +163,7 @@ class Monitor():
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Finally, let's load in our data and run drift monitoring.
+# MAGIC %md Finally, let's load in our data and run drift monitoring.
 
 # COMMAND ----------
 

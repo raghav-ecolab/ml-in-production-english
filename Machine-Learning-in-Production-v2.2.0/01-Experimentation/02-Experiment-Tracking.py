@@ -1,15 +1,12 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Experiment Tracking
+# MAGIC %md # Experiment Tracking
 # MAGIC 
 # MAGIC The machine learning life cycle involves training multiple algorithms using different hyperparameters and libraries, all with different performance results and trained models.  This lesson explores tracking those experiments to organize the machine learning life cycle.
 # MAGIC 
@@ -57,31 +54,29 @@
 # MAGIC 
 # MAGIC Each run can record the following information:<br><br>
 # MAGIC 
-# MAGIC - **Parameters:** Key-value pairs of input parameters such as the number of trees in a random forest model
-# MAGIC - **Metrics:** Evaluation metrics such as RMSE or Area Under the ROC Curve
-# MAGIC - **Artifacts:** Arbitrary output files in any format.  This can include images, pickled models, and data files
-# MAGIC - **Source:** The code that originally ran the experiment
+# MAGIC * **Parameters:** Key-value pairs of input parameters such as the number of trees in a random forest model
+# MAGIC * **Metrics:** Evaluation metrics such as RMSE or Area Under the ROC Curve
+# MAGIC * **Artifacts:** Arbitrary output files in any format.  This can include images, pickled models, and data files
+# MAGIC * **Source:** The code that originally ran the experiment
 # MAGIC 
 # MAGIC Experiments can be tracked using libraries in Python, R, and Java as well as by using the CLI and REST calls
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
+# MAGIC %md
 # MAGIC <div><img src="https://files.training.databricks.com/images/eLearning/ML-Part-4/mlflow-tracking.png" style="height: 400px; margin: 20px"/></div>
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC ### Experiment Logging and UI
+# MAGIC %md ### Experiment Logging and UI
 # MAGIC 
 # MAGIC MLflow is an open source software project developed by Databricks available to developers regardless of which platform they are using.  Databricks hosts MLflow for you, which reduces deployment configuration and adds security benefits.  It is accessible on all Databricks workspaces in Azure, Google, and AWS.
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> See <a href="https://mlflow.org/docs/latest/quickstart.html#" target="_blank">the MLflow quickstart guide</a> for details on setting up MLflow locally or on your own server.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> See <a href="https://mlflow.org/docs/latest/quickstart.html#" target="_blank">the MLflow quickstart guide</a> for details on setting up MLflow locally or on your own server.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Import a dataset of Airbnb listings and featurize the data.  We'll use this to train a model.
+# MAGIC %md Import a dataset of Airbnb listings and featurize the data.  We'll use this to train a model.
 
 # COMMAND ----------
 
@@ -91,8 +86,7 @@ df = pd.read_csv("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.cs
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Perform a train/test split.
+# MAGIC %md Perform a train/test split.
 
 # COMMAND ----------
 
@@ -102,15 +96,13 @@ X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), 
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC **Navigate to the MLflow UI by clicking on the `Runs` button on the top of the screen.**
+# MAGIC %md **Navigate to the MLflow UI by clicking on the `Runs` button on the top of the screen.**
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Every Python notebook in a Databricks Workspace has its own experiment. When you use MLflow in a notebook, it records runs in the notebook experiment. A notebook experiment shares the same name and ID as its corresponding notebook.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Every Python notebook in a Databricks Workspace has its own experiment. When you use MLflow in a notebook, it records runs in the notebook experiment. A notebook experiment shares the same name and ID as its corresponding notebook.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Log a basic experiment by doing the following:<br><br>
+# MAGIC %md Log a basic experiment by doing the following:<br><br>
 # MAGIC 
 # MAGIC 1. Start an experiment using `mlflow.start_run()` and passing it a name for the run
 # MAGIC 2. Train your model
@@ -147,8 +139,7 @@ with mlflow.start_run(run_name="Basic RF Experiment") as run:
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC Examine the results in the UI.  Look for the following:<br><br>
+# MAGIC %md-sandbox Examine the results in the UI.  Look for the following:<br><br>
 # MAGIC 
 # MAGIC 1. The `Experiment ID`
 # MAGIC 2. The artifact location.  This is where the artifacts are stored in DBFS, which is backed by cloud storage.
@@ -159,8 +150,7 @@ with mlflow.start_run(run_name="Basic RF Experiment") as run:
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC After clicking on the time of the run, take a look at the following:<br><br>
+# MAGIC %md-sandbox After clicking on the time of the run, take a look at the following:<br><br>
 # MAGIC 
 # MAGIC 1. The Run ID will match what we printed above
 # MAGIC 2. The model that we saved, included a picked version of the model as well as the Conda environment and the `MLmodel` file, which will be discussed in the next lesson.
@@ -169,14 +159,13 @@ with mlflow.start_run(run_name="Basic RF Experiment") as run:
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC ### Parameters, Metrics, and Artifacts
+# MAGIC %md ### Parameters, Metrics, and Artifacts
 # MAGIC 
 # MAGIC But wait, there's more!  In the last example, you logged the run name, an evaluation metric, and your model itself as an artifact.  Now let's log parameters, multiple metrics, and other artifacts including the feature importances.
 # MAGIC 
 # MAGIC First, create a function to perform this.
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> To log artifacts, we have to save them somewhere before MLflow can log them.  This code accomplishes that by using a temporary file that it then deletes.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> To log artifacts, we have to save them somewhere before MLflow can log them.  This code accomplishes that by using a temporary file that it then deletes.
 
 # COMMAND ----------
 
@@ -227,8 +216,7 @@ def log_rf(experimentID, run_name, params, X_train, X_test, y_train, y_test):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Run with new parameters.
+# MAGIC %md Run with new parameters.
 
 # COMMAND ----------
 
@@ -242,8 +230,7 @@ log_rf(experimentID, "Second Run", params, X_train, X_test, y_train, y_test)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Check the UI to see how this appears.  Take a look at the artifact to see where the plot was saved.
+# MAGIC %md Check the UI to see how this appears.  Take a look at the artifact to see where the plot was saved.
 # MAGIC 
 # MAGIC Now, run a third run.
 

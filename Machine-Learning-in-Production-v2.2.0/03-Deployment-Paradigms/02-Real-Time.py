@@ -1,15 +1,12 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Real Time Deployment
+# MAGIC %md # Real Time Deployment
 # MAGIC 
 # MAGIC While real time deployment represents a smaller share of the deployment landscape, many of these deployments represent high value tasks.  This lesson surveys real-time deployment options ranging from proofs of concept to both custom and managed solutions.
 # MAGIC 
@@ -70,8 +67,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC ## Prototyping with MLflow
+# MAGIC %md-sandbox ## Prototyping with MLflow
 # MAGIC 
 # MAGIC MLflow offers <a href="https://www.mlflow.org/docs/latest/models.html#pyfunc-deployment" target="_blank">a Flask-backed deployment server for development.</a>
 # MAGIC 
@@ -96,15 +92,14 @@ with mlflow.start_run() as run:
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC There are a few ways to send requests to the development server for testing purpose:
+# MAGIC %md There are a few ways to send requests to the development server for testing purpose:
 # MAGIC * using `click` library 
 # MAGIC * using MLflow Model Serving API
 # MAGIC * through CLI using `mlflow models serve`
 # MAGIC 
 # MAGIC In this lesson, we are going to demonstrate how to use both the `click` library and MLflow Model Serving API. 
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Models can be served in this way in other languages as well.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Models can be served in this way in other languages as well.
 
 # COMMAND ----------
 
@@ -143,8 +138,7 @@ print(p)                       # Print it's status, make sure it's runnning
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create an input for our REST input.
+# MAGIC %md Create an input for our REST input.
 
 # COMMAND ----------
 
@@ -158,8 +152,7 @@ input_json
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Perform a POST request against the endpoint.
+# MAGIC %md Perform a POST request against the endpoint.
 
 # COMMAND ----------
 
@@ -182,8 +175,7 @@ print(f"Value:  {response.text}")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Do the same in bash.
+# MAGIC %md Do the same in bash.
 
 # COMMAND ----------
 
@@ -191,8 +183,7 @@ print(f"Value:  {response.text}")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Clean up the background process.
+# MAGIC %md Clean up the background process.
 
 # COMMAND ----------
 
@@ -295,20 +286,19 @@ score_model(pd.DataFrame([0]))
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> **Remember to shut down the Model Serving Cluster to avoid incurring unexpected cost**. It does not terminate automatically! Click on `Stop` next to `Status` to stop the serving cluster.
+# MAGIC %md
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> **Remember to shut down the Model Serving Cluster to avoid incurring unexpected cost**. It does not terminate automatically! Click on `Stop` next to `Status` to stop the serving cluster.
 # MAGIC <Br>
 # MAGIC 
 # MAGIC <div><img src="http://files.training.databricks.com/images/mlflow/demo_model_hex.png" style="height: 250px; margin: 20px"/></div>
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC <img alt="Caution" title="Caution" style="vertical-align: text-bottom; position: relative; height:1.3em; top:0.0em" src="https://files.training.databricks.com/static/images/icon-warning.svg"/> **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
+# MAGIC %md <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md 
 # MAGIC ## Review
 # MAGIC **Question:** What are the best tools for real time deployment?  
 # MAGIC **Answer:** This depends largely on the desired features.  The main tools to consider are a way to containerize code and either a REST endpoint or an embedded model.  This covers the vast majority of real time deployment options.
@@ -324,7 +314,7 @@ score_model(pd.DataFrame([0]))
 # MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Lab<br>
 # MAGIC 
-# MAGIC Start the labs for this lesson, [Real Time Lab]($./Labs/02-Real-Time-Lab) 
+# MAGIC Start the labs for this lesson, [Real Time Lab]($./Labs/02-Real-Time-Lab)
 
 # COMMAND ----------
 

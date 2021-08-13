@@ -1,14 +1,12 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md 
 # MAGIC # Capstone Project: Managing the Machine Learning Lifecycle
 # MAGIC 
 # MAGIC Create a workflow that includes pre-processing logic, the optimal ML algorithm and hyperparameters, and post-processing logic.
@@ -51,13 +49,11 @@ display(airbnbDF)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC In the following cells we will walk you through the most basic pre-processing step necessary. Feel free to add additional steps afterwards to improve your model performance.
+# MAGIC %md In the following cells we will walk you through the most basic pre-processing step necessary. Feel free to add additional steps afterwards to improve your model performance.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC First, convert the `price` from a string to a float since the regression model will be predicting numerical values.
 
 # COMMAND ----------
@@ -66,8 +62,7 @@ display(airbnbDF)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Take a look at our remaining columns with strings (or numbers) and decide if you would like to keep them as features or not.
+# MAGIC %md Take a look at our remaining columns with strings (or numbers) and decide if you would like to keep them as features or not.
 # MAGIC 
 # MAGIC Remove the features you decide not to keep.
 
@@ -77,8 +72,7 @@ display(airbnbDF)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC For the string columns that you've decided to keep, pick a numerical encoding for the string columns. Don't forget to deal with the `NaN` entries in those columns first.
 
 # COMMAND ----------
@@ -87,8 +81,7 @@ display(airbnbDF)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Before we create a train test split, check that all your columns are numerical. Remember to drop the original string columns after creating numerical representations of them.
+# MAGIC %md Before we create a train test split, check that all your columns are numerical. Remember to drop the original string columns after creating numerical representations of them.
 # MAGIC 
 # MAGIC Make sure to drop the price column from the training data when doing the train test split.
 
@@ -100,15 +93,13 @@ from sklearn.model_selection import train_test_split
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Model
+# MAGIC %md ## Model
 # MAGIC 
 # MAGIC After cleaning our data, we can start creating our model!
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC Firstly, if there are still `NaN`'s in your data, you may want to impute these values instead of dropping those entries entirely. Make sure that any further processing/imputing steps after the train test split is part of a model/pipeline that can be saved.
 # MAGIC 
 # MAGIC In the following cell, create and fit a single sklearn model.
@@ -119,8 +110,7 @@ from sklearn.model_selection import train_test_split
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Pick and calculate a regression metric for evaluating your model.
+# MAGIC %md Pick and calculate a regression metric for evaluating your model.
 
 # COMMAND ----------
 
@@ -128,8 +118,7 @@ from sklearn.model_selection import train_test_split
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC Log your model on MLflow with the same metric you calculated above so we can compare all the different models you have tried! Make sure to also log any hyperparameters that you plan on tuning!
 
 # COMMAND ----------
@@ -140,14 +129,12 @@ import mlflow.sklearn
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC Change and re-run the above 3 code cells to log different models and/or models with different hyperparameters until you are satisfied with the performance of at least 1 of them.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC Look through the MLflow UI for the best model. Copy its `URI` so you can load it as a `pyfunc` model.
 
 # COMMAND ----------
@@ -157,8 +144,7 @@ import mlflow.pyfunc
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Post-processing
+# MAGIC %md ## Post-processing
 # MAGIC 
 # MAGIC Our model currently gives us the predicted price per night for each Airbnb listing. Now we would like our model to tell us what the price per person would be for each listing, assuming the number of renters is equal to the `accommodates` value. 
 
@@ -184,8 +170,7 @@ class Airbnb_Model(mlflow.pyfunc.PythonModel):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Construct and save the model to the given `final_model_path`.
+# MAGIC %md Construct and save the model to the given `final_model_path`.
 
 # COMMAND ----------
 
@@ -196,8 +181,7 @@ final_model_path =  f"{working_path}/final-model"
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Load the model in `python_function` format and apply it to our test data `X_test` to check that we are getting price per person predictions now.
+# MAGIC %md Load the model in `python_function` format and apply it to our test data `X_test` to check that we are getting price per person predictions now.
 
 # COMMAND ----------
 
@@ -205,8 +189,7 @@ final_model_path =  f"{working_path}/final-model"
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Packaging your Model
+# MAGIC %md ## Packaging your Model
 # MAGIC 
 # MAGIC Now we would like to package our completed model! 
 
@@ -228,8 +211,7 @@ prediction_path = f"{working_path}/predictions.csv"
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC First we will determine what the project script should do. Fill out the `model_predict` function to load out the trained model you just saved (at `final_model_path`) and make price per person predictions on the data at `test_data_path`. Then those predictions should be saved under `prediction_path` for the user to access later.
+# MAGIC %md First we will determine what the project script should do. Fill out the `model_predict` function to load out the trained model you just saved (at `final_model_path`) and make price per person predictions on the data at `test_data_path`. Then those predictions should be saved under `prediction_path` for the user to access later.
 # MAGIC 
 # MAGIC Run the cell to check that your function is behaving correctly and that you have predictions saved at `demo_prediction_path`.
 
@@ -263,8 +245,7 @@ print(pd.read_csv(demo_prediction_path))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Next, we will create a MLproject file and put it under our `working_dir`. Complete the parameters and command of the file.
+# MAGIC %md Next, we will create a MLproject file and put it under our `working_dir`. Complete the parameters and command of the file.
 
 # COMMAND ----------
 
@@ -288,8 +269,7 @@ print(prediction_path)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC We then create a `conda.yaml` file to list the dependencies needed to run our script.
+# MAGIC %md We then create a `conda.yaml` file to list the dependencies needed to run our script.
 # MAGIC 
 # MAGIC For simplicity, we will ensure we use the same version as we are running in this notebook.
 
@@ -319,8 +299,7 @@ print(file_contents)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now we will put the **`predict.py`** script into our project package.
+# MAGIC %md Now we will put the **`predict.py`** script into our project package.
 # MAGIC 
 # MAGIC Complete the **`.py`** file by copying and placing the **`model_predict`** function you defined above.
 
@@ -342,8 +321,7 @@ if __name__ == "__main__":
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Let's double check all the files we've created are in the `working_dir` folder. You should have at least the following 3 files:
+# MAGIC %md Let's double check all the files we've created are in the `working_dir` folder. You should have at least the following 3 files:
 # MAGIC * `MLproject`
 # MAGIC * `conda.yaml`
 # MAGIC * `predict.py`
@@ -354,8 +332,7 @@ display( dbutils.fs.ls(working_dir) )
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Under **`working_dir`** is your completely packaged project.
+# MAGIC %md Under **`working_dir`** is your completely packaged project.
 # MAGIC 
 # MAGIC Run the project to use the model saved at **`final_model_path`** to predict the price per person of each Airbnb listing in **`test_data_path`** and save those predictions under **`second_prediction_path`** (defined below).
 
@@ -369,8 +346,7 @@ mlflow.projects.run(working_path,
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Run the following cell to check that your model's predictions are there!
+# MAGIC %md Run the following cell to check that your model's predictions are there!
 
 # COMMAND ----------
 
@@ -379,8 +355,7 @@ print(pd.read_csv(second_prediction_path))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC <h2><img src="https://files.training.databricks.com/images/105/logo_spark_tiny.png"> All done!</h2>
 # MAGIC 
 # MAGIC Thank you for your participation!

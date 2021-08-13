@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Alerting
+# MAGIC %md # Alerting
 # MAGIC 
 # MAGIC Alerting allows you to announce the progress of different applications, which becomes increasingly important in automated production systems.  In this lesson, you explore basic alerting strategies using email and REST integration with tools like Slack and Microsoft Teams.
 # MAGIC 
@@ -24,8 +23,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### The Alerting Landscape
+# MAGIC %md ### The Alerting Landscape
 # MAGIC 
 # MAGIC There are a number of different alerting tools with various levels of sophistication.<br><br>
 # MAGIC * PagerDuty 
@@ -43,8 +41,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Setting Basic Alerts
+# MAGIC %md ### Setting Basic Alerts
 # MAGIC 
 # MAGIC Create a basic alert using a Slack or Microsoft Teams endpoint.
 
@@ -78,8 +75,7 @@ webhookMLProductionAPIDemo = "" # FILL_IN
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Send a test message and check Slack.
+# MAGIC %md Send a test message and check Slack.
 
 # COMMAND ----------
 
@@ -103,8 +99,7 @@ postToAPIEndpoint("This is my post from Python", webhookMLProductionAPIDemo)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Do the same thing using Scala.  This involves a bit more boilerplate and a different library.
+# MAGIC %md Do the same thing using Scala.  This involves a bit more boilerplate and a different library.
 
 # COMMAND ----------
 
@@ -143,8 +138,7 @@ postToAPIEndpoint("This is my post from Python", webhookMLProductionAPIDemo)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now you can easily integrate custom logic back to Slack.
+# MAGIC %md Now you can easily integrate custom logic back to Slack.
 
 # COMMAND ----------
 
@@ -301,8 +295,7 @@ postToAPIEndpoint(webhookMLProductionAPIDemo, "The newly trained model MSE is no
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Register this Singleton as a `SparkListener`
+# MAGIC %md Register this Singleton as a `SparkListener`
 
 # COMMAND ----------
 
@@ -311,8 +304,7 @@ postToAPIEndpoint(webhookMLProductionAPIDemo, "The newly trained model MSE is no
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now run a basic DataFrame operation and observe the results in Slack.
+# MAGIC %md Now run a basic DataFrame operation and observe the results in Slack.
 
 # COMMAND ----------
 
@@ -325,8 +317,7 @@ postToAPIEndpoint(webhookMLProductionAPIDemo, "The newly trained model MSE is no
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC This will also work in Python.
+# MAGIC %md This will also work in Python.
 
 # COMMAND ----------
 
@@ -339,13 +330,11 @@ postToAPIEndpoint(webhookMLProductionAPIDemo, "The newly trained model MSE is no
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC When this is done, remove the listener.
+# MAGIC %md When this is done, remove the listener.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Review
+# MAGIC %md ## Review
 # MAGIC **Question:** What are the most common alerting tools?  
 # MAGIC **Answer:** PagerDuty tends to be the tool most used in production environments.  SMTP servers emailing alerts are also popular, as is Twilio for text message alerts.  Slack webhooks and bots can easily be written as well.
 # MAGIC 
@@ -354,15 +343,13 @@ postToAPIEndpoint(webhookMLProductionAPIDemo, "The newly trained model MSE is no
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Steps
 # MAGIC 
 # MAGIC Start the next lesson, [Pipeline Example]($../05-Pipeline-Example/00-Orchestrate)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Additional Topics & Resources
+# MAGIC %md ## Additional Topics & Resources
 # MAGIC 
 # MAGIC **Q:** Where can I find the alerting tools mentioned in this lesson?  
 # MAGIC **A:** Check out <a href="https://www.twilio.com" target="_blank">Twilio</a> and <a href="https://www.pagerduty.com" target="_blank">PagerDuty</a>.

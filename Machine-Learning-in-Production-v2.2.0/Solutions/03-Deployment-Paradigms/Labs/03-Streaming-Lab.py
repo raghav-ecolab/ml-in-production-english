@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Lab: Post-Processing on a Data Stream
+# MAGIC %md # Lab: Post-Processing on a Data Stream
 # MAGIC Machine learning predictions often require custom pre-processing or post-processing logic beyond what a serialized, trained model allows.  This lab uses the `mlflow` custom Python functionality to apply custom prediction logic across a stream of data.
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lab you:<br>
@@ -24,8 +23,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Creating Data Stream and Training Model
+# MAGIC %md ## Creating Data Stream and Training Model
 # MAGIC 
 # MAGIC Create a data stream and train a random forest model.  First, run the following cell to define the scmea and set the shuffle partitions.
 
@@ -62,8 +60,7 @@ spark.conf.set("spark.sql.shuffle.partitions", "8")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create the stream using the schema defined above.
+# MAGIC %md Create the stream using the schema defined above.
 
 # COMMAND ----------
 
@@ -77,8 +74,7 @@ streamingData = (spark
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC And to help us manage our streams better, we will make use of **`untilStreamIsReady()`**, **`stopAllStreams()`** and define the following, **`myStreamName`**:
+# MAGIC %md And to help us manage our streams better, we will make use of **`untilStreamIsReady()`**, **`stopAllStreams()`** and define the following, **`myStreamName`**:
 
 # COMMAND ----------
 
@@ -86,8 +82,7 @@ myStreamName = "lesson03_pi"
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Run the following cell to import the static airbnb data and train a random forest model `rf` for making price predictions.
+# MAGIC %md Run the following cell to import the static airbnb data and train a random forest model `rf` for making price predictions.
 
 # COMMAND ----------
 
@@ -169,8 +164,7 @@ class streaming_model(PythonModel):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Run the following cell to perform the following:<br><br>
+# MAGIC %md Run the following cell to perform the following:<br><br>
 # MAGIC 
 # MAGIC 1. Create a path where you will save the model
 # MAGIC 2. Instantiate the class using the trained random forest model
@@ -205,8 +199,7 @@ loaded_model.predict(X_test)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Apply Post-Processing Step to Data Stream
+# MAGIC %md ## Apply Post-Processing Step to Data Stream
 # MAGIC 
 # MAGIC Finally, after confirming that your model works properly, apply it in parallel on all rows of `streamingData`.
 
@@ -239,14 +232,12 @@ for stream in spark.streams.active:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC ## Write DataFrame to Delta
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now continuously write `predictionsDF` to a parquet file as they get created by the model.
+# MAGIC %md Now continuously write `predictionsDF` to a parquet file as they get created by the model.
 
 # COMMAND ----------
 
@@ -273,8 +264,7 @@ sleep(10)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Check that your predictions are indeed being written out to `writePath`.
+# MAGIC %md Check that your predictions are indeed being written out to `writePath`.
 
 # COMMAND ----------
 
@@ -288,8 +278,7 @@ except AnalysisException:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Run the following cell to terminate all active streams.
+# MAGIC %md Run the following cell to terminate all active streams.
 
 # COMMAND ----------
 
@@ -300,7 +289,6 @@ for stream in spark.streams.active:
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Lesson<br>
 # MAGIC 
 # MAGIC Start the next lesson, [CI/CD]($../../04-Production/01-CICD)

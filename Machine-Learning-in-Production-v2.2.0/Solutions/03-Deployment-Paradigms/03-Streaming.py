@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Streaming Deployment
+# MAGIC %md # Streaming Deployment
 # MAGIC 
 # MAGIC After batch deployment, continuous model inference using a technology like Spark's Structured Streaming represents the second most common deployment option.  This lesson introduces how to perform inference on a stream of incoming data.
 # MAGIC 
@@ -24,8 +23,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC Knowledge of Structured Streams and how to work with Structured Streams is a prerequisite for this lesson.
 
 # COMMAND ----------
@@ -80,8 +78,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Import the dataset in Spark.
+# MAGIC %md Import the dataset in Spark.
 
 # COMMAND ----------
 
@@ -91,8 +88,7 @@ display(airbnbDF)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a schema for the data stream.  Data streams need a schema defined in advance.
+# MAGIC %md Create a schema for the data stream.  Data streams need a schema defined in advance.
 
 # COMMAND ----------
 
@@ -125,8 +121,7 @@ schema = (StructType()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Check to make sure the schemas match.
+# MAGIC %md Check to make sure the schemas match.
 
 # COMMAND ----------
 
@@ -134,8 +129,7 @@ schema == airbnbDF.schema
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Check the number of shuffle partitions.
+# MAGIC %md Check the number of shuffle partitions.
 
 # COMMAND ----------
 
@@ -143,8 +137,7 @@ spark.conf.get("spark.sql.shuffle.partitions")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Change this to 8.
+# MAGIC %md Change this to 8.
 
 # COMMAND ----------
 
@@ -152,8 +145,7 @@ spark.conf.set("spark.sql.shuffle.partitions", "8")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a data stream using `readStream` and `maxFilesPerTrigger`.
+# MAGIC %md Create a data stream using `readStream` and `maxFilesPerTrigger`.
 
 # COMMAND ----------
 
@@ -166,15 +158,13 @@ streamingData = (spark
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Apply an `sklearn` Model on the Stream
+# MAGIC %md ### Apply an `sklearn` Model on the Stream
 # MAGIC 
 # MAGIC Using the DataFrame API, Spark allows us to interact with a stream of incoming data in much the same way that we did with a batch of data.  
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Import a `spark_udf`
+# MAGIC %md Import a `spark_udf`
 
 # COMMAND ----------
 
@@ -199,8 +189,7 @@ with mlflow.start_run(run_name="Final RF Model") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a UDF from the model you just trained in `sklearn` so that you can apply it in Spark.
+# MAGIC %md Create a UDF from the model you just trained in `sklearn` so that you can apply it in Spark.
 
 # COMMAND ----------
 
@@ -210,8 +199,7 @@ pyfunc_udf = mlflow.pyfunc.spark_udf(spark, URI + "/random-forest-model")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Before working with our stream, we need to establish a stream name so that we can have better control over it.
+# MAGIC %md Before working with our stream, we need to establish a stream name so that we can have better control over it.
 
 # COMMAND ----------
 
@@ -219,8 +207,7 @@ myStreamName = "lesson03_stream"
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Next create a utility method that blocks until the stream is actually "ready" for processing.
+# MAGIC %md Next create a utility method that blocks until the stream is actually "ready" for processing.
 
 # COMMAND ----------
 
@@ -240,8 +227,7 @@ def until_stream_is_ready(name, progressions=3):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now we can transform the stream with a prediction and preview it with the **`display()`** command.
+# MAGIC %md Now we can transform the stream with a prediction and preview it with the **`display()`** command.
 
 # COMMAND ----------
 
@@ -292,8 +278,7 @@ until_stream_is_ready(myStreamName)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Take a look at the underlying file.
+# MAGIC %md Take a look at the underlying file.
 # MAGIC 
 # MAGIC Refresh this a few times to note the changes.
 
@@ -313,16 +298,14 @@ for stream in spark.streams.active:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Things to note:<br><br>
+# MAGIC %md Things to note:<br><br>
 # MAGIC 
 # MAGIC * For batch processing, you can trigger a stream every 24 hours to maintain state.
 # MAGIC * You can easily combine historic and new data in the same stream.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Review
+# MAGIC %md ## Review
 # MAGIC 
 # MAGIC **Question:** What are commonly approached as data streams?  
 # MAGIC **Answer:** Apache Kafka and cloud-managed solutions like AWS Kinesis and Azure Event Hubs are common data streams.  Additionally, it's common to monitor a directory for incoming files.  When a new file appears, it is brought into the stream for processing.
@@ -335,15 +318,13 @@ for stream in spark.streams.active:
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Lab<br>
 # MAGIC 
 # MAGIC Start the labs for this lesson, [Streaming Lab]($./Labs/03-Streaming-Lab) 
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Additional Topics & Resources
+# MAGIC %md ## Additional Topics & Resources
 # MAGIC 
 # MAGIC **Q:** Where can I find out more information on streaming ETL jobs?  
 # MAGIC **A:** Check out the Databricks blog post <a href="https://databricks.com/blog/2017/01/19/real-time-streaming-etl-structured-streaming-apache-spark-2-1.html" target="_blank">Real-time Streaming ETL with Structured Streaming in Apache Spark 2.1</a>

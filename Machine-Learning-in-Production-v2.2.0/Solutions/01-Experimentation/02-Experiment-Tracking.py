@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Experiment Tracking
+# MAGIC %md # Experiment Tracking
 # MAGIC 
 # MAGIC The machine learning life cycle involves training multiple algorithms using different hyperparameters and libraries, all with different performance results and trained models.  This lesson explores tracking those experiments to organize the machine learning life cycle.
 # MAGIC 
@@ -25,8 +24,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC Over the course of the machine learning life cycle...<br><br>
 # MAGIC 
 # MAGIC * Data scientists test many different models
@@ -44,8 +42,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Tracking Experiments with MLflow
+# MAGIC %md ### Tracking Experiments with MLflow
 # MAGIC 
 # MAGIC MLflow Tracking is...<br><br>
 # MAGIC 
@@ -80,8 +77,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Import a dataset of Airbnb listings and featurize the data.  We'll use this to train a model.
+# MAGIC %md Import a dataset of Airbnb listings and featurize the data.  We'll use this to train a model.
 
 # COMMAND ----------
 
@@ -91,8 +87,7 @@ df = pd.read_csv("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.cs
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Perform a train/test split.
+# MAGIC %md Perform a train/test split.
 
 # COMMAND ----------
 
@@ -109,8 +104,7 @@ X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), 
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Log a basic experiment by doing the following:<br><br>
+# MAGIC %md Log a basic experiment by doing the following:<br><br>
 # MAGIC 
 # MAGIC 1. Start an experiment using `mlflow.start_run()` and passing it a name for the run
 # MAGIC 2. Train your model
@@ -227,8 +221,7 @@ def log_rf(experimentID, run_name, params, X_train, X_test, y_train, y_test):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Run with new parameters.
+# MAGIC %md Run with new parameters.
 
 # COMMAND ----------
 
@@ -242,8 +235,7 @@ log_rf(experimentID, "Second Run", params, X_train, X_test, y_train, y_test)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Check the UI to see how this appears.  Take a look at the artifact to see where the plot was saved.
+# MAGIC %md Check the UI to see how this appears.  Take a look at the artifact to see where the plot was saved.
 # MAGIC 
 # MAGIC Now, run a third run.
 
@@ -274,8 +266,7 @@ client = MlflowClient()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now list all the runs for your experiment using `.list_run_infos()`, which takes your `experiment_id` as a parameter.
+# MAGIC %md Now list all the runs for your experiment using `.list_run_infos()`, which takes your `experiment_id` as a parameter.
 
 # COMMAND ----------
 
@@ -283,8 +274,7 @@ display(client.list_run_infos(experimentID))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC We can list the artifacts for any run by using the `MLflowClient().list_artifacts(run_id)` method:
+# MAGIC %md We can list the artifacts for any run by using the `MLflowClient().list_artifacts(run_id)` method:
 
 # COMMAND ----------
 
@@ -292,8 +282,7 @@ client.list_artifacts(runID)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Pull out a few fields and create a spark DataFrame with it.
+# MAGIC %md Pull out a few fields and create a spark DataFrame with it.
 
 # COMMAND ----------
 
@@ -303,8 +292,7 @@ display(runs)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Pull the last run and take a look at the associated artifacts.
+# MAGIC %md Pull the last run and take a look at the associated artifacts.
 
 # COMMAND ----------
 
@@ -316,8 +304,7 @@ client.list_artifacts(run_rf.run_id)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Return the evaluation metrics for the last run.
+# MAGIC %md Return the evaluation metrics for the last run.
 
 # COMMAND ----------
 
@@ -325,8 +312,7 @@ client.get_run(run_rf.run_id).data.metrics
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Reload the model and take a look at the feature importance.
+# MAGIC %md Reload the model and take a look at the feature importance.
 
 # COMMAND ----------
 
@@ -337,8 +323,7 @@ model.feature_importances_
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Review
+# MAGIC %md ## Review
 # MAGIC **Question:** What can MLflow Tracking log?
 # MAGIC **Answer:** MLflow can log the following:
 # MAGIC - **Parameters:** inputs to a model
@@ -357,15 +342,13 @@ model.feature_importances_
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Steps
 # MAGIC 
 # MAGIC Start the labs for this lesson, [Experiment Tracking Lab]($./Labs/02-Experiment-Tracking-Lab)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Additional Topics & Resources
+# MAGIC %md ## Additional Topics & Resources
 # MAGIC 
 # MAGIC **Q:** What is MLflow at a high level?
 # MAGIC **A:** <a href="https://databricks.com/session/accelerating-the-machine-learning-lifecycle-with-mlflow-1-0" target="_blank">Listen to Spark and MLflow creator Matei Zaharia's talk at Spark Summit in 2019.</a>

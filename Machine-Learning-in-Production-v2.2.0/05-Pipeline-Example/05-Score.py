@@ -1,14 +1,12 @@
 # Databricks notebook source
 # MAGIC 
-# MAGIC %md
-# MAGIC ### Score
+# MAGIC %md ### Score
 # MAGIC 
 # MAGIC This notebook is called from Orchestrate to score a new dataset with the current production model's predictions, and then store it in the given path. 
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Let's import what we need and load the data passed from Orchestrate.
+# MAGIC %md Let's import what we need and load the data passed from Orchestrate.
 
 # COMMAND ----------
 
@@ -28,8 +26,7 @@ registry_model_name = dbutils.widgets.get("registry_model_name")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Next, let's get the current production model and load the dataset.
+# MAGIC %md Next, let's get the current production model and load the dataset.
 
 # COMMAND ----------
 
@@ -41,8 +38,7 @@ df = spark.read.format('delta').load(data_to_score)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Finally, let's save the predictions to a new column and store the new dataframe in the new store path.
+# MAGIC %md Finally, let's save the predictions to a new column and store the new dataframe in the new store path.
 
 # COMMAND ----------
 

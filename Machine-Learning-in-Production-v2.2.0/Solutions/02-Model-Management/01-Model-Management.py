@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Model Management
+# MAGIC %md # Model Management
 # MAGIC 
 # MAGIC An MLflow model is a standard format for packaging models that can be used on a variety of downstream tools.  This lesson provides a generalizable way of handling machine learning models created in and deployed to a variety of environments.
 # MAGIC 
@@ -79,8 +78,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC To demonstrate the power of model flavors, let's first create two models using different frameworks.
+# MAGIC %md To demonstrate the power of model flavors, let's first create two models using different frameworks.
 # MAGIC 
 # MAGIC Import the data.
 
@@ -98,8 +96,7 @@ display(df)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Train a random forest model.
+# MAGIC %md Train a random forest model.
 
 # COMMAND ----------
 
@@ -115,8 +112,7 @@ rf_mse
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Train a neural network. Also, enable auto-logging. The autologger has produced a run corresponding to our single training pass. It contains the layer count, optimizer name, learning rate and epsilon value as parameters; loss and finally, the model checkpoint as an artifact.
+# MAGIC %md Train a neural network. Also, enable auto-logging. The autologger has produced a run corresponding to our single training pass. It contains the layer count, optimizer name, learning rate and epsilon value as parameters; loss and finally, the model checkpoint as an artifact.
 
 # COMMAND ----------
 
@@ -194,8 +190,7 @@ with mlflow.start_run(run_name="NN Model") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now we can use both of these models in the same way, even though they were trained by different packages.
+# MAGIC %md Now we can use both of these models in the same way, even though they were trained by different packages.
 
 # COMMAND ----------
 
@@ -211,8 +206,7 @@ type(nn_pyfunc_model)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Both will implement a predict method.  The `sklearn` model is still of type `sklearn` because this package natively implements this method.
+# MAGIC %md Both will implement a predict method.  The `sklearn` model is still of type `sklearn` because this package natively implements this method.
 
 # COMMAND ----------
 
@@ -234,8 +228,7 @@ nn_pyfunc_model.predict(X_test)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC To demonstrate how `pyfunc` works, create a basic class that adds `n` to the input values.
+# MAGIC %md To demonstrate how `pyfunc` works, create a basic class that adds `n` to the input values.
 # MAGIC 
 # MAGIC Define a model class.
 
@@ -251,8 +244,7 @@ class AddN(mlflow.pyfunc.PythonModel):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Construct and save the model.
+# MAGIC %md Construct and save the model.
 
 # COMMAND ----------
 
@@ -271,8 +263,7 @@ mlflow.pyfunc.save_model(path=model_path, python_model=add5_model)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Load the model in `python_function` format.
+# MAGIC %md Load the model in `python_function` format.
 
 # COMMAND ----------
 
@@ -280,8 +271,7 @@ loaded_model = mlflow.pyfunc.load_model(model_path)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Evaluate the model.
+# MAGIC %md Evaluate the model.
 
 # COMMAND ----------
 
@@ -296,8 +286,7 @@ model_output
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Review
+# MAGIC %md ## Review
 # MAGIC **Question:** How do MLflow projects differ from models?
 # MAGIC **Answer:** The focus of MLflow projects is reproducibility of runs and packaging of code.  MLflow models focuses on various deployment environments.
 # MAGIC 
@@ -309,15 +298,13 @@ model_output
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Steps
 # MAGIC 
 # MAGIC Start the labs for this lesson, [Model Management Lab]($./Labs/01-Model-Management-Lab)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Additional Topics & Resources
+# MAGIC %md ## Additional Topics & Resources
 # MAGIC 
 # MAGIC **Q:** Where can I find out more information on MLflow Models?
 # MAGIC **A:** Check out <a href="https://www.mlflow.org/docs/latest/models.html" target="_blank">the MLflow documentation</a>

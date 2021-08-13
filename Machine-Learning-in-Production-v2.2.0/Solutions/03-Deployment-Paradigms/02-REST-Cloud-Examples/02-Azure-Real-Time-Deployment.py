@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Real Time Deployment
+# MAGIC %md # Real Time Deployment
 # MAGIC 
 # MAGIC While real time deployment represents a smaller share of the deployment landscape, many of these deployments represent high value tasks.  This lesson surveys real time deployment options ranging from proofs of concept to both custom and managed solutions with a focus on RESTful services.
 # MAGIC 
@@ -32,8 +31,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### The Why and How of Real Time Deployment
+# MAGIC %md ### The Why and How of Real Time Deployment
 # MAGIC 
 # MAGIC Real time inference is...<br><br>
 # MAGIC 
@@ -51,8 +49,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC There are a number of ways of deploying models...<br><br>
+# MAGIC %md There are a number of ways of deploying models...<br><br>
 # MAGIC 
 # MAGIC * Many use REST
 # MAGIC * For basic prototypes, MLflow can act as a development deployment server
@@ -124,8 +121,7 @@ subscription_id = ""
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now create a new workspace.  This uses a preexisting workspace if it already exists.
+# MAGIC %md Now create a new workspace.  This uses a preexisting workspace if it already exists.
 
 # COMMAND ----------
 
@@ -170,8 +166,7 @@ subscription_id = ""
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC The [Azure Container Instances (ACI) platform](https://docs.microsoft.com/en-us/azure/container-instances/) is the recommended environment for staging and developmental model deployments.
+# MAGIC %md The [Azure Container Instances (ACI) platform](https://docs.microsoft.com/en-us/azure/container-instances/) is the recommended environment for staging and developmental model deployments.
 # MAGIC 
 # MAGIC Using the Azure ML SDK, deploy the Container Image for the trained MLflow model to ACI.  This involves creating a webservice deployment.
 
@@ -195,8 +190,7 @@ subscription_id = ""
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Use the `Webservice` constructor to create an object associated with the Workspace.
+# MAGIC %md Use the `Webservice` constructor to create an object associated with the Workspace.
 
 # COMMAND ----------
 
@@ -206,8 +200,7 @@ subscription_id = ""
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a sample query input.
+# MAGIC %md Create a sample query input.
 
 # COMMAND ----------
 
@@ -221,8 +214,7 @@ query_input
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a wrapper function to make queries to a URI.
+# MAGIC %md Create a wrapper function to make queries to a URI.
 
 # COMMAND ----------
 
@@ -244,8 +236,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Query the endpoint using the scoring URI.
+# MAGIC %md Query the endpoint using the scoring URI.
 
 # COMMAND ----------
 
@@ -253,8 +244,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Production Deployment to Azure ML using Azure Kubernetes Services (AKS)
+# MAGIC %md ### Production Deployment to Azure ML using Azure Kubernetes Services (AKS)
 # MAGIC 
 # MAGIC [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service/) is the preferred option for production model deployment. Choose one of the following:<br><br>
 # MAGIC 
@@ -263,8 +253,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC #### Option 1: Create a New AKS Cluster
+# MAGIC %md #### Option 1: Create a New AKS Cluster
 # MAGIC 
 # MAGIC If you do not have an active AKS cluster for model deployment, create one using the Azure ML SDK.
 
@@ -290,8 +279,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC #### Option 2: Use a Pre-existing Cluster
+# MAGIC %md #### Option 2: Use a Pre-existing Cluster
 # MAGIC 
 # MAGIC If you already have an active AKS cluster running, you can add it to your Workspace using the Azure ML SDK.
 
@@ -307,8 +295,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now that you have defined an AKS cluster that is up and running, confirm that it is in `Succeeded` status.
+# MAGIC %md Now that you have defined an AKS cluster that is up and running, confirm that it is in `Succeeded` status.
 
 # COMMAND ----------
 
@@ -316,8 +303,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now deploy the model image to it.
+# MAGIC %md Now deploy the model image to it.
 
 # COMMAND ----------
 
@@ -341,8 +327,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC You can also get the webservice this way when it is already up and running.
+# MAGIC %md You can also get the webservice this way when it is already up and running.
 
 # COMMAND ----------
 
@@ -352,8 +337,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Query the AKS webservice's scoring endpoint by sending an HTTP POST request that includes the input vector. The production AKS deployment may require an authorization token (service key) for queries. Include this key in the HTTP request header.  We'll use the `query_endpoint()` function we defined above.
+# MAGIC %md Query the AKS webservice's scoring endpoint by sending an HTTP POST request that includes the input vector. The production AKS deployment may require an authorization token (service key) for queries. Include this key in the HTTP request header.  We'll use the `query_endpoint()` function we defined above.
 # MAGIC 
 # MAGIC Pull the endpoint URI and key.
 
@@ -364,8 +348,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a query input.
+# MAGIC %md Create a query input.
 
 # COMMAND ----------
 
@@ -383,8 +366,7 @@ query_input
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Query the endpoint.
+# MAGIC %md Query the endpoint.
 
 # COMMAND ----------
 
@@ -397,8 +379,7 @@ query_input
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Review
+# MAGIC %md ## Review
 # MAGIC **Question:** What are the best tools for real time deployment?  
 # MAGIC **Answer:** This depends largely on the desired features.  The main tools to consider are a way to containerize code and either a REST endpoint or an embedded model.  This covers the vast majority of real time deployment options.
 # MAGIC 
@@ -410,8 +391,7 @@ query_input
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Additional Topics & Resources
+# MAGIC %md ## Additional Topics & Resources
 # MAGIC 
 # MAGIC **Q:** Where can I find out more information on MLflow's `pyfunc`?  
 # MAGIC **A:** Check out <a href="https://www.mlflow.org/docs/latest/models.html#pyfunc-deployment" target="_blank">the MLflow documentation</a>

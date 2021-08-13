@@ -1,15 +1,12 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Model Management
+# MAGIC %md # Model Management
 # MAGIC 
 # MAGIC An MLflow model is a standard format for packaging models that can be used on a variety of downstream tools.  This lesson provides a generalizable way of handling machine learning models created in and deployed to a variety of environments.
 # MAGIC 
@@ -59,8 +56,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC ### Model Flavors
+# MAGIC %md ### Model Flavors
 # MAGIC 
 # MAGIC Flavors offer a way of saving models in a way that's agnostic to the training development, making it significantly easier to be used in various deployment options.  Some of the most popular built-in flavors include the following:<br><br>
 # MAGIC 
@@ -79,8 +75,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC To demonstrate the power of model flavors, let's first create two models using different frameworks.
+# MAGIC %md To demonstrate the power of model flavors, let's first create two models using different frameworks.
 # MAGIC 
 # MAGIC Import the data.
 
@@ -98,8 +93,7 @@ display(df)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Train a random forest model.
+# MAGIC %md Train a random forest model.
 
 # COMMAND ----------
 
@@ -115,8 +109,7 @@ rf_mse
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Train a neural network. Also, enable auto-logging. The autologger has produced a run corresponding to our single training pass. It contains the layer count, optimizer name, learning rate and epsilon value as parameters; loss and finally, the model checkpoint as an artifact.
+# MAGIC %md Train a neural network. Also, enable auto-logging. The autologger has produced a run corresponding to our single training pass. It contains the layer count, optimizer name, learning rate and epsilon value as parameters; loss and finally, the model checkpoint as an artifact.
 
 # COMMAND ----------
 
@@ -148,14 +141,13 @@ nn_mse
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC Now log the two models. Make sure to add a [model signature](https://mlflow.org/docs/latest/models.html#model-signature) with the `infer_signature` function. This will allow you to easily view which parameters were factored into the model, and which column was used as the output.
+# MAGIC %md-sandbox Now log the two models. Make sure to add a [model signature](https://mlflow.org/docs/latest/models.html#model-signature) with the `infer_signature` function. This will allow you to easily view which parameters were factored into the model, and which column was used as the output.
 # MAGIC 
 # MAGIC <div><img src="http://files.training.databricks.com/images/mlflow/mlmodel.png" style="height: 250px; margin: 20px"/></div>
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
+# MAGIC %md
 # MAGIC You can also include `input_example` in `mlflow.sklearn.log_model` so that you can click on `show example` for MLflow Model Serving. You can read more about `input_example` [here](https://mlflow.org/docs/latest/models.html#how-to-log-model-with-example) and MLflow Model Serving [here](https://docs.databricks.com/applications/mlflow/model-serving.html).
 # MAGIC <br>
 # MAGIC <br>
@@ -194,8 +186,7 @@ with mlflow.start_run(run_name="NN Model") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now we can use both of these models in the same way, even though they were trained by different packages.
+# MAGIC %md Now we can use both of these models in the same way, even though they were trained by different packages.
 
 # COMMAND ----------
 
@@ -211,8 +202,7 @@ type(nn_pyfunc_model)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Both will implement a predict method.  The `sklearn` model is still of type `sklearn` because this package natively implements this method.
+# MAGIC %md Both will implement a predict method.  The `sklearn` model is still of type `sklearn` because this package natively implements this method.
 
 # COMMAND ----------
 
@@ -224,18 +214,16 @@ nn_pyfunc_model.predict(X_test)
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC ### Pre and Post Processing Code using `pyfunc`
+# MAGIC %md ### Pre and Post Processing Code using `pyfunc`
 # MAGIC 
 # MAGIC A `pyfunc` is a generic python model that can define any model, regardless of the libraries used to train it.  As such, it's defined as a directory structure with all of the dependencies.  It is then "just an object" with a predict method.  Since it makes very few assumptions, it can be deployed using MLflow, SageMaker, a Spark UDF or in any other environment.
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Check out <a href="https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#pyfunc-create-custom" target="_blank">the `pyfunc` documentation for details</a><br>
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Check out <a href="https://github.com/mlflow/mlflow/blob/master/docs/source/models.rst#example-saving-an-xgboost-model-in-mlflow-format" target="_blank">this README for generic example code and integration with `XGBoost`</a>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#pyfunc-create-custom" target="_blank">the `pyfunc` documentation for details</a><br>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://github.com/mlflow/mlflow/blob/master/docs/source/models.rst#example-saving-an-xgboost-model-in-mlflow-format" target="_blank">this README for generic example code and integration with `XGBoost`</a>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC To demonstrate how `pyfunc` works, create a basic class that adds `n` to the input values.
+# MAGIC %md To demonstrate how `pyfunc` works, create a basic class that adds `n` to the input values.
 # MAGIC 
 # MAGIC Define a model class.
 
@@ -251,8 +239,7 @@ class AddN(mlflow.pyfunc.PythonModel):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Construct and save the model.
+# MAGIC %md Construct and save the model.
 
 # COMMAND ----------
 
@@ -271,8 +258,7 @@ mlflow.pyfunc.save_model(path=model_path, python_model=add5_model)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Load the model in `python_function` format.
+# MAGIC %md Load the model in `python_function` format.
 
 # COMMAND ----------
 
@@ -280,8 +266,7 @@ loaded_model = mlflow.pyfunc.load_model(model_path)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Evaluate the model.
+# MAGIC %md Evaluate the model.
 
 # COMMAND ----------
 

@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Pipeline Example
+# MAGIC %md # Pipeline Example
 # MAGIC 
 # MAGIC Let's try putting what we have learned into a simple example pipeline! We will go through and set up a system of notebooks to deploy a model into production and run drift monitoring techniques. 
 # MAGIC 
@@ -27,8 +26,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC We cannot pass raw data in between notebooks because it is too large. Instead, we will store the data we want at certain paths and then pass the path to the notebook we call instead.
+# MAGIC %md We cannot pass raw data in between notebooks because it is too large. Instead, we will store the data we want at certain paths and then pass the path to the notebook we call instead.
 # MAGIC 
 # MAGIC Run the cell below to generate the following variables we will use in this demo:
 # MAGIC 
@@ -43,8 +41,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Data Validation
+# MAGIC %md ### Data Validation
 # MAGIC 
 # MAGIC The first step will be to validate the incoming data before we pass it to the rest of the pipeline. 
 # MAGIC 
@@ -61,8 +58,7 @@ result
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Featurize
+# MAGIC %md ### Featurize
 # MAGIC 
 # MAGIC In this example, we will simply be String Encoding the categorical features and creating our feature vectors.
 # MAGIC 
@@ -76,8 +72,7 @@ dbutils.fs.mkdirs(data_featurized_path)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now run the featurize notebook. After running this we will have a featurized dataset in the `data_featurized_path` ready for training.
+# MAGIC %md Now run the featurize notebook. After running this we will have a featurized dataset in the `data_featurized_path` ready for training.
 
 # COMMAND ----------
 
@@ -89,8 +84,7 @@ dbutils.notebook.run("./02-Featurize", 0, params)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Train
+# MAGIC %md ### Train
 # MAGIC 
 # MAGIC For this notebook, we will pass in the path to the featurized data we want to train on, an experiment path for MLflow, and a registry model name.
 # MAGIC 
@@ -112,13 +106,11 @@ dbutils.notebook.run("./03-Train", 0, params)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC If you look at the MLflow model registry, you can see our model in Staging.
+# MAGIC %md If you look at the MLflow model registry, you can see our model in Staging.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Model Validation
+# MAGIC %md ### Model Validation
 # MAGIC 
 # MAGIC This notebook will run some basic checks to make sure it is working well, and then it will push the model into production. In this example, we will make sure the model signature is as expected and that we can successfully generate predictions with the model. 
 
@@ -132,13 +124,11 @@ dbutils.notebook.run("./04-Model-Validate", 0, params)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC If you look at the MLflow model registry, our model is now in Production.
+# MAGIC %md If you look at the MLflow model registry, our model is now in Production.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Score
+# MAGIC %md ### Score
 # MAGIC 
 # MAGIC Now we want to score on unseen data.
 
@@ -157,8 +147,7 @@ dbutils.notebook.run('./05-Score', 0, params)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now we can see our scored featurized dataset with predictions!
+# MAGIC %md Now we can see our scored featurized dataset with predictions!
 
 # COMMAND ----------
 
@@ -166,8 +155,7 @@ display(spark.read.format("delta").load(store_scored_path))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Drift Monitor
+# MAGIC %md ### Drift Monitor
 # MAGIC 
 # MAGIC Now that we have a current production model in the model registry, we would be concerned about the model going stale over time. We will have to be careful to monitor for drift in future datasets. 
 # MAGIC 
@@ -188,8 +176,7 @@ dbutils.notebook.run("./06-Monitor", 0, params)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Click on the Notebook job to see the results of the Drift Monitoring!
+# MAGIC %md Click on the Notebook job to see the results of the Drift Monitoring!
 
 # COMMAND ----------
 

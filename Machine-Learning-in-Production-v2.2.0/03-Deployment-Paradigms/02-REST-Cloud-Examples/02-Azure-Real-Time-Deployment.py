@@ -1,15 +1,12 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Real Time Deployment
+# MAGIC %md # Real Time Deployment
 # MAGIC 
 # MAGIC While real time deployment represents a smaller share of the deployment landscape, many of these deployments represent high value tasks.  This lesson surveys real time deployment options ranging from proofs of concept to both custom and managed solutions with a focus on RESTful services.
 # MAGIC 
@@ -74,12 +71,11 @@
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC ##Azure ML for dev deployment using Azure Container Instances (ACI)
+# MAGIC %md ##Azure ML for dev deployment using Azure Container Instances (ACI)
 # MAGIC 
 # MAGIC Let's create a Sklearn random forest model for the airbnb data we have been working with.
 # MAGIC 
-# MAGIC <img alt="Caution" title="Caution" style="vertical-align: text-bottom; position: relative; height:1.3em; top:0.0em" src="https://files.training.databricks.com/static/images/icon-warning.svg"/> **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
 
 # COMMAND ----------
 
@@ -109,11 +105,10 @@ model_uri = f"runs:/{run.info.run_id}/{modelPath}"
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC Before models can be deployed to Azure ML, you must create or obtain an Azure ML Workspace. The `azureml.core.Workspace.create()` function will load a workspace of a specified name or create one if it does not already exist. For more information about creating an Azure ML Workspace, see the [Azure ML Workspace management documentation](https://docs.microsoft.com/en-us/azure/machine-learning/service/how-to-manage-workspace).
+# MAGIC %md Before models can be deployed to Azure ML, you must create or obtain an Azure ML Workspace. The `azureml.core.Workspace.create()` function will load a workspace of a specified name or create one if it does not already exist. For more information about creating an Azure ML Workspace, see the [Azure ML Workspace management documentation](https://docs.microsoft.com/en-us/azure/machine-learning/service/how-to-manage-workspace).
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Provide your own subscription ID and resource group in the cell below.<br>
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Follow the instructions that will be printed out when the cell is run to authenticate yourself.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Provide your own subscription ID and resource group in the cell below.<br>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Follow the instructions that will be printed out when the cell is run to authenticate yourself.
 
 # COMMAND ----------
 
@@ -124,8 +119,7 @@ subscription_id = ""
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now create a new workspace.  This uses a preexisting workspace if it already exists.
+# MAGIC %md Now create a new workspace.  This uses a preexisting workspace if it already exists.
 
 # COMMAND ----------
 
@@ -146,10 +140,10 @@ subscription_id = ""
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
+# MAGIC %md 
 # MAGIC Use the `mlflow.azuereml.build_image` function to build an Azure Container Image for the trained MLflow model. This function also registers the MLflow model with a specified Azure ML workspace. The resulting image can be deployed to **Azure Container Instances (ACI)** or **Azure Kubernetes Service (AKS)** for real-time serving.
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> ACI is a good solution for prototyping.  For production deployments, AKS is generally preferred.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> ACI is a good solution for prototyping.  For production deployments, AKS is generally preferred.
 
 # COMMAND ----------
 
@@ -170,8 +164,7 @@ subscription_id = ""
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC The [Azure Container Instances (ACI) platform](https://docs.microsoft.com/en-us/azure/container-instances/) is the recommended environment for staging and developmental model deployments.
+# MAGIC %md The [Azure Container Instances (ACI) platform](https://docs.microsoft.com/en-us/azure/container-instances/) is the recommended environment for staging and developmental model deployments.
 # MAGIC 
 # MAGIC Using the Azure ML SDK, deploy the Container Image for the trained MLflow model to ACI.  This involves creating a webservice deployment.
 
@@ -195,8 +188,7 @@ subscription_id = ""
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Use the `Webservice` constructor to create an object associated with the Workspace.
+# MAGIC %md Use the `Webservice` constructor to create an object associated with the Workspace.
 
 # COMMAND ----------
 
@@ -206,8 +198,7 @@ subscription_id = ""
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a sample query input.
+# MAGIC %md Create a sample query input.
 
 # COMMAND ----------
 
@@ -221,8 +212,7 @@ query_input
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a wrapper function to make queries to a URI.
+# MAGIC %md Create a wrapper function to make queries to a URI.
 
 # COMMAND ----------
 
@@ -244,8 +234,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Query the endpoint using the scoring URI.
+# MAGIC %md Query the endpoint using the scoring URI.
 
 # COMMAND ----------
 
@@ -253,8 +242,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Production Deployment to Azure ML using Azure Kubernetes Services (AKS)
+# MAGIC %md ### Production Deployment to Azure ML using Azure Kubernetes Services (AKS)
 # MAGIC 
 # MAGIC [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service/) is the preferred option for production model deployment. Choose one of the following:<br><br>
 # MAGIC 
@@ -263,7 +251,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md 
 # MAGIC #### Option 1: Create a New AKS Cluster
 # MAGIC 
 # MAGIC If you do not have an active AKS cluster for model deployment, create one using the Azure ML SDK.
@@ -307,8 +295,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now that you have defined an AKS cluster that is up and running, confirm that it is in `Succeeded` status.
+# MAGIC %md Now that you have defined an AKS cluster that is up and running, confirm that it is in `Succeeded` status.
 
 # COMMAND ----------
 
@@ -316,8 +303,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now deploy the model image to it.
+# MAGIC %md Now deploy the model image to it.
 
 # COMMAND ----------
 
@@ -341,8 +327,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC You can also get the webservice this way when it is already up and running.
+# MAGIC %md You can also get the webservice this way when it is already up and running.
 
 # COMMAND ----------
 
@@ -352,8 +337,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Query the AKS webservice's scoring endpoint by sending an HTTP POST request that includes the input vector. The production AKS deployment may require an authorization token (service key) for queries. Include this key in the HTTP request header.  We'll use the `query_endpoint()` function we defined above.
+# MAGIC %md Query the AKS webservice's scoring endpoint by sending an HTTP POST request that includes the input vector. The production AKS deployment may require an authorization token (service key) for queries. Include this key in the HTTP request header.  We'll use the `query_endpoint()` function we defined above.
 # MAGIC 
 # MAGIC Pull the endpoint URI and key.
 
@@ -364,8 +348,7 @@ def query_endpoint(scoring_uri, inputs, service_key=None):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a query input.
+# MAGIC %md Create a query input.
 
 # COMMAND ----------
 
@@ -383,8 +366,7 @@ query_input
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Query the endpoint.
+# MAGIC %md Query the endpoint.
 
 # COMMAND ----------
 
@@ -392,12 +374,11 @@ query_input
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC <img alt="Caution" title="Caution" style="vertical-align: text-bottom; position: relative; height:1.3em; top:0.0em" src="https://files.training.databricks.com/static/images/icon-warning.svg"/> **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
+# MAGIC %md <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> **Please be sure to delete any infrastructure you build after the course so you don't incur unexpected expenses.**
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md 
 # MAGIC ## Review
 # MAGIC **Question:** What are the best tools for real time deployment?  
 # MAGIC **Answer:** This depends largely on the desired features.  The main tools to consider are a way to containerize code and either a REST endpoint or an embedded model.  This covers the vast majority of real time deployment options.

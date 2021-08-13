@@ -55,8 +55,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Train a model and log it to MLflow.
+# MAGIC %md Train a model and log it to MLflow.
 
 # COMMAND ----------
 
@@ -84,8 +83,7 @@ with mlflow.start_run(run_name="RF Model") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a unique model name so you don't clash with other workspace users.
+# MAGIC %md Create a unique model name so you don't clash with other workspace users.
 
 # COMMAND ----------
 
@@ -96,8 +94,7 @@ model_name
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Register the model.
+# MAGIC %md Register the model.
 
 # COMMAND ----------
 
@@ -118,8 +115,7 @@ model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Check the status.  It will initially be in `PENDING_REGISTRATION` status.
+# MAGIC %md Check the status.  It will initially be in `PENDING_REGISTRATION` status.
 
 # COMMAND ----------
 
@@ -132,8 +128,7 @@ model_version_details.status
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now add a model description
+# MAGIC %md Now add a model description
 
 # COMMAND ----------
 
@@ -144,8 +139,7 @@ client.update_registered_model(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Add a version-specific description.
+# MAGIC %md Add a version-specific description.
 
 # COMMAND ----------
 
@@ -157,8 +151,7 @@ client.update_model_version(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Deploying a Model
+# MAGIC %md ### Deploying a Model
 # MAGIC 
 # MAGIC The MLflow Model Registry defines several model stages: `None`, `Staging`, `Production`, and `Archived`. Each stage has a unique meaning. For example, `Staging` is meant for model testing, while `Production` is for models that have completed the testing or review processes and have been deployed to applications. 
 # MAGIC 
@@ -169,8 +162,7 @@ client.update_model_version(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now that you've learned about stage transitions, transition the model to the `Production` stage.
+# MAGIC %md Now that you've learned about stage transitions, transition the model to the `Production` stage.
 
 # COMMAND ----------
 
@@ -188,8 +180,7 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Fetch the model's current status.
+# MAGIC %md Fetch the model's current status.
 
 # COMMAND ----------
 
@@ -217,8 +208,7 @@ model_version_1 = mlflow.pyfunc.load_model(model_version_uri)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Apply the model.
+# MAGIC %md Apply the model.
 
 # COMMAND ----------
 
@@ -226,15 +216,13 @@ model_version_1.predict(X_test)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Deploying a New Model Version
+# MAGIC %md ### Deploying a New Model Version
 # MAGIC 
 # MAGIC The MLflow Model Registry enables you to create multiple model versions corresponding to a single registered model. By performing stage transitions, you can seamlessly integrate new model versions into your staging or production environments.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a new model version and register that model when it's logged.
+# MAGIC %md Create a new model version and register that model when it's logged.
 
 # COMMAND ----------
 
@@ -278,8 +266,7 @@ with mlflow.start_run(run_name="RF Model") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Use the search functionality to grab the latest model version.
+# MAGIC %md Use the search functionality to grab the latest model version.
 
 # COMMAND ----------
 
@@ -288,8 +275,7 @@ new_model_version = max([model_version_info.version for model_version_info in mo
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Add a description to this new version.
+# MAGIC %md Add a description to this new version.
 
 # COMMAND ----------
 
@@ -301,8 +287,7 @@ client.update_model_version(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Put this new model version into `Staging`
+# MAGIC %md Put this new model version into `Staging`
 
 # COMMAND ----------
 
@@ -320,8 +305,7 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Sicne this model is now in staging, you can execute an automated CI/CD pipeline against it to test it before going into production.  Once that is completed, you can push that model into production.
+# MAGIC %md Sicne this model is now in staging, you can execute an automated CI/CD pipeline against it to test it before going into production.  Once that is completed, you can push that model into production.
 
 # COMMAND ----------
 
@@ -333,8 +317,7 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Archiving and Deleting
+# MAGIC %md ### Archiving and Deleting
 # MAGIC 
 # MAGIC You can now archive and delete old versions of the model.
 
@@ -362,8 +345,7 @@ client.delete_model_version(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Archive version 2 of the model too.
+# MAGIC %md Archive version 2 of the model too.
 
 # COMMAND ----------
 
@@ -375,8 +357,7 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now delete the entire registered model.
+# MAGIC %md Now delete the entire registered model.
 
 # COMMAND ----------
 
@@ -384,8 +365,7 @@ client.delete_registered_model(model_name)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Review
+# MAGIC %md ## Review
 # MAGIC **Question:** How does MLflow tracking differ from the model registry?  
 # MAGIC **Answer:** Tracking is meant for experimentation and development.  The model registry is designed to take a model from tracking and put it through staging and into production.  This is often the point that a data engineer or a machine learning engineer takes responsibility for the depoloyment process.
 # MAGIC 
@@ -397,15 +377,13 @@ client.delete_registered_model(model_name)
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Steps
 # MAGIC 
 # MAGIC Next we'll take a look at, [Webhooks and Testing]($./03a-Webhooks-and-Testing)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Additional Topics & Resources
+# MAGIC %md ## Additional Topics & Resources
 # MAGIC 
 # MAGIC **Q:** Where can I find out more information on MLflow Model Registry?  
 # MAGIC **A:** Check out <a href="https://mlflow.org/docs/latest/registry.html" target="_blank">the MLflow documentation</a>

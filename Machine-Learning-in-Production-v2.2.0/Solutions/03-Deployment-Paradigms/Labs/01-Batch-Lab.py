@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Lab: Deploying a Model in Batch
+# MAGIC %md # Lab: Deploying a Model in Batch
 # MAGIC Deploying a model via batch is the preferred solution for most machine learning applications. In this lab, you will scale the deployment of a single-node model via Spark UDFs and MLflow's `pyfunc`. 
 # MAGIC 
 # MAGIC 
@@ -24,8 +23,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Before we begin, we'll need to load our data and split it into a modeling set and an inference set.
+# MAGIC %md Before we begin, we'll need to load our data and split it into a modeling set and an inference set.
 
 # COMMAND ----------
 
@@ -43,8 +41,7 @@ modeling_df, inference_df = df.randomSplit([0.5, 0.5], seed=42)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Develop and Register an MLflow Model
+# MAGIC %md ### Develop and Register an MLflow Model
 # MAGIC 
 # MAGIC In this exercise, you will build, log, and register an XGBoost model using Scikit-learn and MLflow.
 # MAGIC 
@@ -94,8 +91,7 @@ model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Deploy Model as a Spark UDF
+# MAGIC %md ### Deploy Model as a Spark UDF
 # MAGIC 
 # MAGIC Next, you will compute predictions for your model using a Spark UDF.
 
@@ -139,14 +135,12 @@ delta_partitioned_path = f"{working_dir}/batch-predictions-partitioned-lab.delta
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Great! Now other data scientists, data analysts, data engineers, and machine learning engineers can quickly access the predictions for this model.
+# MAGIC %md Great! Now other data scientists, data analysts, data engineers, and machine learning engineers can quickly access the predictions for this model.
 # MAGIC 
 # MAGIC If you'd like to reduce the latency even more, check out <a href="$../../06-Cloud-Examples/03-Azure-Batch-Deployment" target="_blank">the Azure-specific example of writing predictions to CosmosDB</a>.
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Lesson<br>
 # MAGIC 
 # MAGIC Start the next lesson, [Real Time]($../02-Real-Time )

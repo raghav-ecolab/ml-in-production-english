@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Real Time Deployment
+# MAGIC %md # Real Time Deployment
 # MAGIC 
 # MAGIC While real time deployment represents a smaller share of the deployment landscape, many of these deployments represent high value tasks.  This lesson surveys real-time deployment options ranging from proofs of concept to both custom and managed solutions.
 # MAGIC 
@@ -25,8 +24,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### The Why and How of Real Time Deployment
+# MAGIC %md ### The Why and How of Real Time Deployment
 # MAGIC 
 # MAGIC Real time inference is...<br><br>
 # MAGIC 
@@ -44,8 +42,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC There are a number of ways of deploying models...<br><br>
+# MAGIC %md There are a number of ways of deploying models...<br><br>
 # MAGIC 
 # MAGIC * Many use REST
 # MAGIC * For basic prototypes, MLflow can act as a development deployment server
@@ -108,8 +105,7 @@ with mlflow.start_run() as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Method 1: Using `click` Library
+# MAGIC %md ### Method 1: Using `click` Library
 
 # COMMAND ----------
 
@@ -143,8 +139,7 @@ print(p)                       # Print it's status, make sure it's runnning
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create an input for our REST input.
+# MAGIC %md Create an input for our REST input.
 
 # COMMAND ----------
 
@@ -158,8 +153,7 @@ input_json
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Perform a POST request against the endpoint.
+# MAGIC %md Perform a POST request against the endpoint.
 
 # COMMAND ----------
 
@@ -182,8 +176,7 @@ print(f"Value:  {response.text}")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Do the same in bash.
+# MAGIC %md Do the same in bash.
 
 # COMMAND ----------
 
@@ -191,8 +184,7 @@ print(f"Value:  {response.text}")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Clean up the background process.
+# MAGIC %md Clean up the background process.
 
 # COMMAND ----------
 
@@ -200,8 +192,7 @@ p.terminate()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Method 2: MLflow Model Serving
+# MAGIC %md ### Method 2: MLflow Model Serving
 # MAGIC Now, let's use MLflow Model Serving. 
 # MAGIC 
 # MAGIC Step 1: We first need to register the model in MLflow Model Registry and load the model. At this step, we don't specify the model stage, so that the stage version would be `None`. 
@@ -220,8 +211,7 @@ mlflow.register_model(model_uri=run.info.artifact_uri+"/pyfunc-model", name=mode
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Step 2: Run Tests Against Registered Model in order to Promote To Staging
+# MAGIC %md Step 2: Run Tests Against Registered Model in order to Promote To Staging
 
 # COMMAND ----------
 
@@ -235,8 +225,7 @@ model_version_1 = mlflow.pyfunc.load_model(model_version_uri)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Here, visit the MLflow Model Registry to enable Model Serving. 
+# MAGIC %md Here, visit the MLflow Model Registry to enable Model Serving. 
 # MAGIC 
 # MAGIC <img src="http://files.training.databricks.com/images/mlflow/demo_model_register.png" width="600" height="20"/>
 
@@ -272,8 +261,7 @@ def score_model(dataset: pd.DataFrame):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC After the model serving cluster is in the `ready` state, you can now send requests to the REST endpoint.
+# MAGIC %md After the model serving cluster is in the `ready` state, you can now send requests to the REST endpoint.
 
 # COMMAND ----------
 
@@ -281,8 +269,7 @@ score_model(pd.DataFrame([0]))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC You can also optionally transition the model to `staging` or `production` stage, using [MLflow Model Registry](https://www.mlflow.org/docs/latest/model-registry.html#transitioning-an-mlflow-models-stage). 
+# MAGIC %md You can also optionally transition the model to `staging` or `production` stage, using [MLflow Model Registry](https://www.mlflow.org/docs/latest/model-registry.html#transitioning-an-mlflow-models-stage). 
 # MAGIC 
 # MAGIC Sample code is below:
 # MAGIC ```
@@ -308,8 +295,7 @@ score_model(pd.DataFrame([0]))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Review
+# MAGIC %md ## Review
 # MAGIC **Question:** What are the best tools for real time deployment?  
 # MAGIC **Answer:** This depends largely on the desired features.  The main tools to consider are a way to containerize code and either a REST endpoint or an embedded model.  This covers the vast majority of real time deployment options.
 # MAGIC 
@@ -321,15 +307,13 @@ score_model(pd.DataFrame([0]))
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Lab<br>
 # MAGIC 
 # MAGIC Start the labs for this lesson, [Real Time Lab]($./Labs/02-Real-Time-Lab) 
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Additional Topics & Resources
+# MAGIC %md ## Additional Topics & Resources
 # MAGIC 
 # MAGIC **Q:** Where can I find out more information on MLflow's `pyfunc`?  
 # MAGIC **A:** Check out <a href="https://www.mlflow.org/docs/latest/models.html#pyfunc-deployment" target="_blank">the MLflow documentation</a>

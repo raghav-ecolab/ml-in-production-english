@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Model CI/CD
+# MAGIC %md # Model CI/CD
 # MAGIC 
 # MAGIC While deploying machine learning models can be challenging, it's just half of the battle. Machine learning engineers can incorporate software development into their machine learning development process.  
 # MAGIC 
@@ -22,8 +21,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ###![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Continuous Integration and Continuous Deployment
+# MAGIC %md ###![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Continuous Integration and Continuous Deployment
 # MAGIC 
 # MAGIC Continuous integration and continuous deployment, commonly referred to as **CI/CD**, bridges the gap between development and operations.
 # MAGIC 
@@ -50,8 +48,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ###![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) CI/CD for Machine Learning
+# MAGIC %md ###![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) CI/CD for Machine Learning
 # MAGIC 
 # MAGIC CI/CD is general to many types of software development, but it's also vital for **machine learning engineering**.
 # MAGIC 
@@ -83,8 +80,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ###![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Benefits of CI/CD in Machine Learning
+# MAGIC %md ###![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Benefits of CI/CD in Machine Learning
 # MAGIC 
 # MAGIC When we employ CI/CD practices in machine learning, we **close a fully automated development and deployment loop.** This provides a variety of benefits.
 # MAGIC 
@@ -130,13 +126,11 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ![Azure ML Pipeline](https://files.training.databricks.com/images/ml-deployment/model-cicd.png)
+# MAGIC %md ![Azure ML Pipeline](https://files.training.databricks.com/images/ml-deployment/model-cicd.png)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ###![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Tools for Model CI/CD
+# MAGIC %md ###![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Tools for Model CI/CD
 # MAGIC 
 # MAGIC When employing CI/CD for machine learning, there are a variety of tools that could be helpful.
 # MAGIC 
@@ -163,8 +157,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ###![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) ML CI/CD Resources
+# MAGIC %md ###![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) ML CI/CD Resources
 # MAGIC 
 # MAGIC The below resources are helpful when wanting to learn more about CI/CD for machine learning.
 # MAGIC 
@@ -188,7 +181,6 @@
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Lesson<br>
 # MAGIC 
 # MAGIC Start the next lesson, [Monitoring]($./02-Monitoring )

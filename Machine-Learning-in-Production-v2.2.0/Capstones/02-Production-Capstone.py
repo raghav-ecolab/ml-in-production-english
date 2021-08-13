@@ -27,8 +27,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Define a name for the stream to be used later in this lesson.
+# MAGIC %md Define a name for the stream to be used later in this lesson.
 
 # COMMAND ----------
 
@@ -36,8 +35,7 @@ myStreamName = "capstone_pi"
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Import the AirBnB dataset.  Create the following objects:<br><br>
+# MAGIC %md Import the AirBnB dataset.  Create the following objects:<br><br>
 # MAGIC 
 # MAGIC * `pandasDF`: a Pandas DataFrame of all the data
 # MAGIC * `pandasX`: a Pandas DataFrame of the `X` values
@@ -81,8 +79,7 @@ mse = mean_squared_error(pandasy, predictions["prediction"]) # This is on the sa
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Apply a model trained in `sklearn` across a Spark DataFrame
+# MAGIC %md ### Apply a model trained in `sklearn` across a Spark DataFrame
 # MAGIC 
 # MAGIC Perform the following steps to apply the AdaBoost model to a Spark DataFrame:<br><br>
 # MAGIC 
@@ -107,8 +104,7 @@ Apply the UDF to `sparkDF` (you may have to drop columns)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Perform predictions on an incoming stream of data
+# MAGIC %md ### Perform predictions on an incoming stream of data
 # MAGIC 
 # MAGIC Perform the following steps to apply the AdaBoost model to a stream of incoming data:<br><br>
 # MAGIC 
@@ -212,8 +208,7 @@ for stream in spark.streams.active:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Check to see if your files are there
+# MAGIC %md Check to see if your files are there
 
 # COMMAND ----------
 
@@ -226,8 +221,7 @@ except AnalysisException:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Stop the streams.
+# MAGIC %md Stop the streams.
 
 # COMMAND ----------
 
@@ -235,8 +229,7 @@ except AnalysisException:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Deploy a rest endpoint
+# MAGIC %md ### Deploy a rest endpoint
 # MAGIC 
 # MAGIC Perform the following steps to deploy the AdaBoost model as a REST endpoint:<br><br>
 # MAGIC 
@@ -272,8 +265,7 @@ Query the REST endpoint
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### _Optional:_ Create a monitoring and alerting solution
+# MAGIC %md ### _Optional:_ Create a monitoring and alerting solution
 
 # COMMAND ----------
 
@@ -286,8 +278,7 @@ Query the REST endpoint
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC <h2><img src="https://files.training.databricks.com/images/105/logo_spark_tiny.png"> All done!</h2>
 # MAGIC 
 # MAGIC Thank you for your participation!

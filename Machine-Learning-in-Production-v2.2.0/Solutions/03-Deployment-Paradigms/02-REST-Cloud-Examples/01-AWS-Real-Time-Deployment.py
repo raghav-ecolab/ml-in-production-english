@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Real Time Deployment
+# MAGIC %md # Real Time Deployment
 # MAGIC 
 # MAGIC While real time deployment represents a smaller share of the deployment landscape, many of these deployments represent high value tasks.  This lesson surveys real time deployment options ranging from proofs of concept to both custom and managed solutions with a focus on RESTful services.
 # MAGIC 
@@ -24,8 +23,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### The Why and How of Real Time Deployment
+# MAGIC %md ### The Why and How of Real Time Deployment
 # MAGIC 
 # MAGIC Real time inference is...<br><br>
 # MAGIC 
@@ -43,8 +41,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC There are a number of ways of deploying models...<br><br>
+# MAGIC %md There are a number of ways of deploying models...<br><br>
 # MAGIC 
 # MAGIC * Many use REST
 # MAGIC * For basic prototypes, MLflow can act as a development deployment server
@@ -67,8 +64,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Sagemaker Deployment
+# MAGIC %md ## Sagemaker Deployment
 # MAGIC 
 # MAGIC AWS offers the managed service SageMaker.  It allows data scientists a way of deploying machine learning models, offering a REST endpoint to make inference calls to.  MLflow integrates with SageMaker by way of containers using Amazon Container Services (ACS).  In order to use SageMaker you therefore need the following:<br><br>
 # MAGIC 
@@ -143,8 +139,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Fill in the following command with your region, ARN, and image URL to deploy your model.
+# MAGIC %md Fill in the following command with your region, ARN, and image URL to deploy your model.
 
 # COMMAND ----------
 
@@ -164,8 +159,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Test the Connection
+# MAGIC %md ### Test the Connection
 # MAGIC 
 # MAGIC You can test the connection using `boto3`, the library for interacting with AWS in Python. The appName is for a SageMaker endpoint that has already been setup.
 
@@ -185,8 +179,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Evaluate the Input Vector by Sending an HTTP Request
+# MAGIC %md ### Evaluate the Input Vector by Sending an HTTP Request
 # MAGIC Define a helper function that connects to the `sagemaker-runtime` client and sends the record in the appropriate JSON format.
 
 # COMMAND ----------
@@ -221,8 +214,7 @@ def query_endpoint_example(inputs, appName="airbnb-latest-0001", verbose=True):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now try the same but by using more than just one record.  Create a helper function to query the endpoint with a number of random samples.
+# MAGIC %md Now try the same but by using more than just one record.  Create a helper function to query the endpoint with a number of random samples.
 
 # COMMAND ----------
 
@@ -238,8 +230,7 @@ def random_n_samples(n, df=X_train, verbose=False):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Test this using 10 samples.  The payload for SageMaker can be 1 or more samples.
+# MAGIC %md Test this using 10 samples.  The payload for SageMaker can be 1 or more samples.
 
 # COMMAND ----------
 
@@ -247,8 +238,7 @@ def random_n_samples(n, df=X_train, verbose=False):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Compare the times between payload sizes.  **Notice how sending more records at a time reduces the time to prediction for each individual record.**
+# MAGIC %md Compare the times between payload sizes.  **Notice how sending more records at a time reduces the time to prediction for each individual record.**
 
 # COMMAND ----------
 
@@ -260,8 +250,7 @@ def random_n_samples(n, df=X_train, verbose=False):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Cleaning up the deployment
+# MAGIC %md ## Cleaning up the deployment
 # MAGIC 
 # MAGIC When your model deployment is no longer needed, run the `mlflow.sagemaker.delete()` function to delete it.
 
@@ -273,8 +262,7 @@ def random_n_samples(n, df=X_train, verbose=False):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Review
+# MAGIC %md ## Review
 # MAGIC 
 # MAGIC **Question:** What are the best tools for real time deployment?  
 # MAGIC **Answer:** This depends largely on the desired features.  The main tools to consider are a way to containerize code and either a REST endpoint or an embedded model.  This covers the vast majority of real time deployment options.
@@ -287,8 +275,7 @@ def random_n_samples(n, df=X_train, verbose=False):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Additional Topics & Resources
+# MAGIC %md ## Additional Topics & Resources
 # MAGIC 
 # MAGIC **Q:** Where can I find out more information on MLflow's `pyfunc`?  
 # MAGIC **A:** Check out <a href="https://www.mlflow.org/docs/latest/models.html#pyfunc-deployment" target="_blank">the MLflow documentation</a>

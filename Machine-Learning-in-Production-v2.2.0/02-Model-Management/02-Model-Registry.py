@@ -1,15 +1,12 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC # Model Registry
+# MAGIC %md # Model Registry
 # MAGIC 
 # MAGIC MLflow Model Registry is a collaborative hub where teams can share ML models, work together from experimentation to online testing and production, integrate with approval and governance workflows, and monitor ML deployments and their performance.  This lesson explores how to manage models using the MLflow model registry.
 # MAGIC 
@@ -19,7 +16,7 @@
 # MAGIC  - Update a model in production to new version including a staging phase for testing
 # MAGIC  - Archive and delete models
 # MAGIC 
-# MAGIC <img alt="Caution" title="Caution" style="vertical-align: text-bottom; position: relative; height:1.3em; top:0.0em" src="https://files.training.databricks.com/static/images/icon-warning.svg"/> This notebook makes use of the model registry. If you are using the Databricks Community Edition, click the `Upgrade` button on the landing page <a href="https://accounts.cloud.databricks.com/registration.html#login" target="_blank">or navigate here</a> to start a free trial.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> This notebook makes use of the model registry. If you are using the Databricks Community Edition, click the `Upgrade` button on the landing page <a href="https://accounts.cloud.databricks.com/registration.html#login" target="_blank">or navigate here</a> to start a free trial.
 
 # COMMAND ----------
 
@@ -42,21 +39,19 @@
 # MAGIC 
 # MAGIC <div><img src="https://files.training.databricks.com/images/eLearning/ML-Part-4/model-registry.png" style="height: 400px; margin: 20px"/></div>
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> See <a href="https://mlflow.org/docs/latest/registry.html" target="_blank">the MLflow docs</a> for more details on the model registry.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> See <a href="https://mlflow.org/docs/latest/registry.html" target="_blank">the MLflow docs</a> for more details on the model registry.
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC ### Registering a Model
+# MAGIC %md ### Registering a Model
 # MAGIC 
 # MAGIC The following workflow will work with either the UI or in pure Python.  This notebook will use pure Python.
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Explore the UI throughout this lesson by clicking the "Models" tab on the left-hand side of the screen.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Explore the UI throughout this lesson by clicking the "Models" tab on the left-hand side of the screen.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Train a model and log it to MLflow.
+# MAGIC %md Train a model and log it to MLflow.
 
 # COMMAND ----------
 
@@ -84,8 +79,7 @@ with mlflow.start_run(run_name="RF Model") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a unique model name so you don't clash with other workspace users.
+# MAGIC %md Create a unique model name so you don't clash with other workspace users.
 
 # COMMAND ----------
 
@@ -96,8 +90,7 @@ model_name
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Register the model.
+# MAGIC %md Register the model.
 
 # COMMAND ----------
 
@@ -118,8 +111,7 @@ model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Check the status.  It will initially be in `PENDING_REGISTRATION` status.
+# MAGIC %md Check the status.  It will initially be in `PENDING_REGISTRATION` status.
 
 # COMMAND ----------
 
@@ -132,8 +124,7 @@ model_version_details.status
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now add a model description
+# MAGIC %md Now add a model description
 
 # COMMAND ----------
 
@@ -144,8 +135,7 @@ client.update_registered_model(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Add a version-specific description.
+# MAGIC %md Add a version-specific description.
 
 # COMMAND ----------
 
@@ -157,8 +147,7 @@ client.update_model_version(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Deploying a Model
+# MAGIC %md ### Deploying a Model
 # MAGIC 
 # MAGIC The MLflow Model Registry defines several model stages: `None`, `Staging`, `Production`, and `Archived`. Each stage has a unique meaning. For example, `Staging` is meant for model testing, while `Production` is for models that have completed the testing or review processes and have been deployed to applications. 
 # MAGIC 
@@ -169,8 +158,7 @@ client.update_model_version(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now that you've learned about stage transitions, transition the model to the `Production` stage.
+# MAGIC %md Now that you've learned about stage transitions, transition the model to the `Production` stage.
 
 # COMMAND ----------
 
@@ -188,8 +176,7 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Fetch the model's current status.
+# MAGIC %md Fetch the model's current status.
 
 # COMMAND ----------
 
@@ -201,10 +188,9 @@ print("The current model stage is: '{stage}'".format(stage=model_version_details
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC Fetch the latest model using a `pyfunc`.  Loading the model in this way allows us to use the model regardless of the package that was used to train it.
+# MAGIC %md Fetch the latest model using a `pyfunc`.  Loading the model in this way allows us to use the model regardless of the package that was used to train it.
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> You can load a specific version of the model too.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> You can load a specific version of the model too.
 
 # COMMAND ----------
 
@@ -217,8 +203,7 @@ model_version_1 = mlflow.pyfunc.load_model(model_version_uri)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Apply the model.
+# MAGIC %md Apply the model.
 
 # COMMAND ----------
 
@@ -226,15 +211,13 @@ model_version_1.predict(X_test)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Deploying a New Model Version
+# MAGIC %md ### Deploying a New Model Version
 # MAGIC 
 # MAGIC The MLflow Model Registry enables you to create multiple model versions corresponding to a single registered model. By performing stage transitions, you can seamlessly integrate new model versions into your staging or production environments.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a new model version and register that model when it's logged.
+# MAGIC %md Create a new model version and register that model when it's logged.
 
 # COMMAND ----------
 
@@ -271,15 +254,13 @@ with mlflow.start_run(run_name="RF Model") as run:
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC Check the UI to see the new model version.
+# MAGIC %md-sandbox Check the UI to see the new model version.
 # MAGIC 
 # MAGIC <div><img src="https://files.training.databricks.com/images/301/model_version_new.png" style="height: 600px; margin: 20px"/></div>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Use the search functionality to grab the latest model version.
+# MAGIC %md Use the search functionality to grab the latest model version.
 
 # COMMAND ----------
 
@@ -288,8 +269,7 @@ new_model_version = max([model_version_info.version for model_version_info in mo
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Add a description to this new version.
+# MAGIC %md Add a description to this new version.
 
 # COMMAND ----------
 
@@ -301,8 +281,7 @@ client.update_model_version(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Put this new model version into `Staging`
+# MAGIC %md Put this new model version into `Staging`
 
 # COMMAND ----------
 
@@ -320,8 +299,7 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Sicne this model is now in staging, you can execute an automated CI/CD pipeline against it to test it before going into production.  Once that is completed, you can push that model into production.
+# MAGIC %md Sicne this model is now in staging, you can execute an automated CI/CD pipeline against it to test it before going into production.  Once that is completed, you can push that model into production.
 
 # COMMAND ----------
 
@@ -333,8 +311,7 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Archiving and Deleting
+# MAGIC %md ### Archiving and Deleting
 # MAGIC 
 # MAGIC You can now archive and delete old versions of the model.
 
@@ -348,10 +325,9 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
-# MAGIC Delete version 1.
+# MAGIC %md Delete version 1.  
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> You cannot delete a model that is not first archived.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> You cannot delete a model that is not first archived.
 
 # COMMAND ----------
 
@@ -362,8 +338,7 @@ client.delete_model_version(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Archive version 2 of the model too.
+# MAGIC %md Archive version 2 of the model too.
 
 # COMMAND ----------
 
@@ -375,8 +350,7 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now delete the entire registered model.
+# MAGIC %md Now delete the entire registered model.
 
 # COMMAND ----------
 

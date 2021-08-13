@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Lab: Adding Pre and Post-Processing Logic
+# MAGIC %md # Lab: Adding Pre and Post-Processing Logic
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lab you:<br>
 # MAGIC  - Import data and train a random forest model
@@ -22,13 +21,11 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Import Data and Train Random Forest
+# MAGIC %md ## Import Data and Train Random Forest
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Import the Airbnb DataFrame.
+# MAGIC %md Import the Airbnb DataFrame.
 
 # COMMAND ----------
 
@@ -40,8 +37,7 @@ X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), 
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Train a random forest model.
+# MAGIC %md Train a random forest model.
 
 # COMMAND ----------
 
@@ -56,8 +52,7 @@ rf_mse
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Pre-processing Our Data
+# MAGIC %md ## Pre-processing Our Data
 # MAGIC 
 # MAGIC We would like to add some pre-processing steps to our data before training a RF model in order to decrease the MSE and improve our model's performance.
 # MAGIC 
@@ -112,8 +107,7 @@ rf2_mse
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC After training our new `rf2` model, let us log this run in MLflow so we can use this trained model in the future by loading it.
+# MAGIC %md After training our new `rf2` model, let us log this run in MLflow so we can use this trained model in the future by loading it.
 
 # COMMAND ----------
 
@@ -128,8 +122,7 @@ with mlflow.start_run(run_name="RF Model Pre-process") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now let's load the `python_function` flavor of the model so we can apply it to a test set.
+# MAGIC %md Now let's load the `python_function` flavor of the model so we can apply it to a test set.
 
 # COMMAND ----------
 
@@ -142,8 +135,7 @@ rf2_pyfunc_model = mlflow.pyfunc.load_model(rf2_path)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Let's try giving our new `rf2_pyfunc_model` the `X_test` DataFrame to generate predictions off of.
+# MAGIC %md Let's try giving our new `rf2_pyfunc_model` the `X_test` DataFrame to generate predictions off of.
 
 # COMMAND ----------
 
@@ -154,13 +146,11 @@ except ValueError as e:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Why did this fail?
+# MAGIC %md Why did this fail?
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Adding Pre-Processing Steps
+# MAGIC %md ## Adding Pre-Processing Steps
 # MAGIC 
 # MAGIC We trained our `rf2` model using a pre-processed training set that has one extra column (`review_scores_sum`) than the unprocessed `X_train` and `X_test` DataFrames.  The `rf2` model is expecting to have `review_scores_sum` as an input column as well. Even if `X_test` had the same number of columns as the processed data we trained on, the line above will still error since it does not have our custom truncated `trunc_lat` and `trunc_long` columns.
 # MAGIC 
@@ -190,8 +180,7 @@ class RF_with_preprocess(mlflow.pyfunc.PythonModel):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Let's save, then load this custom model's `python_function`.
+# MAGIC %md Let's save, then load this custom model's `python_function`.
 
 # COMMAND ----------
 
@@ -211,8 +200,7 @@ loaded_preprocess_model = mlflow.pyfunc.load_model(model_path.replace("dbfs:", "
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now we can directly give our loaded model the unmodified `X_test` and have it generate predictions without errors!
+# MAGIC %md Now we can directly give our loaded model the unmodified `X_test` and have it generate predictions without errors!
 
 # COMMAND ----------
 
@@ -221,8 +209,7 @@ loaded_preprocess_model.predict(X_test)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Adding Post-Processing Steps
+# MAGIC %md ## Adding Post-Processing Steps
 # MAGIC 
 # MAGIC Now suppose we are not as interested in a numerical prediction as we are in a categorical label of `Expensive` and `Not Expensive` where the cut-off is above a price of $100. Instead of retraining an entirely new classification model, we can simply add on a post-processing step to our custom model so it returns the predicted label instead of numerical price.
 # MAGIC 
@@ -256,8 +243,7 @@ class RF_with_postprocess(mlflow.pyfunc.PythonModel):
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create, save, and apply the model to `X_test`.
+# MAGIC %md Create, save, and apply the model to `X_test`.
 
 # COMMAND ----------
 
@@ -287,8 +273,7 @@ loaded_postprocess_model.predict(X_test)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC <h2><img src="https://files.training.databricks.com/images/105/logo_spark_tiny.png"> Next Steps</h2>
 # MAGIC 
 # MAGIC Head to the next lesson, [Model Registry]($../02-Model-Registry).

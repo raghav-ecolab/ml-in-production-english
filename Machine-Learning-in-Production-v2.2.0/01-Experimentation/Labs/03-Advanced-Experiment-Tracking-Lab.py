@@ -1,15 +1,12 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Lab: Advanced Experiment Tracking
+# MAGIC %md # Lab: Advanced Experiment Tracking
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lab you:<br>
 # MAGIC  - Manually log nested runs for hyperparameter tuning
@@ -21,8 +18,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Manual Hyperparameter Tuning
+# MAGIC %md ## Manual Hyperparameter Tuning
 # MAGIC 
 # MAGIC Create an mlflow run structured in the following way:
 # MAGIC 
@@ -60,10 +56,10 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 
 # TODO
 
+
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Autologging with Hyperopt
+# MAGIC %md ## Autologging with Hyperopt
 # MAGIC 
 # MAGIC In this exercise, you will hyperparamter tune an sklearn regression model with Hyperopt like we did in the lesson. 
 # MAGIC 
@@ -76,7 +72,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 # MAGIC 2. Find the nested runs in the MLflow UI
 # MAGIC 3. Generate the Parallel Coordinates Plot as shown in the lesson on your nested runs. 
 # MAGIC 
-# MAGIC **Note:** You will need to select all nested runs and hit compare in the MLflow UI. If you select the bottom-most nested run and then shift-click the top-most nested run, you will select all of them. 
+# MAGIC **Note:** You will need to select all nested runs and hit compare in the MLflow UI. If you select the bottom-most nested run and then shift-click the top-most nested run, you will select all of them.
 
 # COMMAND ----------
 

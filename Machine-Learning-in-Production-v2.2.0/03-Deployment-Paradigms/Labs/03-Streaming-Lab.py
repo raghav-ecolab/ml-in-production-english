@@ -1,7 +1,5 @@
 # Databricks notebook source
-# MAGIC 
 # MAGIC %md-sandbox
-# MAGIC 
 # MAGIC <div style="text-align: center; line-height: 0; padding-top: 9px;">
 # MAGIC   <img src="https://databricks.com/wp-content/uploads/2018/03/db-academy-rgb-1200px.png" alt="Databricks Learning" style="width: 600px">
 # MAGIC </div>
@@ -62,8 +60,7 @@ spark.conf.set("spark.sql.shuffle.partitions", "8")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create the stream using the schema defined above.
+# MAGIC %md Create the stream using the schema defined above.
 
 # COMMAND ----------
 
@@ -75,14 +72,14 @@ streamingData = (spark
                  .parquet("/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet/")
                  .drop("price"))
 
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC And to help us manage our streams better, we will make use of **`untilStreamIsReady()`**, **`stopAllStreams()`** and define the following, **`myStreamName`**:
 
 # COMMAND ----------
 
-myStreamName = "lesson03_pi"
+# MAGIC %md And to help us manage our streams better, we will make use of **`untilStreamIsReady()`**, **`stopAllStreams()`** and define the following, **`myStreamName`**:
+
+# COMMAND ----------
+
+myStreamName = "lesson03"
 
 # COMMAND ----------
 
@@ -125,16 +122,16 @@ rf.fit(X_train, y_train)
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
+# MAGIC %md
 # MAGIC ## Define Post-Processing Logic
 # MAGIC 
 # MAGIC When processing our data stream, we are interested in seeing whether each predicted price is "High", "Medium", or "Low". To accomplish this, we are going to define a model class that will apply the desired post-processing step to our random forest `rf`'s results with a `.predict()` call.
 # MAGIC 
 # MAGIC Complete the `postprocess_result()` method to change the predicted value from a number to one of 3 categorical labels, "High", "Medium", or "Low". Then finish the line in `predict()` to return the desired output.
 # MAGIC 
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> This can be done in pure Python where you apply the logic to `results` and return the transformed data in a list.  For a more performant solution, use broadcasting on a `pandas` series or DataFrame.
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Check out <a href="https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#pyfunc-create-custom" target="_blank">the `pyfunc` documentation for details</a><br>
-# MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> Check out <a href="https://github.com/mlflow/mlflow/blob/master/docs/source/models.rst#custom-python-models" target="_blank">the example code in the `mlflow` github repository</a><br>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> This can be done in pure Python where you apply the logic to `results` and return the transformed data in a list.  For a more performant solution, use broadcasting on a `pandas` series or DataFrame.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#pyfunc-create-custom" target="_blank">the `pyfunc` documentation for details</a><br>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://github.com/mlflow/mlflow/blob/master/docs/source/models.rst#custom-python-models" target="_blank">the example code in the `mlflow` github repository</a><br>
 
 # COMMAND ----------
 
@@ -160,6 +157,7 @@ class streaming_model(PythonModel):
     def predict(self, context, model_input):
         results = self.rf.predict(model_input)
         return # FILL_IN
+
 
 # COMMAND ----------
 
@@ -217,6 +215,7 @@ predictionsDF = #FILL_IN
 
 display(predictionsDF, streamName=myStreamName)
 
+
 # COMMAND ----------
 
 # Wait until the stream is ready
@@ -253,6 +252,7 @@ writePath = f"{working_dir}/ml-deployment/lab4-predictions"
   .queryName(myStreamName)
   .FILL_IN
 )
+
 
 # COMMAND ----------
 

@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Load the model name. The `event_message` is automatically populated by the webhook.
+# MAGIC %md Load the model name. The `event_message` is automatically populated by the webhook.
 
 # COMMAND ----------
 
@@ -24,8 +23,7 @@ print(model_name)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Use the model name to get the latest model version.
+# MAGIC %md Use the model name to get the latest model version.
 
 # COMMAND ----------
 
@@ -37,8 +35,7 @@ version
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Use the model name and version to load a `pyfunc` model of our model in production.
+# MAGIC %md Use the model name and version to load a `pyfunc` model of our model in production.
 
 # COMMAND ----------
 
@@ -48,8 +45,7 @@ pyfunc_model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{versio
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Get the input and output schema of our logged model.
+# MAGIC %md Get the input and output schema of our logged model.
 
 # COMMAND ----------
 
@@ -58,8 +54,7 @@ output_schema = pyfunc_model.metadata.get_output_schema().as_spark_schema()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Here we define our expected input and output schema.
+# MAGIC %md Here we define our expected input and output schema.
 
 # COMMAND ----------
 
@@ -97,8 +92,7 @@ assert expected_output_schema.fields.sort(key=lambda x: x.name) == output_schema
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Load the dataset and generate some predictions to ensure our model is working correctly.
+# MAGIC %md Load the dataset and generate some predictions to ensure our model is working correctly.
 
 # COMMAND ----------
 
@@ -111,8 +105,7 @@ predictions
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Make sure our prediction types are correct.
+# MAGIC %md Make sure our prediction types are correct.
 
 # COMMAND ----------
 

@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Lab: Advanced Experiment Tracking
+# MAGIC %md # Lab: Advanced Experiment Tracking
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lab you:<br>
 # MAGIC  - Manually log nested runs for hyperparameter tuning
@@ -21,8 +20,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Manual Hyperparameter Tuning
+# MAGIC %md ## Manual Hyperparameter Tuning
 # MAGIC 
 # MAGIC Create an mlflow run structured in the following way:
 # MAGIC 
@@ -107,8 +105,7 @@ with mlflow.start_run(run_name="Parent") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Autologging with Hyperopt
+# MAGIC %md ## Autologging with Hyperopt
 # MAGIC 
 # MAGIC In this exercise, you will hyperparamter tune an sklearn regression model with Hyperopt like we did in the lesson. 
 # MAGIC 

@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Lab: Deploying a Real-time Model with MLflow Model Serving
+# MAGIC %md # Lab: Deploying a Real-time Model with MLflow Model Serving
 # MAGIC MLflow Model Serving offers a fast way of serving pre-calculated predictions or creating predictions in real time. In this lab, you'll deploy a model using MLflow Model Serving.
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lab you:<br>
@@ -83,8 +82,7 @@ model_version = model_details.version
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Next, we will transition to model to staging.
+# MAGIC %md Next, we will transition to model to staging.
 
 # COMMAND ----------
 
@@ -106,8 +104,7 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC -- ANSWER
+# MAGIC %md -- ANSWER
 # MAGIC 
 # MAGIC Users can head to the registered model's page in the Model Registry to enable Model Serving.
 # MAGIC 
@@ -115,8 +112,7 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Compute Real-time Predictions
+# MAGIC %md ## Compute Real-time Predictions
 # MAGIC 
 # MAGIC Now that your model is registered, you will query the model with inputs.
 # MAGIC 
@@ -138,8 +134,7 @@ instance = tags['browserHostName']
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Next, create a function that takes a single record as input and returns the predicted value from the endpoint.
+# MAGIC %md Next, create a function that takes a single record as input and returns the predicted value from the endpoint.
 
 # COMMAND ----------
 
@@ -175,8 +170,7 @@ def score_model(dataset: pd.DataFrame, model_name: str, token: str, instance: st
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now, use that function to score a single row of a Pandas DataFrame.
+# MAGIC %md Now, use that function to score a single row of a Pandas DataFrame.
 
 # COMMAND ----------
 
@@ -192,8 +186,7 @@ score_model(single_row_df, model_name, token, instance)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now, create a function that will score `n` total records from a Pandas DataFrame.
+# MAGIC %md Now, create a function that will score `n` total records from a Pandas DataFrame.
 
 # COMMAND ----------
 
@@ -219,7 +212,6 @@ score_n_records(100, inference_pdf)
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Lesson<br>
 # MAGIC 
 # MAGIC Start the next lesson, [Streaming]($../03-Streaming )

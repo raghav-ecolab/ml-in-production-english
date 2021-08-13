@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Drift Monitoring
+# MAGIC %md # Drift Monitoring
 # MAGIC 
 # MAGIC Monitoring models over time entails safeguarding against drift in model performance as well as breaking changes.  In this lesson, you explore solutions to drift and implement statistical methods for identifying drift. 
 # MAGIC 
@@ -22,8 +21,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Drift Monitoring
+# MAGIC %md ## Drift Monitoring
 # MAGIC 
 # MAGIC The majority of machine learning solutions assume that data is generated according to a stationary probability distribution. However, because most datasets involving human activity change over time, machine learning solutions often go stale. 
 # MAGIC 
@@ -53,8 +51,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Testing for Drift
+# MAGIC %md ## Testing for Drift
 # MAGIC 
 # MAGIC The essence of drift monitoring is **running statistical tests on time windows of data.** This allows us to detect drift and localize it to specific root causes. Here are some solutions:
 # MAGIC 
@@ -90,8 +87,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Use the **Two-Sample Kolmogorov-Smirnov (KS) Test** for numeric features. This test determines whether or not two different samples come from the same distribution. This test:<br><br>
+# MAGIC %md Use the **Two-Sample Kolmogorov-Smirnov (KS) Test** for numeric features. This test determines whether or not two different samples come from the same distribution. This test:<br><br>
 # MAGIC 
 # MAGIC - Returns a higher KS statistic when there is a higher probability of having two different distributions
 # MAGIC - Returns a lower P value the higher the statistical significance
@@ -111,8 +107,7 @@ stats.ks_2samp(sample1, sample2)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC The above has two samples from the same distribution. Try this again with two different distributions.
+# MAGIC %md The above has two samples from the same distribution. Try this again with two different distributions.
 
 # COMMAND ----------
 
@@ -123,8 +118,7 @@ stats.ks_2samp(sample1, sample2)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC In practice, you would have data over a period of time, divide it into groups based on time (e.g. weekly windows), and then run the tests on the two groups to determine if there was statistically significant change. We'll simulate this with our dataset.
+# MAGIC %md In practice, you would have data over a period of time, divide it into groups based on time (e.g. weekly windows), and then run the tests on the two groups to determine if there was statistically significant change. We'll simulate this with our dataset.
 
 # COMMAND ----------
 
@@ -144,8 +138,7 @@ pdf2 = airbnb_pdf.drop(pdf1.index)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Alter `pdf2` to simulate drift. Add the following realistic changes:
+# MAGIC %md Alter `pdf2` to simulate drift. Add the following realistic changes:
 # MAGIC 
 # MAGIC * ***The demand for Airbnbs skyrockted, so the prices of Airbnbs doubled***.
 # MAGIC   * *Type of Drift*: Concept, Label 
@@ -162,8 +155,7 @@ pdf2["neighbourhood_cleansed"] = pdf2["neighbourhood_cleansed"].map(lambda x: No
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Apply Summary Stats
+# MAGIC %md ## Apply Summary Stats
 # MAGIC 
 # MAGIC Start by looking at the summary statistics for the distribution of data in the two datasets. 
 
@@ -180,8 +172,7 @@ percent_change.style.background_gradient(cmap=cm, text_color_threshold=0.5, axis
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC The `review_scores_rating` and `price` seem to have many of their stats changed significantly, so we would want to look into those. Now run the KS test on the two subsets of the data. However, we cannot use the default alpha level of 0.05 in this situation because we are running a group of tests. This is because the probability of at least one false positive (concluding the feature's distribution changed when it did not) in a group of tests increases with the number of tests in the group.
+# MAGIC %md The `review_scores_rating` and `price` seem to have many of their stats changed significantly, so we would want to look into those. Now run the KS test on the two subsets of the data. However, we cannot use the default alpha level of 0.05 in this situation because we are running a group of tests. This is because the probability of at least one false positive (concluding the feature's distribution changed when it did not) in a group of tests increases with the number of tests in the group.
 # MAGIC 
 # MAGIC To solve this problem we will employ the **Bonferroni Correction**. This changes the alpha level to 0.05 / number of tests in group. It is common practice and reduces the probability of false positives. 
 # MAGIC 
@@ -203,8 +194,7 @@ for num in num_cols:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now, let's take a look at the categorical features. Check the rate of null values.
+# MAGIC %md Now, let's take a look at the categorical features. Check the rate of null values.
 
 # COMMAND ----------
 
@@ -213,8 +203,7 @@ pd.concat([100 * pdf1.isnull().sum() / len(pdf1), 100 * pdf2.isnull().sum() / le
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC `neighbourhood_cleansed` has some missing values it did not before. Now, let's run the `Two-Way Chi Squared Contigency Test` for this example. This test works by creating a [Contingency Table]("https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them.") with a column for the counts of each feature category for a given categorical feature and a row for `pdf1` and `pdf2`.
+# MAGIC %md `neighbourhood_cleansed` has some missing values it did not before. Now, let's run the `Two-Way Chi Squared Contigency Test` for this example. This test works by creating a [Contingency Table]("https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them.") with a column for the counts of each feature category for a given categorical feature and a row for `pdf1` and `pdf2`.
 # MAGIC 
 # MAGIC It will then return a p-value determining whether or not there is an association between the time window of data and the distribution of that feature. If it is significant, we would conclude the distribution did change over time, and so there was drift. 
 
@@ -236,13 +225,11 @@ for feature in cat_cols:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC **Note:** The Two-way Chi-Squared test caught this not because nulls were introduced, but because they were introduced into one neighbourhood specifically, leading to an uneven distribution. If nulls were uniform throughout, then the test would see a similar distribution, just with lower counts, which this test would not flag as a change in dependence.
+# MAGIC %md **Note:** The Two-way Chi-Squared test caught this not because nulls were introduced, but because they were introduced into one neighbourhood specifically, leading to an uneven distribution. If nulls were uniform throughout, then the test would see a similar distribution, just with lower counts, which this test would not flag as a change in dependence.
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Optional Note on Chi-Squared tests.
+# MAGIC %md Optional Note on Chi-Squared tests.
 # MAGIC 
 # MAGIC For the Chi-Squared tests, distributions with low bin counts can invalidate the test's accuracy and lead to false positives.  
 # MAGIC 
@@ -258,8 +245,7 @@ for feature in cat_cols:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Combine into One Class
+# MAGIC %md ## Combine into One Class
 # MAGIC 
 # MAGIC Here, we'll combine the tests and code we have seen so far into a class `Monitor` that shows how you might implement the code above in practice. 
 
@@ -368,8 +354,7 @@ driftMonitor.generateNullCounts()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Drift Monitoring Architecture
+# MAGIC %md ## Drift Monitoring Architecture
 # MAGIC 
 # MAGIC A potential workflow for deployment and dirft monitoring could look something like this:
 # MAGIC 
@@ -430,8 +415,7 @@ driftMonitor.generateNullCounts()
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC #### Other Resources
+# MAGIC %md #### Other Resources
 # MAGIC 
 # MAGIC For more information, a great talk by Chengyin Eng and Niall Turbitt can be found here: [Drifting Away: Testing ML Models in Production](https://databricks.com/session_na21/drifting-away-testing-ml-models-in-production).
 # MAGIC 

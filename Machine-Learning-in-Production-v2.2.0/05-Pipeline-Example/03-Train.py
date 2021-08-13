@@ -1,7 +1,6 @@
 # Databricks notebook source
 # MAGIC 
-# MAGIC %md
-# MAGIC ### Train
+# MAGIC %md ### Train
 # MAGIC 
 # MAGIC This notebook is called by Orchestrate to train a model on our first time period of featurized data. 
 # MAGIC 
@@ -17,8 +16,7 @@ from mlflow.models.signature import infer_signature
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Now, let's load the data from Orchestrate.
+# MAGIC %md Now, let's load the data from Orchestrate.
 
 # COMMAND ----------
 
@@ -33,8 +31,7 @@ registry_model_name = dbutils.widgets.get("registry_model_name")
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Set the experiment from the data we loaded.
+# MAGIC %md Set the experiment from the data we loaded.
 
 # COMMAND ----------
 
@@ -42,8 +39,7 @@ mlflow.set_experiment(experiment_path)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Load the data to train.
+# MAGIC %md Load the data to train.
 
 # COMMAND ----------
 
@@ -51,8 +47,7 @@ df = spark.read.format("delta").load(filePath)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create our example model, making sure to log signature, input example, train mse, and test mse.
+# MAGIC %md Create our example model, making sure to log signature, input example, train mse, and test mse.
 
 # COMMAND ----------
 
@@ -89,8 +84,7 @@ with mlflow.start_run() as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Finally, we'll push our model to the Staging branch in the model registry.
+# MAGIC %md Finally, we'll push our model to the Staging branch in the model registry.
 
 # COMMAND ----------
 

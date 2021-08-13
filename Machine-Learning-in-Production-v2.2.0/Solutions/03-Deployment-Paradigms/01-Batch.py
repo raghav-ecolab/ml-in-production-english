@@ -8,8 +8,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Batch Deployment
+# MAGIC %md # Batch Deployment
 # MAGIC 
 # MAGIC Batch inference is the most common way of deploying machine learning models.  This lesson introduces various strategies for deploying models using batch including Spark, write optimizations, and on the JVM.
 # MAGIC 
@@ -47,8 +46,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Inference in Batch
+# MAGIC %md ### Inference in Batch
 # MAGIC 
 # MAGIC Batch deployment represents the vast majority of use cases for deploying machine learning models.<br><br>
 # MAGIC 
@@ -68,8 +66,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC 
+# MAGIC %md 
 # MAGIC There are a few other considerations to ensure the accuracy of a model...<br><br>
 # MAGIC 
 # MAGIC * First is to make sure that the model matches expectations
@@ -109,8 +106,7 @@ y = df["price"]
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Train a final model
+# MAGIC %md Train a final model
 
 # COMMAND ----------
 
@@ -127,8 +123,7 @@ mse = mean_squared_error(y, predictions["prediction"]) # This is on the same dat
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Log the model.
+# MAGIC %md Log the model.
 
 # COMMAND ----------
 
@@ -141,8 +136,7 @@ with mlflow.start_run(run_name="Final RF Model") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Create a Spark DataFrame from the Pandas DataFrame.
+# MAGIC %md Create a Spark DataFrame from the Pandas DataFrame.
 
 # COMMAND ----------
 
@@ -152,8 +146,7 @@ display(XDF)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC MLflow easily produces a Spark user defined function (UDF).  This bridges the gap between Python environments and applying models at scale using Spark.
+# MAGIC %md MLflow easily produces a Spark user defined function (UDF).  This bridges the gap between Python environments and applying models at scale using Spark.
 
 # COMMAND ----------
 
@@ -161,8 +154,7 @@ predict = mlflow.pyfunc.spark_udf(spark, run.info.artifact_uri + "/random-forest
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Apply the model as a standard UDF using the column names as the input to the function.
+# MAGIC %md Apply the model as a standard UDF using the column names as the input to the function.
 
 # COMMAND ----------
 
@@ -172,8 +164,7 @@ display(predictionDF)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Write Optimizations
+# MAGIC %md ### Write Optimizations
 # MAGIC 
 # MAGIC There are many possible optimizations depending on your batch deployment scenerio.  In Spark and Delta Lake, the following optimizations are possible:<br><br>
 # MAGIC 
@@ -190,8 +181,7 @@ display(predictionDF)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Partition by zipcode. This is an indexed column, not the true zipcode.
+# MAGIC %md Partition by zipcode. This is an indexed column, not the true zipcode.
 
 # COMMAND ----------
 
@@ -201,8 +191,7 @@ predictionDF.write.partitionBy("zipcode").mode("OVERWRITE").format("delta").save
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Take a look at the files.
+# MAGIC %md Take a look at the files.
 
 # COMMAND ----------
 
@@ -223,8 +212,7 @@ predictionDF.write.bucketBy(5, "neighbourhood_cleansed").mode("OVERWRITE").optio
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Take a look at the underlying files.  You'll see 5 parts, one for each bucket.
+# MAGIC %md Take a look at the underlying files.  You'll see 5 parts, one for each bucket.
 
 # COMMAND ----------
 
@@ -232,13 +220,11 @@ display(dbutils.fs.ls(parquet_bucketed_path))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC Z-Ordering is a form of multi-dimensional clustering that colocates related information in the same set of files.  It reduces the amount of data that needs to be read.  [You can read more about it here.](https://docs.databricks.com/delta/optimizations/file-mgmt.html#z-ordering-multi-dimensional-clustering)
+# MAGIC %md Z-Ordering is a form of multi-dimensional clustering that colocates related information in the same set of files.  It reduces the amount of data that needs to be read.  [You can read more about it here.](https://docs.databricks.com/delta/optimizations/file-mgmt.html#z-ordering-multi-dimensional-clustering)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ### Other Deployment Options
+# MAGIC %md ### Other Deployment Options
 # MAGIC 
 # MAGIC There are a number of other common batch deployment options.  One common use case is going from a Python environment for training to a Java environment for deployment.  Here are a few tools that can help with that:<br><br>
 # MAGIC 
@@ -249,8 +235,7 @@ display(dbutils.fs.ls(parquet_bucketed_path))
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Review
+# MAGIC %md ## Review
 # MAGIC **Question:** What are the main considerations in batch deployments?  
 # MAGIC **Answer:** The following considerations help determine the best way to deploy batch inference results:
 # MAGIC * How the data will be queried
@@ -266,15 +251,13 @@ display(dbutils.fs.ls(parquet_bucketed_path))
 
 # COMMAND ----------
 
-# MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Lab<br>
 # MAGIC 
 # MAGIC Start the labs for this lesson, [Batch Lab]($./Labs/01-Batch-Lab)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## Additional Topics & Resources
+# MAGIC %md ## Additional Topics & Resources
 # MAGIC 
 # MAGIC **Q:** Where can I find more information on UDF's created by MLflow?  
 # MAGIC **A:** See the <a href="https://www.mlflow.org/docs/latest/python_api/mlflow.pyfunc.html" target="_blank">MLflow documentation for details</a>
