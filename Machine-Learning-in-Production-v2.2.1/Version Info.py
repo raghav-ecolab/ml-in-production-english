@@ -8,9 +8,9 @@
 
 # MAGIC %md # Project Information
 # MAGIC 
-# MAGIC * Name: **Developer Advanced Capstone**
+# MAGIC * Name: Machine Learning in Production
 # MAGIC * Version:  **2.2.1**
-# MAGIC * Built On: **Aug 13, 2021 at 01:51:37 UTC**
+# MAGIC * Built On: **Aug 18, 2021 at 20:49:40 UTC**
 
 # COMMAND ----------
 
