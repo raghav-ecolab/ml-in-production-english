@@ -11,19 +11,19 @@ Besides the instructions provided here, your instructor will review these proced
 3. Click the **Add Repo** button above the two swim lanes
 4. In the **Add Repo** dialog box
    1. Select **Clone remote Git repo**
-   2. Enter the URL for the Git repo, in this case, https://github.com/databricks-academy/ml-in-production.git
+   2. Enter the URL for the Git repo
    3. The Git provider **GitHub** should be selected for you automatically
-   4. The **Repo name** should default to **ml-in-production** - feel free to rename this if you like
+   4. The **Repo name** should be defaulted to the name of this repo - feel free to rename this if you like
    5. Click the **Create** button
-5. Once the import is done, select the **Machine-Learning-in-Production-vX.Y.Z** folder to open the course's notebooks.
+5. Once the import is done, select the repo folder for this course to view this course's notebooks.
 6. From here you should be able to follow along with your instructor
 
 ## Getting Started without Databricks Repos (using DBC)
-1. Under **Releases** in the pane to the right, click on the **Latest** link.  
-2. Under **Assets** look for the link to the DBC file, in this case **Machine-Learning-in-Production-vX.Y.Z.dbc**.
-3. Right click the DBC file's link and copy the link location (there is no need to download this file).
+1. Under **Releases** in the pane to the right, click on the **Latest** link
+2. Under **Assets** look for the link to the DBC file
+3. Right click the DBC file's link and copy the link location (there is no need to download this file)
 4. Back in Databricks, click on the **Workspace** icon in the navigational pane to the left
-5. In the **Workspace** swimline, click the **Home** button to open your home folder - you should be in the folder **/Users/your-email-address** as in **/Users/student@example.com**
+5. In the **Workspace** swimline, click the **Home** button to open your home folder - it should open the folder **/Users/your-email-address** as in **/Users/student@example.com**
 6. In the swimlane for your email address, click on the down chevron and select **Import**
 7. In the **Import Notebooks** dialog
   1. Select **URL**
