@@ -10,11 +10,11 @@ Besides the instructions provided here, your instructor will review these proced
 2. By default, you should be in the folder **/Repos/your-email-address** as in **/Repos/student@example.com**
 3. Click the **Add Repo** button above the two swim lanes
 4. In the **Add Repo** dialog box
-   1. Select **Clone remote Git repo**
-   2. Enter the URL for the Git repo
-   3. The Git provider **GitHub** should be selected for you automatically
-   4. The **Repo name** should be defaulted to the name of this repo - feel free to rename this if you like
-   5. Click the **Create** button
+   * Select **Clone remote Git repo**
+   * Enter the URL for the Git repo
+   * The Git provider **GitHub** should be selected for you automatically
+   * The **Repo name** should be defaulted to the name of this repo - feel free to rename this if you like
+   * Click the **Create** button
 5. Once the import is done, select the repo folder for this course to view this course's notebooks.
 6. From here you should be able to follow along with your instructor
 
@@ -26,8 +26,8 @@ Besides the instructions provided here, your instructor will review these proced
 5. In the **Workspace** swimline, click the **Home** button to open your home folder - it should open the folder **/Users/your-email-address** as in **/Users/student@example.com**
 6. In the swimlane for your email address, click on the down chevron and select **Import**
 7. In the **Import Notebooks** dialog
-  1. Select **URL**
-  2. Paste in the URL copied in step #3 above
-  3. Click **Import**
-10. Once the import is done, select the **Machine-Learning-in-Production-vX.Y.Z** folder to open the course's notebooks.
-11. From here you should be able to follow along with your instructor
+   * Select **URL**
+   * Paste in the URL copied in step #3 above
+   * Click **Import**
+8. Once the import is done, select the repo folder for this course to view this course's notebooks.
+9. From here you should be able to follow along with your instructor
