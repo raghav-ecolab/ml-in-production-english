@@ -119,7 +119,8 @@ class RFWithPostprocess(mlflow.pyfunc.PythonModel):
 model_path =  f"{working_dir}/RFWithPostprocess/"
 
 try:
-  shutil.rmtree(model_path.replace("dbfs:", "/dbfs")) # remove folder if already exists
+  dbutils.fs.rm(model_path.replace("dbfs:", "/dbfs"))
+  #shutil.rmtree(model_path.replace("dbfs:", "/dbfs")) # remove folder if already exists
 except:
   None
 

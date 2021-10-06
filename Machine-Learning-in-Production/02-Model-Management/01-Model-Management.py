@@ -259,6 +259,7 @@ class RFWithPreprocess(mlflow.pyfunc.PythonModel):
 # COMMAND ----------
 
 import json 
+import os
 
 params = {
   "n_estimators": 15, 
@@ -266,6 +267,7 @@ params = {
 }
 
 # Designate a path
+os.mkdir(working_dir.replace("dbfs:/", "/dbfs/"))
 config_path = f"{working_dir}/data.json".replace("dbfs:/", "/dbfs/")
 
 # Save the results
