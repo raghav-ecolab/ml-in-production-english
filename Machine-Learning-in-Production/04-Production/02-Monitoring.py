@@ -66,7 +66,7 @@
 # MAGIC     - Note: These tests vary largely in their assumption of normalcy and ability to handle larger data sizes
 # MAGIC     - Do a check of normalcy and choose the appropriate test based on this (e.g. Mann-Whitney is more permissive of skew) 
 # MAGIC   * [Wasserstein Distance]("https://en.wikipedia.org/wiki/Wasserstein_metric")
-# MAGIC   * [Kullbackâ€“Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence)
+# MAGIC   * [Kullback–Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence)
 # MAGIC 
 # MAGIC     
 # MAGIC **Categorical Features**

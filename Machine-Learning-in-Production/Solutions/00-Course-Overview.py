@@ -38,7 +38,7 @@
 # MAGIC | 10m  | **[Pipeline Example]($./05-Pipeline-Example)**  | [End-to-end pipeline example]($./05-Pipeline-Example/00-Orchestrate)|
 # MAGIC 
 # MAGIC ## Prerequisites
-# MAGIC - A single-node cluster with **{dbr}**
+# MAGIC - A single-node cluster with **DBR 9.1 ML**
 # MAGIC - Experience with Python (`pandas`, `sklearn`, `numpy`)
 # MAGIC - Background in machine learning and data science
 # MAGIC 
