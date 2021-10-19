@@ -36,7 +36,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run "../Includes/Pipeline-Example-Setup"
+# MAGIC %run "../../Includes/Pipeline-Example-Setup"
 
 # COMMAND ----------
 

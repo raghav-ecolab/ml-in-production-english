@@ -15,12 +15,14 @@ None # Suppress Output
 
 username = getUsername()
 clean_username = getCleanUsername()
-userhome = getUserhome().replace("dbfs:/", "/dbfs/")
+userhome = getUserhome()
 course_dir = getCourseDir()
 datasets_dir = f"{course_dir}/datasets"
 working_dir = getWorkingDir().replace("_pil", "")
 
-dbutils.fs.mkdirs(userhome.replace("/dbfs/", "dbfs:/"))
+dbutils.fs.mkdirs(userhome)
+dbutils.fs.mkdirs(course_dir)
+dbutils.fs.mkdirs(working_dir)
 
 None # Suppress output
 

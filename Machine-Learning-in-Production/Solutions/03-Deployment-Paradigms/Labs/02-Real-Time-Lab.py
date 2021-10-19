@@ -145,13 +145,6 @@ score_model(single_row_df, model_name, token, instance)
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Lesson<br>
-# MAGIC 
-# MAGIC Start the next lesson, [Streaming]($../03-Streaming )
-
-# COMMAND ----------
-
 # MAGIC %md-sandbox
 # MAGIC &copy; 2021 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="http://www.apache.org/">Apache Software Foundation</a>.<br/>

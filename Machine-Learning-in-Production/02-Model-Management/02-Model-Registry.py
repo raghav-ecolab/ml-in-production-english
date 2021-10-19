@@ -354,6 +354,28 @@ client.delete_registered_model(model_name)
 
 # COMMAND ----------
 
+# MAGIC %md-sandbox 
+# MAGIC 
+# MAGIC ## Central Model Registry 
+# MAGIC 
+# MAGIC In this lesson, we have explored how to use your workspace's local model registry. Databricks also supports sharing models across multiple workspaces. 
+# MAGIC 
+# MAGIC Typically mutliple workspaces are used for different stages of the deployment lifecycle, such as development, staging, and production. 
+# MAGIC 
+# MAGIC Having a central model registry allows us to pass artifacts into our production environment. This keeps the production environment as separate as possible from our other environments.
+# MAGIC 
+# MAGIC We recommend the use of a **Central Model Registry** to help with this. 
+# MAGIC 
+# MAGIC This architecture uses a separate Databricks workspace for the sole purpose of hosting a model registry. This acts as a swap point for transitioning models. Once a model is ready to be sent to a new stage of deployment, it is pushed to the central model registry. Other environments then pull the artifacts into the workspace dedicated to the next stage of the deployment. 
+# MAGIC 
+# MAGIC The diagram below shows how this process works:
+# MAGIC 
+# MAGIC <img src="https://docs.databricks.com/_images/multiworkspace1.png" style="height: 450px">
+# MAGIC 
+# MAGIC This separates environments so that issues in development don't affect production systems. It also plays a critical role in CI/CD infrastructure where models are tested in the staging branch of this central model registry before being promoted to production. See [this documentation for more information.](https://docs.databricks.com/applications/machine-learning/manage-model-lifecycle/multiple-workspaces.html) 
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Review
 # MAGIC **Question:** How does MLflow tracking differ from the model registry?  

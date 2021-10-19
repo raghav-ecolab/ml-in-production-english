@@ -68,10 +68,9 @@ display(airbnb_df)
 
 # COMMAND ----------
 
-delta_path = working_dir.replace("/dbfs", "dbfs:") + "/delta-example"
-dbutils.fs.rm(delta_path, recurse=True)
+dbutils.fs.rm(working_dir, recurse=True) # In case run more than once
 
-airbnb_df.write.format("delta").save(delta_path)
+airbnb_df.write.format("delta").save(working_dir)
 
 # COMMAND ----------
 
@@ -81,7 +80,7 @@ airbnb_df.write.format("delta").save(delta_path)
 
 delta_df = (spark.read
   .format("delta")
-  .load(delta_path)
+  .load(working_dir)
   .drop("cancellation_policy", "instant_bookable")
 )
 
@@ -93,7 +92,7 @@ display(delta_df)
 
 # COMMAND ----------
 
-delta_df.write.format("delta").mode("overwrite").save(delta_path)
+delta_df.write.format("delta").mode("overwrite").save(working_dir)
 
 # COMMAND ----------
 
@@ -103,7 +102,7 @@ delta_df.write.format("delta").mode("overwrite").save(delta_path)
 
 # COMMAND ----------
 
-display(spark.sql(f"DESCRIBE HISTORY delta.`{delta_path}`"))
+display(spark.sql(f"DESCRIBE HISTORY delta.`{working_dir}`"))
 
 # COMMAND ----------
 
@@ -111,7 +110,7 @@ display(spark.sql(f"DESCRIBE HISTORY delta.`{delta_path}`"))
 
 # COMMAND ----------
 
-delta_df = spark.read.format("delta").option("versionAsOf", 0).load(delta_path)
+delta_df = spark.read.format("delta").option("versionAsOf", 0).load(working_dir)
 
 display(delta_df)
 
@@ -123,12 +122,12 @@ display(delta_df)
 
 # COMMAND ----------
 
-timestamp = spark.sql(f"DESCRIBE HISTORY delta.`{delta_path}`").first().timestamp
+timestamp = spark.sql(f"DESCRIBE HISTORY delta.`{working_dir}`").orderBy("version").first().timestamp
 
 display(spark.read
   .format("delta")
   .option("timestampAsOf", timestamp)
-  .load(delta_path)
+  .load(working_dir)
 )
 
 # COMMAND ----------
@@ -137,7 +136,7 @@ display(spark.read
 
 # COMMAND ----------
 
-delta_df.drop("instant_bookable").write.format("delta").mode("overwrite").save(delta_path)
+delta_df.drop("instant_bookable").write.format("delta").mode("overwrite").save(working_dir)
 
 # COMMAND ----------
 
@@ -145,7 +144,7 @@ delta_df.drop("instant_bookable").write.format("delta").mode("overwrite").save(d
 
 # COMMAND ----------
 
-display(spark.sql(f"DESCRIBE HISTORY delta.`{delta_path}`"))
+display(spark.sql(f"DESCRIBE HISTORY delta.`{working_dir}`"))
 
 # COMMAND ----------
 

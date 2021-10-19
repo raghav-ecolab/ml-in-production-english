@@ -22,20 +22,21 @@
 # MAGIC | Time | Lesson &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; | Description &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; |
 # MAGIC |:----:|-------|-------------|
 # MAGIC | 30m  | **Introductions & Setup**                               | *Registration, Courseware & Q&As* |
-# MAGIC | 30m    | **[Experimentation - Data Management]($./01-Experimentation)**    | [Manage data with Delta & Databricks Feature Store]($./01-Experimentation/01-Data-Management) |
+# MAGIC | 30m    | **ML in Production Overview**    | Introducing the full end-to-end ML lifecycle |
 # MAGIC | 10m  | **Break**                                               ||
-# MAGIC | 35m  | **[Experimentation - Experiment Tracking]($./01-Experimentation)** | [Track ML experiment with MLflow]($./01-Experimentation/02-Experiment-Tracking) </br> [Experiment Tracking Lab]($./01-Experimentation/Labs/02-Experiment-Tracking-Lab) | 
-# MAGIC | 25m  | **[Experimentation - Advanced Experiment Tracking]($./01-Experimentation)** | [Advanced Experiment Tracking]($./01-Experimentation/03-Advanced-Experiment-Tracking) </br> [Advanced Experiment Tracking Lab]($./01-Experimentation/Labs/03-Advanced-Experiment-Tracking-Lab) | 
+# MAGIC | 20m    | **[Experimentation - Data Management]($./01-Experimentation)**    | [Manage data with Delta & Databricks Feature Store]($./01-Experimentation/01-Data-Management) |
+# MAGIC | 40m  | **[Experimentation - Experiment Tracking & Lab]($./01-Experimentation)** | [Track ML experiment with MLflow]($./01-Experimentation/02-Experiment-Tracking) </br> [Experiment Tracking Lab]($./01-Experimentation/Labs/02-Experiment-Tracking-Lab) | 
 # MAGIC | 10m  | **Break**                                               ||
-# MAGIC | 40m    | **[Model Management - MLflow Models]($./02-Model-Management)**    | [Model management with MLflow]($./02-Model-Management/01-Model-Management) </br> [Model managment lab]($./02-Model-Management/Labs/01-Model-Management-Lab) |
+# MAGIC | 30m  | **[Experimentation - Advanced Experiment Tracking & Lab]($./01-Experimentation)** | [Advanced Experiment Tracking]($./01-Experimentation/03-Advanced-Experiment-Tracking) </br> [Advanced Experiment Tracking Lab (Optional)]($./01-Experimentation/Labs/03-Advanced-Experiment-Tracking-Lab) | 
+# MAGIC | 30m    | **[Model Management - MLflow Models & Lab]($./02-Model-Management)**    | [Model management with MLflow]($./02-Model-Management/01-Model-Management) </br> [Model managment lab]($./02-Model-Management/Labs/01-Model-Management-Lab) |
 # MAGIC |   | **Break**                                               ||
-# MAGIC | 20m  | **[Model Management - Model Registry]($./02-Model-Management)**       | [Register, version, and deploy models with MLflow]($./02-Model-Management/02-Model-Registry) |
-# MAGIC | 40m  | **[Model Management - Webhooks]($./02-Model-Management)**      | [Create a testing job and a webhook of registered model]($./02-Model-Management/03a-Webhooks-and-Testing) </br> [Automated Testing]($./02-Model-Management/03b-Webhooks-Job-Demo)|
+# MAGIC | 35m  | **[Model Management - Model Registry]($./02-Model-Management)**       | [Register, version, and deploy models with MLflow]($./02-Model-Management/02-Model-Registry) |
+# MAGIC | 25m  | **[Model Management - Webhooks]($./02-Model-Management)**      | [Create a testing job and a webhook of registered model]($./02-Model-Management/03a-Webhooks-and-Testing) </br> [Automated Testing]($./02-Model-Management/03b-Webhooks-Job-Demo)|
 # MAGIC | 10m  | **Break**                                               ||
-# MAGIC | 60m |**[Deployment Paradigms]($./03-Deployment-Paradigms)** | [Batch]($./03-Deployment-Paradigms/01-Batch)</br> [Real time]($./03-Deployment-Paradigms/02-Real-Time)</br> [Streaming]($./03-Deployment-Paradigms/03-Streaming)</br> [Labs]($./03-Deployment-Paradigms/Labs)|
+# MAGIC | 60m |**[Deployment Paradigms]($./03-Deployment-Paradigms)** | [Batch]($./03-Deployment-Paradigms/01-Batch)</br> [Real time]($./03-Deployment-Paradigms/02-Real-Time)</br> [Streaming (Reference)]($./Reference/03-Streaming-Deployment)</br> [Labs]($./03-Deployment-Paradigms/Labs)|
 # MAGIC | 10m  | **Break**                                               ||
-# MAGIC | 60m  | **[Production]($./04-Production)**  | [CI/CD]($./04-Production/01-CICD)</br> [Monitoring]($./04-Production/02-Monitoring)</br> [Alerting]($./04-Production/03-Alerting)</br> [Labs]($./04-Production/Labs/02-Monitoring-Lab)|
-# MAGIC | 10m  | **[Pipeline Example]($./05-Pipeline-Example)**  | [End-to-end pipeline example]($./05-Pipeline-Example/00-Orchestrate)|
+# MAGIC | 60m  | **[Production]($./04-Production)**  | [Monitoring]($./04-Production/01-Monitoring)</br> [Monitoring Lab]($./04-Production/Labs/01-Monitoring-Lab)</br>[Alerting (Reference)]($./Reference/02-Alerting) </br>[Pipeline Example (Reference)]($./Reference/04-Pipeline-Example/00-Orchestrate)|
+# MAGIC 
 # MAGIC 
 # MAGIC ## Prerequisites
 # MAGIC - A single-node cluster with **DBR 9.1 ML**

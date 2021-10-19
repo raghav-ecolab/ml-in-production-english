@@ -184,8 +184,9 @@ def log_rf(experiment_id, run_name, params, X_train, X_test, y_train, y_test):
     importance = (pd.DataFrame(list(zip(df.columns, rf.feature_importances_)), 
                                columns=["Feature", "Importance"])
                   .sort_values("Importance", ascending=False))
-    importance.to_csv(userhome + "/importance.csv", index=False)
-    mlflow.log_artifact(userhome + "/importance.csv", "feature-importance.csv")
+    importance_path = working_dir.replace("dbfs:/", "/dbfs/") + "/importance.csv"
+    importance.to_csv(importance_path, index=False)
+    mlflow.log_artifact(importance_path, "feature-importance.csv")
     
     # Log plot
     fig, ax = plt.subplots()

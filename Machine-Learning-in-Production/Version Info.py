@@ -11,7 +11,7 @@
 # MAGIC 
 # MAGIC * Name: **Machine Learning in Production**
 # MAGIC * Version:  **3.0.2**
-# MAGIC * Built On: **Oct 7, 2021 at 16:18:11 UTC**
+# MAGIC * Built On: **Oct 19, 2021 at 00:36:48 UTC**
 
 # COMMAND ----------
 

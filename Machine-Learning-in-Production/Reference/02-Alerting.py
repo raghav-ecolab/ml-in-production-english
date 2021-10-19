@@ -110,13 +110,6 @@ post_api_endpoint("This is my post from Python", webhook_ml_production_api_demo)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Steps
-# MAGIC 
-# MAGIC Start the next lesson, [Pipeline Example]($../05-Pipeline-Example/00-Orchestrate)
-
-# COMMAND ----------
-
-# MAGIC %md
 # MAGIC ## Additional Topics & Resources
 # MAGIC 
 # MAGIC **Q:** Where can I find the alerting tools mentioned in this lesson?  

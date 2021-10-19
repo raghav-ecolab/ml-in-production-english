@@ -299,6 +299,7 @@ airbnb_pdf = airbnb_pdf[num_cols + cat_cols]
 # Split Dataset into the two groups
 pdf1 = airbnb_pdf.sample(frac = 0.5, random_state=1)
 pdf2 = airbnb_pdf.drop(pdf1.index)
+# pdf2 = pdf1
 
 # COMMAND ----------
 
@@ -339,6 +340,64 @@ percent_change.style.background_gradient(cmap=cm, text_color_threshold=0.5, axis
 # MAGIC To solve this problem we will employ the **Bonferroni Correction**. This changes the alpha level to 0.05 / number of tests in group. It is common practice and reduces the probability of false positives. 
 # MAGIC 
 # MAGIC More information can be found [here](https://en.wikipedia.org/wiki/Bonferroni_correction).
+
+# COMMAND ----------
+
+count1 = pdf1.shape[0]
+df1 = pd.cut(pdf1["price"], bins=20, duplicates="drop").value_counts().to_frame().reset_index().rename({"index": "bins"})
+df1["probabilites"] = round(df1["price"] / count1, 4)
+base = np.sort(df1["probabilites"])
+df1
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC How do we make sure the bins are the same size across the two different dataframes?
+
+# COMMAND ----------
+
+# MAGIC %md 
+# MAGIC 1. pd.cut(x=union of df1 and df1, retBins=True)
+# MAGIC 2. Grabs the bins only as an interval index 
+# MAGIC 3. pd.cut(x=df1, bins=InverIndex from (2)) AND pd.cut(x=df2, bins=InverIndex from (2))
+# MAGIC 4. Caculate probabilites 
+# MAGIC 5. Pass into jensen shannon distance and calculate 
+# MAGIC 
+# MAGIC 
+# MAGIC **EASY!!!**
+
+# COMMAND ----------
+
+count2 = pdf2.shape[0]
+df2 = pd.cut(pdf2["price"], bins=20, duplicates="drop").value_counts().to_frame().reset_index().rename({"index": "bins"})
+df2["probabilites"] = round(df2["price"] / count2, 4)
+comp = np.sort(df2["probabilites"])
+df2
+
+# COMMAND ----------
+
+# Set the Bonferroni Corrected alpha level
+alpha = 0.05
+alpha_corrected = alpha / len(num_cols)
+
+# Loop over all numeric attributes (numeric cols and target col, price)
+for num in num_cols:
+  count1 = pdf1.shape[0]
+  df1 = pd.cut(pdf1[num], bins=20, duplicates="drop").value_counts().to_frame().reset_index().rename({"index": "bins"})
+  df1["probabilites"] = round(df1[num] / count1, 4)
+  base = np.sort(df1["probabilites"])
+
+  count2 = pdf2.shape[0]
+  df2 = pd.cut(pdf2[num], bins=20, duplicates="drop").value_counts().to_frame().reset_index().rename({"index": "bins"})
+  df2["probabilites"] = round(df2[num] / count2, 4)
+  comp = np.sort(df2["probabilites"])
+
+#   base, comp = np.sort(pdf1[num].drop(1)), np.sort(pdf2[num])
+  # Run test comparing old and new for that attribute
+  js_stat = distance.jensenshannon(base, comp, base=2.0)
+  print(f"{num}: {js_stat}")
+#   if js_drift:
+#     print(f"{num} had statistically significant change between the two samples")
 
 # COMMAND ----------
 
@@ -579,7 +638,7 @@ drift_monitor.generate_null_counts()
 # MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Steps
 # MAGIC 
-# MAGIC Start the labs for this lesson, [Monitoring Lab]($./Labs/02-Monitoring-Lab)
+# MAGIC Start the labs for this lesson, [Monitoring Lab]($./Labs/01-Monitoring-Lab)
 
 # COMMAND ----------
 

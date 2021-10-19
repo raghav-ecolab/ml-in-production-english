@@ -290,24 +290,14 @@ for stream in spark.streams.active:
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Lab<br>
-# MAGIC 
-# MAGIC Start the labs for this lesson, [Streaming Lab]($./Labs/03-Streaming-Lab) 
-
-# COMMAND ----------
-
 # MAGIC %md 
 # MAGIC ## Additional Topics & Resources
-# MAGIC 
-# MAGIC **Q:** Where can I find out more information on streaming ETL jobs?  
-# MAGIC **A:** Check out the Databricks blog post <a href="https://databricks.com/blog/2017/01/19/real-time-streaming-etl-structured-streaming-apache-spark-2-1.html" target="_blank">Real-time Streaming ETL with Structured Streaming in Apache Spark 2.1</a>
 # MAGIC 
 # MAGIC **Q:** Where can I get more information on integrating Streaming and Kafka?  
 # MAGIC **A:** Check out the <a href="https://spark.apache.org/docs/latest/structured-streaming-kafka-integration.html" target="_blank">Structured Streaming + Kafka Integration Guide</a>
 # MAGIC 
-# MAGIC **Q:** Where can I see a case study on an IoT pipeline using Structured Streaming?  
-# MAGIC **A:** Check out the Databricks blog post <a href="https://databricks.com/blog/2017/04/26/processing-data-in-apache-kafka-with-structured-streaming-in-apache-spark-2-2.html" target="_blank">Processing Data in Apache Kafka with Structured Streaming in Apache Spark 2.2</a>
+# MAGIC **Q:** What's new in Spark 3.1 with Structured Streaming?  
+# MAGIC **A:** Check out the Databricks blog post <a href="https://databricks.com/blog/2021/04/27/whats-new-in-apache-spark-3-1-release-for-structured-streaming.html" target="_blank">What’s New in Apache Spark™ 3.1 Release for Structured Streaming</a>
 
 # COMMAND ----------
 
