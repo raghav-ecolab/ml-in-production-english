@@ -89,14 +89,14 @@ from sklearn.metrics import mean_squared_error
 import mlflow.sklearn
 
 with mlflow.start_run(run_name="Final RF Model") as run:
-  rf = RandomForestRegressor(n_estimators=100, max_depth=5)
-  rf.fit(X, y)
+    rf = RandomForestRegressor(n_estimators=100, max_depth=5)
+    rf.fit(X, y)
 
-  predictions = rf.predict(X)
-  mlflow.sklearn.log_model(rf, "random_forest_model")
-  
-  mse = mean_squared_error(y, predictions) # This is on the same data the model was trained
-  mlflow.log_metric("mse", mse)
+    predictions = rf.predict(X)
+    mlflow.sklearn.log_model(rf, "random_forest_model")
+
+    mse = mean_squared_error(y, predictions) # This is on the same data the model was trained
+    mlflow.log_metric("mse", mse)
 
 # COMMAND ----------
 
@@ -166,9 +166,7 @@ display(dbutils.fs.ls(delta_partitioned_path))
 
 # COMMAND ----------
 
-spark.sql(f"""OPTIMIZE delta.`{delta_partitioned_path}`
-ZORDER BY (zipcode)
-""")
+spark.sql(f"OPTIMIZE delta.`{delta_partitioned_path}` ZORDER BY (zipcode)")
 
 # COMMAND ----------
 
@@ -186,6 +184,7 @@ ZORDER BY (zipcode)
 
 from databricks import feature_store
 from databricks.feature_store import feature_table,FeatureLookup
+
 ## create a feature store client
 fs = feature_store.FeatureStoreClient()
 
@@ -195,14 +194,15 @@ from pyspark.sql.functions import monotonically_increasing_id
 
 ## build feature dataframe, add index column and drop label
 df = (spark
-     .read
-     .csv("/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.csv", header=True, inferSchema=True)
-     .withColumn("index", monotonically_increasing_id()))
+      .read
+      .csv("/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.csv", header=True, inferSchema=True)
+      .withColumn("index", monotonically_increasing_id())
+     )
 ## feature data - all the columns except for the true label
 features_df = df.drop("price")
 
 ## inference data - contains only index and label columns, if you have online features, it should be added to inference_df as well
-inference_df = df.select("index","price")
+inference_df = df.select("index", "price")
 
 # COMMAND ----------
 
@@ -252,12 +252,13 @@ from mlflow.models.signature import infer_signature
 ## log RF model as a feature store packaged model and register the packaged model in model registry as `model_name`
 fs.log_model(
     model=rf,
-    artifact_path="feature_store_model", # NOTE: There is a bug in writing files to repos
+    artifact_path="feature_store_model",
     flavor=mlflow.sklearn,
     training_set=training_set,
     registered_model_name=model_name,
     input_example=X[:5],
-    signature=infer_signature(X, y))
+    signature=infer_signature(X, y)
+)
 
 # COMMAND ----------
 

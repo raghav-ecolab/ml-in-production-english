@@ -75,11 +75,11 @@ input_example = X_train.head(3)
 signature = infer_signature(X_train, pd.DataFrame(y_train))
 
 with mlflow.start_run(run_name="RF Model") as run:
-  mlflow.sklearn.log_model(rf, "model", input_example=input_example, signature=signature)
-  mlflow.log_metric("mse", mean_squared_error(y_test, rf.predict(X_test)))
-  mlflow.log_param("n_estimators", n_estimators)
-  mlflow.log_param("max_depth", max_depth)
-  run_id = run.info.run_id
+    mlflow.sklearn.log_model(rf, "model", input_example=input_example, signature=signature)
+    mlflow.log_metric("mse", mean_squared_error(y_test, rf.predict(X_test)))
+    mlflow.log_param("n_estimators", n_estimators)
+    mlflow.log_param("max_depth", max_depth)
+    run_id = run.info.run_id
 
 # COMMAND ----------
 
@@ -133,8 +133,8 @@ model_version_details.status
 # COMMAND ----------
 
 client.update_registered_model(
-  name=model_details.name,
-  description="This model forecasts Airbnb housing list prices based on various listing inputs."
+    name=model_details.name,
+    description="This model forecasts Airbnb housing list prices based on various listing inputs."
 )
 
 # COMMAND ----------
@@ -144,9 +144,9 @@ client.update_registered_model(
 # COMMAND ----------
 
 client.update_model_version(
-  name=model_details.name,
-  version=model_details.version,
-  description="This model version was built using sklearn."
+    name=model_details.name,
+    version=model_details.version,
+    description="This model version was built using sklearn."
 )
 
 # COMMAND ----------
@@ -173,9 +173,9 @@ time.sleep(10) # In case the registration is still pending
 # COMMAND ----------
 
 client.transition_model_version_stage(
-  name=model_details.name,
-  version=model_details.version,
-  stage="Production",
+    name=model_details.name,
+    version=model_details.version,
+    stage="Production"
 )
 
 # COMMAND ----------
@@ -235,22 +235,22 @@ input_example = X_train.head(3)
 signature = infer_signature(X_train, pd.DataFrame(y_train))
 
 with mlflow.start_run(run_name="RF Model") as run:
-  # Specify the `registered_model_name` parameter of the `mlflow.sklearn.log_model()`
-  # function to register the model with the MLflow Model Registry. This automatically
-  # creates a new model version
-  mlflow.sklearn.log_model(
-    sk_model=rf,
-    artifact_path="sklearn-model",
-    registered_model_name=model_name,
-    input_example=input_example,
-    signature=signature
-  )
-  mlflow.log_metric("mse", mean_squared_error(y_test, rf.predict(X_test)))
-  
-  mlflow.log_param("n_estimators", n_estimators)
-  mlflow.log_param("max_depth", max_depth)
+    # Specify the `registered_model_name` parameter of the `mlflow.sklearn.log_model()`
+    # function to register the model with the MLflow Model Registry. This automatically
+    # creates a new model version
+    mlflow.sklearn.log_model(
+        sk_model=rf,
+        artifact_path="sklearn-model",
+        registered_model_name=model_name,
+        input_example=input_example,
+        signature=signature
+    )
+    mlflow.log_metric("mse", mean_squared_error(y_test, rf.predict(X_test)))
 
-  run_id = run.info.run_id
+    mlflow.log_param("n_estimators", n_estimators)
+    mlflow.log_param("max_depth", max_depth)
+
+    run_id = run.info.run_id
 
 # COMMAND ----------
 
@@ -274,9 +274,9 @@ new_model_version = max([model_version_info.version for model_version_info in mo
 # COMMAND ----------
 
 client.update_model_version(
-  name=model_name,
-  version=new_model_version,
-  description="This model version is a random forest containing 300 decision trees and a max depth of 10 that was trained in scikit-learn."
+    name=model_name,
+    version=new_model_version,
+    description="This model version is a random forest containing 300 decision trees and a max depth of 10 that was trained in scikit-learn."
 )
 
 # COMMAND ----------
@@ -288,9 +288,9 @@ client.update_model_version(
 time.sleep(10) # In case the registration is still pending
 
 client.transition_model_version_stage(
-  name=model_name,
-  version=new_model_version,
-  stage="Staging",
+    name=model_name,
+    version=new_model_version,
+    stage="Staging"
 )
 
 # COMMAND ----------
@@ -300,9 +300,9 @@ client.transition_model_version_stage(
 # COMMAND ----------
 
 client.transition_model_version_stage(
-  name=model_name,
-  version=new_model_version,
-  stage="Production",
+    name=model_name,
+    version=new_model_version,
+    stage="Production"
 )
 
 # COMMAND ----------
@@ -314,9 +314,9 @@ client.transition_model_version_stage(
 # COMMAND ----------
 
 client.transition_model_version_stage(
-  name=model_name,
-  version=1,
-  stage="Archived",
+    name=model_name,
+    version=1,
+    stage="Archived"
 )
 
 # COMMAND ----------
@@ -328,8 +328,8 @@ client.transition_model_version_stage(
 # COMMAND ----------
 
 client.delete_model_version(
-  name=model_name,
-  version=1
+    name=model_name,
+    version=1
 )
 
 # COMMAND ----------
@@ -339,9 +339,9 @@ client.delete_model_version(
 # COMMAND ----------
 
 client.transition_model_version_stage(
-  name=model_name,
-  version=2,
-  stage="Archived",
+    name=model_name,
+    version=2,
+    stage="Archived"
 )
 
 # COMMAND ----------

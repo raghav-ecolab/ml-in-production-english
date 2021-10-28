@@ -39,9 +39,11 @@
 # MAGIC 
 # MAGIC 
 # MAGIC ## Prerequisites
-# MAGIC - A single-node cluster with **DBR 9.1 ML**
 # MAGIC - Experience with Python (`pandas`, `sklearn`, `numpy`)
 # MAGIC - Background in machine learning and data science
+# MAGIC 
+# MAGIC ## Cluster Requirements
+# MAGIC - See your instructor for specific requirements
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> **Certain features used in this course, such as the notebooks API and model registry, are only available to paid or trial subscription users of Databricks.**
 # MAGIC If you are using the Databricks Community Edition, click the `Upgrade` button on the landing page <a href="https://accounts.cloud.databricks.com/registration.html#login" target="_blank">or navigate here</a> to start a free trial.

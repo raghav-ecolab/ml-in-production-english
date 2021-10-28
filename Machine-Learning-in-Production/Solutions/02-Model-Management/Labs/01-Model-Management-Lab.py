@@ -66,9 +66,9 @@ class RFWithPostprocess(mlflow.pyfunc.PythonModel):
         self.rf = trained_rf
 
     def postprocess_result(self, results):
-        '''return post-processed results
+        """return post-processed results
         Expensive: predicted price > 100
-        Not Expensive: predicted price <= 100'''
+        Not Expensive: predicted price <= 100"""
         
         return ["Expensive" if result > 100 else "Not Expensive" for result in results]
     
@@ -83,7 +83,13 @@ class RFWithPostprocess(mlflow.pyfunc.PythonModel):
 
 # COMMAND ----------
 
-dbutils.fs.rm(working_dir, recurse=True) # remove folder if already exists
+import shutil
+
+model_path = working_dir.replace("dbfs:", "/dbfs")
+try:
+    shutil.rmtree(model_path) # remove folder if already exists
+except:
+    None
 
 # Construct model
 model_path =  working_dir.replace("dbfs:", "/dbfs")

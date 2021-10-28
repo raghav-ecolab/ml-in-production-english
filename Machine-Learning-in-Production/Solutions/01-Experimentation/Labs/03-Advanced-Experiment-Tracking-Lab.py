@@ -63,36 +63,36 @@ import matplotlib.pyplot as plt
 
 with mlflow.start_run(run_name="parent") as run:
   
-  signature = infer_signature(X_train, pd.DataFrame(y_train))
-  input_example = X_train.head(3)
-  
-  with mlflow.start_run(run_name="child_1", nested=True):
-    max_depth = 5
-    rf = RandomForestRegressor(random_state=42, max_depth=max_depth)
-    rf_model = rf.fit(X_train, y_train)
-    mse = mean_squared_error(rf_model.predict(X_test), y_test)
-    mlflow.log_param("max_depth", max_depth)
-    mlflow.log_metric("mse", mse)
-    mlflow.sklearn.log_model(rf_model, "model", signature=signature, input_example=input_example)
-    
-  with mlflow.start_run(run_name="child_2", nested=True):
-    max_depth = 10
-    rf = RandomForestRegressor(random_state=42, max_depth=max_depth)
-    rf_model = rf.fit(X_train, y_train)
-    mse = mean_squared_error(rf_model.predict(X_test), y_test)
-    mlflow.log_param("max_depth", max_depth)
-    mlflow.log_metric("mse", mse)
-    mlflow.sklearn.log_model(rf_model, "model", signature=signature, input_example=input_example)
-    
-    # Generate feature importance plot
-    feature_importances = pd.Series(rf_model.feature_importances_, index=X.columns)
-    fig, ax = plt.subplots()
-    feature_importances.plot.bar(ax=ax)
-    ax.set_title("Feature importances using MDI")
-    ax.set_ylabel("Mean decrease in impurity")
-  
-    # Log figure
-    mlflow.log_figure(fig, "feature_importances_rf.png")
+    signature = infer_signature(X_train, pd.DataFrame(y_train))
+    input_example = X_train.head(3)
+
+    with mlflow.start_run(run_name="child_1", nested=True):
+        max_depth = 5
+        rf = RandomForestRegressor(random_state=42, max_depth=max_depth)
+        rf_model = rf.fit(X_train, y_train)
+        mse = mean_squared_error(rf_model.predict(X_test), y_test)
+        mlflow.log_param("max_depth", max_depth)
+        mlflow.log_metric("mse", mse)
+        mlflow.sklearn.log_model(rf_model, "model", signature=signature, input_example=input_example)
+
+    with mlflow.start_run(run_name="child_2", nested=True):
+        max_depth = 10
+        rf = RandomForestRegressor(random_state=42, max_depth=max_depth)
+        rf_model = rf.fit(X_train, y_train)
+        mse = mean_squared_error(rf_model.predict(X_test), y_test)
+        mlflow.log_param("max_depth", max_depth)
+        mlflow.log_metric("mse", mse)
+        mlflow.sklearn.log_model(rf_model, "model", signature=signature, input_example=input_example)
+
+        # Generate feature importance plot
+        feature_importances = pd.Series(rf_model.feature_importances_, index=X.columns)
+        fig, ax = plt.subplots()
+        feature_importances.plot.bar(ax=ax)
+        ax.set_title("Feature importances using MDI")
+        ax.set_ylabel("Mean decrease in impurity")
+
+        # Log figure
+        mlflow.log_figure(fig, "feature_importances_rf.png")
 
 # COMMAND ----------
 
@@ -121,19 +121,19 @@ from hyperopt import fmin, tpe, hp, SparkTrials
 
 # Define objective function
 def objective(params):
-  # build a Random Forest Regressor with hyperparameters
-  model = RandomForestRegressor(n_estimators=int(params["n_estimators"]), 
-                                max_depth=int(params["max_depth"]))
-  
-  # fit model with training data
-  model.fit(X_train, y_train)
+    # build a Random Forest Regressor with hyperparameters
+    model = RandomForestRegressor(n_estimators=int(params["n_estimators"]), 
+                                  max_depth=int(params["max_depth"]))
 
-  # predict on testing data
-  pred = model.predict(X_test)
+    # fit model with training data
+    model.fit(X_train, y_train)
 
-  # compute mean squared error
-  score = mean_squared_error(pred, y_test)
-  return score
+    # predict on testing data
+    pred = model.predict(X_test)
+
+    # compute mean squared error
+    score = mean_squared_error(pred, y_test)
+    return score
 
 # COMMAND ----------
 
@@ -150,12 +150,11 @@ spark_trials = SparkTrials(parallelism=2)
 
 # start run
 with mlflow.start_run(run_name="Hyperopt"):
-  argmin = fmin(
-    fn=objective,
-    space=search_space,
-    algo=algo,
-    max_evals=16,
-    trials=spark_trials)
+    argmin = fmin(fn=objective,
+                  space=search_space,
+                  algo=algo,
+                  max_evals=16,
+                  trials=spark_trials)
 
 # COMMAND ----------
 

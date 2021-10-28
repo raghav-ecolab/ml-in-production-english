@@ -61,16 +61,10 @@
 # MAGIC %md 
 # MAGIC Define a Slack webhook.  This has **not** been done for you.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Define your own Slack webhook <a href="https://api.slack.com/incoming-webhooks#getting-started" target="_blank">using these 4 steps.</a><br>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Define your own Slack webhook <a href="https://api.slack.com/incoming-webhooks#getting-started" target="_blank">using these 4 steps. </a><br>
 # MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> This same approach applies to PagerDuty as well.
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC // INSTRUCTOR_NOTE
-# MAGIC Follow the directions here to enable this on your own: https://api.slack.com/incoming-webhooks#
 # MAGIC 
-# MAGIC Note that this lesson could be rewritten using AWS API Gateway and Lambda/Kinesis to have an API that would display the latest N requests to the endpoint.
+# MAGIC Follow the directions here to enable [incoming webhooks](https://api.slack.com/incoming-webhooks#).
 
 # COMMAND ----------
 
@@ -83,20 +77,20 @@ webhook_ml_production_api_demo = "" # FILL_IN
 # COMMAND ----------
 
 def post_api_endpoint(content, webhook=""):
-  '''
-  Post message to Teams to log progress
-  '''
-  import requests
-  from requests.exceptions import MissingSchema
-  from string import Template
-  
-  t = Template("{'text': '${content}'}")
-  
-  try:
-    response = requests.post(webhook, data=t.substitute(content=content), headers={"Content-Type": "application/json"})
-    return response
-  except MissingSchema:
-    print("Please define an appropriate API endpoint use by defining the `webhook` argument")
+    """
+    Post message to Teams to log progress
+    """
+    import requests
+    from requests.exceptions import MissingSchema
+    from string import Template
+
+    t = Template("{'text': '${content}'}")
+
+    try:
+        response = requests.post(webhook, data=t.substitute(content=content), headers={"Content-Type": "application/json"})
+        return response
+    except MissingSchema:
+        print("Please define an appropriate API endpoint use by defining the `webhook` argument")
 
 post_api_endpoint("This is my post from Python", webhook_ml_production_api_demo)
 

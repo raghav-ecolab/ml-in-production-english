@@ -47,27 +47,27 @@ from sklearn.metrics import mean_squared_error
 
 # Start run
 with mlflow.start_run(run_name="xgboost_model") as run:
-  train_pdf = df.toPandas()
-  X_train = train_pdf.drop(["price"], axis=1)
-  y_train = train_pdf["price"]
+    train_pdf = df.toPandas()
+    X_train = train_pdf.drop(["price"], axis=1)
+    y_train = train_pdf["price"]
 
-  # Train model
-  n_estimators = 10
-  max_depth = 5
-  regressor = xgb.XGBRegressor(n_estimators=n_estimators, max_depth=max_depth)
-  regressor.fit(X_train, y_train)
+    # Train model
+    n_estimators = 10
+    max_depth = 5
+    regressor = xgb.XGBRegressor(n_estimators=n_estimators, max_depth=max_depth)
+    regressor.fit(X_train, y_train)
 
-  # Evaluate model
-  predictions = regressor.predict(X_train)
-  rmse = mean_squared_error(predictions, y_train, squared=False)
+    # Evaluate model
+    predictions = regressor.predict(X_train)
+    rmse = mean_squared_error(predictions, y_train, squared=False)
 
-  # Log params and metric
-  mlflow.log_param("max_depth", max_depth)
-  mlflow.log_param("n_estimators", n_estimators)
-  mlflow.log_metric("rmse", rmse)
+    # Log params and metric
+    mlflow.log_param("max_depth", max_depth)
+    mlflow.log_param("n_estimators", n_estimators)
+    mlflow.log_metric("rmse", rmse)
 
-  # Log model
-  mlflow.xgboost.log_model(regressor, "xgboost-model")
+    # Log model
+    mlflow.xgboost.log_model(regressor, "xgboost-model")
     
 # Register model
 model_name = f"xgboost_model_{clean_username}"

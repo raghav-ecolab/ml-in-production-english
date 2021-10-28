@@ -89,28 +89,28 @@ display(airbnb_df)
 from pyspark.sql.types import DoubleType, IntegerType, StructType
 
 schema = (StructType()
-.add("host_total_listings_count", DoubleType())
-.add("neighbourhood_cleansed", IntegerType())
-.add("zipcode", IntegerType())
-.add("latitude", DoubleType())
-.add("longitude", DoubleType())
-.add("property_type", IntegerType())
-.add("room_type", IntegerType())
-.add("accommodates", DoubleType())
-.add("bathrooms", DoubleType())
-.add("bedrooms", DoubleType())
-.add("beds", DoubleType())
-.add("bed_type", IntegerType())
-.add("minimum_nights", DoubleType())
-.add("number_of_reviews", DoubleType())
-.add("review_scores_rating", DoubleType())
-.add("review_scores_accuracy", DoubleType())
-.add("review_scores_cleanliness", DoubleType())
-.add("review_scores_checkin", DoubleType())
-.add("review_scores_communication", DoubleType())
-.add("review_scores_location", DoubleType())
-.add("review_scores_value", DoubleType())
-.add("price", DoubleType())
+    .add("host_total_listings_count", DoubleType())
+    .add("neighbourhood_cleansed", IntegerType())
+    .add("zipcode", IntegerType())
+    .add("latitude", DoubleType())
+    .add("longitude", DoubleType())
+    .add("property_type", IntegerType())
+    .add("room_type", IntegerType())
+    .add("accommodates", DoubleType())
+    .add("bathrooms", DoubleType())
+    .add("bedrooms", DoubleType())
+    .add("beds", DoubleType())
+    .add("bed_type", IntegerType())
+    .add("minimum_nights", DoubleType())
+    .add("number_of_reviews", DoubleType())
+    .add("review_scores_rating", DoubleType())
+    .add("review_scores_accuracy", DoubleType())
+    .add("review_scores_cleanliness", DoubleType())
+    .add("review_scores_checkin", DoubleType())
+    .add("review_scores_communication", DoubleType())
+    .add("review_scores_location", DoubleType())
+    .add("review_scores_value", DoubleType())
+    .add("price", DoubleType())
 )
 
 # COMMAND ----------
@@ -164,14 +164,14 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 
 with mlflow.start_run(run_name="Final RF Model") as run: 
-  df = pd.read_parquet("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet")
-  X = df.drop(["price"], axis=1)
-  y = df["price"]
+    df = pd.read_parquet("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet")
+    X = df.drop(["price"], axis=1)
+    y = df["price"]
 
-  rf = RandomForestRegressor(n_estimators=100, max_depth=5)
-  rf.fit(X, y)
-  
-  mlflow.sklearn.log_model(rf, "random-forest-model")
+    rf = RandomForestRegressor(n_estimators=100, max_depth=5)
+    rf.fit(X, y)
+
+    mlflow.sklearn.log_model(rf, "random-forest-model")
 
 # COMMAND ----------
 
@@ -200,15 +200,15 @@ my_stream_name = "lesson03_stream"
 import time
 
 def until_stream_is_ready(name, progressions=3):  
-  # Get the query identified by "name"
-  queries = list(filter(lambda query: query.name == name, spark.streams.active))
-
-  # We need the query to exist, and progress to be >= "progressions"
-  while (len(queries) == 0 or len(queries[0].recentProgress) < progressions):
-    time.sleep(5) # Give it a couple of seconds
+    # Get the query identified by "name"
     queries = list(filter(lambda query: query.name == name, spark.streams.active))
 
-  print(f"The stream {name} is active and ready.")
+    # We need the query to exist, and progress to be >= "progressions"
+    while (len(queries) == 0 or len(queries[0].recentProgress) < progressions):
+        time.sleep(5) # Give it a couple of seconds
+        queries = list(filter(lambda query: query.name == name, spark.streams.active))
+
+    print(f"The stream {name} is active and ready.")
 
 # COMMAND ----------
 
@@ -228,8 +228,8 @@ until_stream_is_ready(my_stream_name)
 
 # When you are done previewing the results, stop the stream.
 for stream in spark.streams.active:
-  print(f"Stopping {stream.name}")
-  stream.stop() # Stop the stream
+    print(f"Stopping {stream.name}")
+    stream.stop() # Stop the stream
 
 # COMMAND ----------
 
@@ -243,14 +243,14 @@ checkpoint_location = f"{working_dir}/stream.checkpoint"
 write_path = f"{working_dir}/predictions"
 
 (predictions_df
-  .writeStream                                           # Write the stream
-  .queryName(my_stream_name)                             # Name the query
-  .format("delta")                                       # Use the delta format
-  .partitionBy("zipcode")                                # Specify a feature to partition on
-  .option("checkpointLocation", checkpoint_location)     # Specify where to log metadata
-  .option("path", write_path)                            # Specify the output path
-  .outputMode("append")                                  # Append new records to the output path
-  .start()                                               # Start the operation
+    .writeStream                                           # Write the stream
+    .queryName(my_stream_name)                             # Name the query
+    .format("delta")                                       # Use the delta format
+    .partitionBy("zipcode")                                # Specify a feature to partition on
+    .option("checkpointLocation", checkpoint_location)     # Specify where to log metadata
+    .option("path", write_path)                            # Specify the output path
+    .outputMode("append")                                  # Append new records to the output path
+    .start()                                               # Start the operation
 )
 
 # COMMAND ----------
@@ -271,8 +271,8 @@ spark.read.format("delta").load(write_path).count()
 
 # When you are done previewing the results, stop the stream.
 for stream in spark.streams.active:
-  print(f"Stopping {stream.name}")
-  stream.stop() # Stop the stream
+    print(f"Stopping {stream.name}")
+    stream.stop() # Stop the stream
 
 # COMMAND ----------
 

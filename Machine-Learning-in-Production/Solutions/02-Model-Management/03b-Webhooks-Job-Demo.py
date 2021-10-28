@@ -60,26 +60,26 @@ output_schema = pyfunc_model.metadata.get_output_schema().as_spark_schema()
 from pyspark.sql.types import StructType, StructField, LongType, DoubleType
 
 expected_input_schema = (StructType([
-  StructField("host_total_listings_count", DoubleType(), True),
-  StructField("neighbourhood_cleansed", LongType(), True),
-  StructField("zipcode", LongType(), True),
-  StructField("latitude", DoubleType(), True),
-  StructField("longitude", DoubleType(), True),
-  StructField("property_type", LongType(), True),
-  StructField("accommodates", DoubleType(), True),
-  StructField("bathrooms", DoubleType(), True),
-  StructField("bedrooms", DoubleType(), True),
-  StructField("beds", DoubleType(), True),
-  StructField("bed_type", LongType(), True),
-  StructField("minimum_nights", DoubleType(), True),
-  StructField("number_of_reviews", DoubleType(), True),
-  StructField("review_scores_rating", DoubleType(), True),
-  StructField("review_scores_accuracy", DoubleType(), True),
-  StructField("review_scores_cleanliness", DoubleType(), True),
-  StructField("review_scores_checkin", DoubleType(), True),
-  StructField("review_scores_communication", DoubleType(), True),
-  StructField("review_scores_location", DoubleType(), True),
-  StructField("review_scores_value", DoubleType(), True)
+    StructField("host_total_listings_count", DoubleType(), True),
+    StructField("neighbourhood_cleansed", LongType(), True),
+    StructField("zipcode", LongType(), True),
+    StructField("latitude", DoubleType(), True),
+    StructField("longitude", DoubleType(), True),
+    StructField("property_type", LongType(), True),
+    StructField("accommodates", DoubleType(), True),
+    StructField("bathrooms", DoubleType(), True),
+    StructField("bedrooms", DoubleType(), True),
+    StructField("beds", DoubleType(), True),
+    StructField("bed_type", LongType(), True),
+    StructField("minimum_nights", DoubleType(), True),
+    StructField("number_of_reviews", DoubleType(), True),
+    StructField("review_scores_rating", DoubleType(), True),
+    StructField("review_scores_accuracy", DoubleType(), True),
+    StructField("review_scores_cleanliness", DoubleType(), True),
+    StructField("review_scores_checkin", DoubleType(), True),
+    StructField("review_scores_communication", DoubleType(), True),
+    StructField("review_scores_location", DoubleType(), True),
+    StructField("review_scores_value", DoubleType(), True)
 ]))
 
 expected_output_schema = StructType([StructField("price", DoubleType(), True)])

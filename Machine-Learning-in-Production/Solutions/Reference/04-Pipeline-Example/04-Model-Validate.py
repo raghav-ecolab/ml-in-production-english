@@ -55,15 +55,15 @@ display(spark_model.transform(df))
 from pyspark.sql.types import StructType, StructField, StringType, DoubleType
 
 expected_input_schema = (StructType([
-  StructField("accommodates", DoubleType(), True),
-  StructField("beds", DoubleType(), True),
-  StructField("bedrooms", DoubleType(), True),
-  StructField("minimum_nights", DoubleType(), True),
-  StructField("number_of_reviews", DoubleType(), True),
-  StructField("review_scores_rating", DoubleType(), True),
-  StructField("neighbourhood_cleansed", StringType(), True),
-  StructField("property_type", StringType(), True),
-  StructField("room_type", StringType(), True)                             
+    StructField("accommodates", DoubleType(), True),
+    StructField("beds", DoubleType(), True),
+    StructField("bedrooms", DoubleType(), True),
+    StructField("minimum_nights", DoubleType(), True),
+    StructField("number_of_reviews", DoubleType(), True),
+    StructField("review_scores_rating", DoubleType(), True),
+    StructField("neighbourhood_cleansed", StringType(), True),
+    StructField("property_type", StringType(), True),
+    StructField("room_type", StringType(), True)                             
 ]))
 
 # COMMAND ----------

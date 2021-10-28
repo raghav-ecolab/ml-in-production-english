@@ -60,7 +60,7 @@ grid_rf_model.fit(X_train, y_train)
 
 best_rf = grid_rf_model.best_estimator_
 for p in parameters:
-  print(f"Best '{p}': {best_rf.get_params()[p]}")
+    print(f"Best '{p}': {best_rf.get_params()[p]}")
 
 # COMMAND ----------
 
@@ -75,20 +75,20 @@ for p in parameters:
 from sklearn.metrics import mean_squared_error
 
 with mlflow.start_run(run_name= FILL_IN) as run:
-  # Create predictions of X_test using best model
-  # FILL_IN
-  
-  # Log model with name
-  # FILL_IN
-  
-  # Log params
-  # FILL_IN
-  
-  # Create and log MSE metrics using predictions of X_test and its actual value y_test
-  # FILL_IN
-  
-  run_id = run.info.run_id
-  print(f"Inside MLflow Run with id {run_id}")
+    # Create predictions of X_test using best model
+    # FILL_IN
+
+    # Log model with name
+    # FILL_IN
+
+    # Log params
+    # FILL_IN
+
+    # Create and log MSE metrics using predictions of X_test and its actual value y_test
+    # FILL_IN
+
+    run_id = run.info.run_id
+    print(f"Inside MLflow Run with id {run_id}")
 
 # COMMAND ----------
 

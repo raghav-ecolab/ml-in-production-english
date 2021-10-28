@@ -51,6 +51,21 @@
 
 # COMMAND ----------
 
+# MAGIC %md 
+# MAGIC 
+# MAGIC It is important to note that each situation will need to be handled differently and that the presence of drift does not immediately indicate a need to replace the current model. 
+# MAGIC 
+# MAGIC For example:
+# MAGIC * Imagine a model designed to predict snow cone sales with temperature as an input variable. If more recent data has higher temperatures and higher snow cone sales, we have both feature and label drift, but as long as the model is performing well, then there is not an issue. However, we might still want to take other business action given the change, so it is important to monitor for this anyway. 
+# MAGIC 
+# MAGIC * However, if temperature rose and sales increased, but our predictions did not match this change, we could have concept drift and will need to retrain the model. 
+# MAGIC 
+# MAGIC * In either case, we may want to alert the company of the changes in case they impact other business processes, so it is important to track all potential drift. 
+# MAGIC 
+# MAGIC **In order to best adapt to possible changes, we compare data and models across time windows to identify any kind of drift that could be occuring, and then analyze and diagnose the issue after looking closer.** 
+
+# COMMAND ----------
+
 # MAGIC %md
 # MAGIC ## Testing for Drift
 # MAGIC 
@@ -62,10 +77,10 @@
 # MAGIC * Tests
 # MAGIC   * [Jensen-Shannon](https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence)
 # MAGIC     - This method provides a smoothed and normalized metric
-# MAGIC   * [Two-Sample Kolmogorov-Smirnov (KS)]("https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test"), [Mann-Whitney]("https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test"), or [Wilcoxon tests]("https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test").
+# MAGIC   * [Two-Sample Kolmogorov-Smirnov (KS)](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test), [Mann-Whitney](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test), or [Wilcoxon tests](https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test).
 # MAGIC     - Note: These tests vary largely in their assumption of normalcy and ability to handle larger data sizes
 # MAGIC     - Do a check of normalcy and choose the appropriate test based on this (e.g. Mann-Whitney is more permissive of skew) 
-# MAGIC   * [Wasserstein Distance]("https://en.wikipedia.org/wiki/Wasserstein_metric")
+# MAGIC   * [Wasserstein Distance](https://en.wikipedia.org/wiki/Wasserstein_metric)
 # MAGIC   * [Kullback–Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence)
 # MAGIC 
 # MAGIC     
@@ -73,17 +88,17 @@
 # MAGIC * Summary Statistics
 # MAGIC   * Mode, Number of unique values, Number of missing values
 # MAGIC * Tests
-# MAGIC   * [One-way Chi-Squared Test]("https://en.wikipedia.org/wiki/Chi-squared_test")
-# MAGIC   * [Chi-Squared Contingency Test]("https://en.wikipedia.org/wiki/Chi-squared_test")
-# MAGIC   * [Fisher's Exact Test]("https://en.wikipedia.org/wiki/Fisher%27s_exact_test")
+# MAGIC   * [One-way Chi-Squared Test](https://en.wikipedia.org/wiki/Chi-squared_test)
+# MAGIC   * [Chi-Squared Contingency Test](https://en.wikipedia.org/wiki/Chi-squared_test)
+# MAGIC   * [Fisher's Exact Test](https://en.wikipedia.org/wiki/Fisher%27s_exact_test)
 # MAGIC 
 # MAGIC We also might want to store the relationship between the input variables and label. In that case, we handle this differently depending on the label variable type. 
 # MAGIC 
 # MAGIC **Numeric Comparisons**
-# MAGIC * [Pearson Coefficient]("https://en.wikipedia.org/wiki/Pearson_correlation_coefficient")
+# MAGIC * [Pearson Coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient)
 # MAGIC 
 # MAGIC **Categorical Comparisons** 
-# MAGIC * [Contingency Tables]("https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them.")
+# MAGIC * [Contingency Tables](https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them.)
 # MAGIC 
 # MAGIC Let's try them out!
 
@@ -112,77 +127,76 @@ from scipy import stats
 from scipy.spatial import distance
 
 def plot_distribution(distibution_1, distibution_2):
-  """
-  Plots the two given distributions 
-  
-  :param distribution_1: rv_continuous 
-  :param distribution_2: rv_continuous 
-  
-  """
-  sns.kdeplot(distibution_1, shade=True, color="g", label=1)
-  sns.kdeplot(distibution_2, shade=True, color="b", label=2)
-  plt.legend(loc="upper right", borderaxespad=0)
-  
+    """
+    Plots the two given distributions 
+
+    :param distribution_1: rv_continuous 
+    :param distribution_2: rv_continuous 
+
+    """
+    sns.kdeplot(distibution_1, shade=True, color="g", label=1)
+    sns.kdeplot(distibution_2, shade=True, color="b", label=2)
+    plt.legend(loc="upper right", borderaxespad=0)
+
 def get_truncated_normal(mean=0, sd=1, low=0.2, upp=0.8, n_size=1000, seed=999):
-  """
-  Generates truncated normal distribution based on given mean, standard deviation, lower bound, upper bound and sample size 
-  
-  :param mean: float, mean used to create the distribution 
-  :param sd: float, standard deviation used to create distribution
-  :param low: float, lower bound used to create the distribution 
-  :param upp: float, upper bound used to create the distribution 
-  :param n_size: integer, desired sample size 
-  
-  :return distb: rv_continuous 
-  """
-  a = (low-mean) / sd
-  b = (upp-mean) / sd
-  distb = truncnorm(a, b, loc=mean, scale=sd).rvs(n_size)
-  return distb
+    """
+    Generates truncated normal distribution based on given mean, standard deviation, lower bound, upper bound and sample size 
+
+    :param mean: float, mean used to create the distribution 
+    :param sd: float, standard deviation used to create distribution
+    :param low: float, lower bound used to create the distribution 
+    :param upp: float, upper bound used to create the distribution 
+    :param n_size: integer, desired sample size 
+
+    :return distb: rv_continuous 
+    """
+    a = (low-mean) / sd
+    b = (upp-mean) / sd
+    distb = truncnorm(a, b, loc=mean, scale=sd).rvs(n_size)
+    return distb
 
 def calculate_ks(distibution_1, distibution_2):
-  """
-  Helper function that calculated the KS stat and plots the two distributions used in the calculation 
-  
-  :param distribution_1: rv_continuous
-  :param distribution_2: rv_continuous 
-  
-  :return p_value: float, resulting p-value from KS calculation
-  :return ks_drift: bool, detection of significant difference across the distributions 
-  """
-  base, comp = distibution_1, distibution_2
-  p_value = np.round(stats.ks_2samp(base, comp)[0],3)
-  ks_drift = str(p_value < 0.05)
-  
-  # Generate plots
-  plot_distribution(base, comp)
-  label = f"KS Stat suggests model drift: {ks_drift} \n P-value = {p_value}"
-  plt.title(label, loc="center")
-  return p_value, ks_drift
+    """
+    Helper function that calculated the KS stat and plots the two distributions used in the calculation 
+
+    :param distribution_1: rv_continuous
+    :param distribution_2: rv_continuous 
+
+    :return p_value: float, resulting p-value from KS calculation
+    :return ks_drift: bool, detection of significant difference across the distributions 
+    """
+    base, comp = distibution_1, distibution_2
+    p_value = np.round(stats.ks_2samp(base, comp)[0],3)
+    ks_drift = str(p_value < 0.05)
+
+    # Generate plots
+    plot_distribution(base, comp)
+    label = f"KS Stat suggests model drift: {ks_drift} \n P-value = {p_value}"
+    plt.title(label, loc="center")
+    return p_value, ks_drift
 
 def calculate_js_distance(distibution_1, distibution_2):
-  """
-  Helper function that calculated the JS distance and plots the two distributions used in the calculation 
-  
-  :param distribution_1: rv_continuous
-  :param distribution_2: rv_continuous 
-  
-  :return js_stat: float, resulting distance measure from JS calculation
-  :return js_drift: bool, detection of significant difference across the distributions 
-  """
-  base, comp = np.sort(distibution_1), np.sort(distibution_2)
-  js_stat = distance.jensenshannon(base, comp, base=2)
-  js_stat_string = str(np.round(js_stat, 3))
-  js_drift = str(js_stat > 0.2)
-  
-  # Generate plot
-  plot_distribution(base, comp)
-  nl = "\n"
-  label = f"Jensen Shannon suggests model drift: {js_drift} {nl} JS Distance = {js_stat_string}"
-  plt.title(label, loc="center")
-  
-  return js_stat, js_drift
-  
+    """
+    Helper function that calculated the JS distance and plots the two distributions used in the calculation 
+
+    :param distribution_1: rv_continuous
+    :param distribution_2: rv_continuous 
+
+    :return js_stat: float, resulting distance measure from JS calculation
+    :return js_drift: bool, detection of significant difference across the distributions 
+    """
+    base, comp = np.sort(distibution_1), np.sort(distibution_2)
+    js_stat = distance.jensenshannon(base, comp, base=2)
+    js_stat_string = str(np.round(js_stat, 3))
+    js_drift = str(js_stat > 0.2)
+
+    # Generate plot
+    plot_distribution(base, comp)
+    nl = "\n"
+    label = f"Jensen Shannon suggests model drift: {js_drift} {nl} JS Distance = {js_stat_string}"
+    plt.title(label, loc="center")
+
+    return js_stat, js_drift
 
 # COMMAND ----------
 
@@ -299,7 +313,6 @@ airbnb_pdf = airbnb_pdf[num_cols + cat_cols]
 # Split Dataset into the two groups
 pdf1 = airbnb_pdf.sample(frac = 0.5, random_state=1)
 pdf2 = airbnb_pdf.drop(pdf1.index)
-# pdf2 = pdf1
 
 # COMMAND ----------
 
@@ -343,74 +356,16 @@ percent_change.style.background_gradient(cmap=cm, text_color_threshold=0.5, axis
 
 # COMMAND ----------
 
-count1 = pdf1.shape[0]
-df1 = pd.cut(pdf1["price"], bins=20, duplicates="drop").value_counts().to_frame().reset_index().rename({"index": "bins"})
-df1["probabilites"] = round(df1["price"] / count1, 4)
-base = np.sort(df1["probabilites"])
-df1
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC How do we make sure the bins are the same size across the two different dataframes?
-
-# COMMAND ----------
-
-# MAGIC %md 
-# MAGIC 1. pd.cut(x=union of df1 and df1, retBins=True)
-# MAGIC 2. Grabs the bins only as an interval index 
-# MAGIC 3. pd.cut(x=df1, bins=InverIndex from (2)) AND pd.cut(x=df2, bins=InverIndex from (2))
-# MAGIC 4. Caculate probabilites 
-# MAGIC 5. Pass into jensen shannon distance and calculate 
-# MAGIC 
-# MAGIC 
-# MAGIC **EASY!!!**
-
-# COMMAND ----------
-
-count2 = pdf2.shape[0]
-df2 = pd.cut(pdf2["price"], bins=20, duplicates="drop").value_counts().to_frame().reset_index().rename({"index": "bins"})
-df2["probabilites"] = round(df2["price"] / count2, 4)
-comp = np.sort(df2["probabilites"])
-df2
-
-# COMMAND ----------
-
 # Set the Bonferroni Corrected alpha level
 alpha = 0.05
 alpha_corrected = alpha / len(num_cols)
 
 # Loop over all numeric attributes (numeric cols and target col, price)
 for num in num_cols:
-  count1 = pdf1.shape[0]
-  df1 = pd.cut(pdf1[num], bins=20, duplicates="drop").value_counts().to_frame().reset_index().rename({"index": "bins"})
-  df1["probabilites"] = round(df1[num] / count1, 4)
-  base = np.sort(df1["probabilites"])
-
-  count2 = pdf2.shape[0]
-  df2 = pd.cut(pdf2[num], bins=20, duplicates="drop").value_counts().to_frame().reset_index().rename({"index": "bins"})
-  df2["probabilites"] = round(df2[num] / count2, 4)
-  comp = np.sort(df2["probabilites"])
-
-#   base, comp = np.sort(pdf1[num].drop(1)), np.sort(pdf2[num])
-  # Run test comparing old and new for that attribute
-  js_stat = distance.jensenshannon(base, comp, base=2.0)
-  print(f"{num}: {js_stat}")
-#   if js_drift:
-#     print(f"{num} had statistically significant change between the two samples")
-
-# COMMAND ----------
-
-# Set the Bonferroni Corrected alpha level
-alpha = 0.05
-alpha_corrected = alpha / len(num_cols)
-
-# Loop over all numeric attributes (numeric cols and target col, price)
-for num in num_cols:
-  # Run test comparing old and new for that attribute
-  ks_stat, ks_pval = stats.ks_2samp(pdf1[num], pdf2[num], mode="asymp")
-  if ks_pval <= alpha_corrected:
-    print(f"{num} had statistically significant change between the two samples")
+    # Run test comparing old and new for that attribute
+    ks_stat, ks_pval = stats.ks_2samp(pdf1[num], pdf2[num], mode="asymp")
+    if ks_pval <= alpha_corrected:
+        print(f"{num} had statistically significant change between the two samples")
 
 # COMMAND ----------
 
@@ -423,7 +378,7 @@ pd.concat([100 * pdf1.isnull().sum() / len(pdf1), 100 * pdf2.isnull().sum() / le
 
 # COMMAND ----------
 
-# MAGIC %md `neighbourhood_cleansed` has some missing values it did not before. Now, let's run the `Two-Way Chi Squared Contigency Test` for this example. This test works by creating a [Contingency Table]("https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them.") with a column for the counts of each feature category for a given categorical feature and a row for `pdf1` and `pdf2`. 
+# MAGIC %md `neighbourhood_cleansed` has some missing values it did not before. Now, let's run the `Two-Way Chi Squared Contigency Test` for this example. This test works by creating a [Contingency Table](https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them.) with a column for the counts of each feature category for a given categorical feature and a row for `pdf1` and `pdf2`. 
 # MAGIC 
 # MAGIC It will then return a p-value determining whether or not there is an association between the time window of data and the distribution of that feature. If it is significant, we would conclude the distribution did change over time, and so there was drift. 
 
@@ -433,15 +388,15 @@ alpha = 0.05
 corrected_alpha = alpha / len(cat_cols) # Still using the same correction
     
 for feature in cat_cols:
-  pdf_count1 = pd.DataFrame(pdf1[feature].value_counts()).sort_index().rename(columns={feature:"pdf1"})
-  pdf_count2 = pd.DataFrame(pdf2[feature].value_counts()).sort_index().rename(columns={feature:"pdf2"})
-  pdf_counts = pdf_count1.join(pdf_count2, how="outer").fillna(0)
-  obs = np.array([pdf_counts["pdf1"], pdf_counts["pdf2"]])
-  _, p, _, _ = stats.chi2_contingency(obs)
-  if p < corrected_alpha:
-     print(f"{feature} statistically significantly changed")
-  else:
-    print(f"{feature} did not statistically significantly change")
+    pdf_count1 = pd.DataFrame(pdf1[feature].value_counts()).sort_index().rename(columns={feature:"pdf1"})
+    pdf_count2 = pd.DataFrame(pdf2[feature].value_counts()).sort_index().rename(columns={feature:"pdf2"})
+    pdf_counts = pdf_count1.join(pdf_count2, how="outer").fillna(0)
+    obs = np.array([pdf_counts["pdf1"], pdf_counts["pdf2"]])
+    _, p, _, _ = stats.chi2_contingency(obs)
+    if p < corrected_alpha:
+        print(f"{feature} statistically significantly changed")
+    else:
+        print(f"{feature} did not statistically significantly change")
 
 # COMMAND ----------
 
@@ -459,7 +414,7 @@ for feature in cat_cols:
 # MAGIC 
 # MAGIC Both of these assume high bin counts (generally >5) for each category in order to work properly. In our example, because of the large number of categories, some bin counts were lower than we would want for these tests. Fortunately, the scipy implementation of the Two-way test utilizes a correction for low counts that makes the Two-way preferable to the One-way in this situation, although ideally we would still want higher bin counts. 
 # MAGIC 
-# MAGIC The Fisher Exact test is a good alternative in the situation where the counts are too low, however there is currently no python implemenation for this test in a contingency table larger than 2x2. If you are looking to run this test, you should explore using R. 
+# MAGIC The Fisher Exact test is a good alternative in the situation where the counts are too low, however there is currently no Python implemenation for this test in a contingency table larger than 2x2. If you are looking to run this test, you should explore using R. 
 # MAGIC 
 # MAGIC These are subtle differences that are worth taking into account, but in either case, a low p-value would indicate significantly different distributions across the time window and therefore drift for the One-Way or Two-way Chi-Squared. 
 
@@ -478,80 +433,79 @@ import numpy as np
 
 class Monitor():
   
-  def __init__(self, pdf1, pdf2, cat_cols, num_cols, alpha=.05):
-    '''
-    Pass in two pandas dataframes with the same columns for two time windows
-    List the categorical and numeric columns, and optionally provide an alpha level
-    '''
-    assert (pdf1.columns == pdf2.columns).all(), "Columns do not match"
-    self.pdf1 = pdf1
-    self.pdf2 = pdf2
-    self.alpha = alpha
-    self.categorical_columns = cat_cols
-    self.continuous_columns = num_cols
+    def __init__(self, pdf1, pdf2, cat_cols, num_cols, alpha=.05):
+        """
+        Pass in two pandas dataframes with the same columns for two time windows
+        List the categorical and numeric columns, and optionally provide an alpha level
+        """
+        assert (pdf1.columns == pdf2.columns).all(), "Columns do not match"
+        self.pdf1 = pdf1
+        self.pdf2 = pdf2
+        self.alpha = alpha
+        self.categorical_columns = cat_cols
+        self.continuous_columns = num_cols
     
-    
-  def run(self):
-    '''
-    Call to run drift monitoring
-    '''
-    self.handle_numeric()
-    self.handle_categorical()
+    def run(self):
+        """
+        Call to run drift monitoring
+        """
+        self.handle_numeric()
+        self.handle_categorical()
   
-  def handle_numeric(self):
-    '''
-    Handle the numeric features with the Two-Sample Kolmogorov-Smirnov (KS) Test with Bonferroni Correction 
-    '''
-    corrected_alpha = self.alpha / len(self.continuous_columns)
-    
-    for num in self.continuous_columns:
-      ks_stat, ks_pval = stats.ks_2samp(self.pdf1[num], self.pdf2[num], mode="asymp")
-      if ks_pval <= corrected_alpha:
-        self.on_drift(num)
-      
-  def handle_categorical(self):
-    '''
-    Handle the Categorical features with Two-Way Chi-Squared Test with Bonferroni Correction
-    '''
-    corrected_alpha = self.alpha / len(self.categorical_columns)
-    
-    for feature in self.categorical_columns:
-      pdf_count1 = pd.DataFrame(self.pdf1[feature].value_counts()).sort_index().rename(columns={feature:"pdf1"})
-      pdf_count2 = pd.DataFrame(self.pdf2[feature].value_counts()).sort_index().rename(columns={feature:"pdf2"})
-      pdf_counts = pdf_count1.join(pdf_count2, how="outer").fillna(0)
-      obs = np.array([pdf_counts["pdf1"], pdf_counts["pdf2"]])
-      _, p, _, _ = stats.chi2_contingency(obs)
-      if p < corrected_alpha:
-        self.on_drift(feature)
+    def handle_numeric(self):
+        """
+        Handle the numeric features with the Two-Sample Kolmogorov-Smirnov (KS) Test with Bonferroni Correction 
+        """
+        corrected_alpha = self.alpha / len(self.continuous_columns)
 
-  def generate_null_counts(self, palette="#2ecc71"):
-    '''
-    Generate the visualization of percent null counts of all features
-    Optionally provide a color palette for the visual
-    '''
-    cm = sns.light_palette(palette, as_cmap=True)
-    return pd.concat([100 * self.pdf1.isnull().sum() / len(self.pdf1), 
-                      100 * self.pdf2.isnull().sum() / len(self.pdf2)], axis=1, 
-                      keys=["pdf1", "pdf2"]).style.background_gradient(cmap=cm, text_color_threshold=0.5, axis=1)
+        for num in self.continuous_columns:
+            ks_stat, ks_pval = stats.ks_2samp(self.pdf1[num], self.pdf2[num], mode="asymp")
+            if ks_pval <= corrected_alpha:
+                self.on_drift(num)
+      
+    def handle_categorical(self):
+        """
+        Handle the Categorical features with Two-Way Chi-Squared Test with Bonferroni Correction
+        """
+        corrected_alpha = self.alpha / len(self.categorical_columns)
+
+        for feature in self.categorical_columns:
+            pdf_count1 = pd.DataFrame(self.pdf1[feature].value_counts()).sort_index().rename(columns={feature:"pdf1"})
+            pdf_count2 = pd.DataFrame(self.pdf2[feature].value_counts()).sort_index().rename(columns={feature:"pdf2"})
+            pdf_counts = pdf_count1.join(pdf_count2, how="outer").fillna(0)
+            obs = np.array([pdf_counts["pdf1"], pdf_counts["pdf2"]])
+            _, p, _, _ = stats.chi2_contingency(obs)
+            if p < corrected_alpha:
+                self.on_drift(feature)
+
+    def generate_null_counts(self, palette="#2ecc71"):
+        """
+        Generate the visualization of percent null counts of all features
+        Optionally provide a color palette for the visual
+        """
+        cm = sns.light_palette(palette, as_cmap=True)
+        return pd.concat([100 * self.pdf1.isnull().sum() / len(self.pdf1), 
+                          100 * self.pdf2.isnull().sum() / len(self.pdf2)], axis=1, 
+                          keys=["pdf1", "pdf2"]).style.background_gradient(cmap=cm, text_color_threshold=0.5, axis=1)
     
-  def generate_percent_change(self, palette="#2ecc71"):
-    '''
-    Generate visualization of percent change in summary statistics of numeric features
-    Optionally provide a color palette for the visual
-    '''
-    cm = sns.light_palette(palette, as_cmap=True)
-    summary1_pdf = self.pdf1.describe()[self.continuous_columns]
-    summary2_pdf = self.pdf2.describe()[self.continuous_columns]
-    percent_change = 100 * abs((summary1_pdf - summary2_pdf) / (summary1_pdf + 1e-100))
-    return percent_change.style.background_gradient(cmap=cm, text_color_threshold=0.5, axis=1)
+    def generate_percent_change(self, palette="#2ecc71"):
+        """
+        Generate visualization of percent change in summary statistics of numeric features
+        Optionally provide a color palette for the visual
+        """
+        cm = sns.light_palette(palette, as_cmap=True)
+        summary1_pdf = self.pdf1.describe()[self.continuous_columns]
+        summary2_pdf = self.pdf2.describe()[self.continuous_columns]
+        percent_change = 100 * abs((summary1_pdf - summary2_pdf) / (summary1_pdf + 1e-100))
+        return percent_change.style.background_gradient(cmap=cm, text_color_threshold=0.5, axis=1)
   
-  def on_drift(self, feature):
-    '''
-    Complete this method with your response to drift.  Options include:
-      - raise an alert
-      - automatically retrain model
-    '''
-    print(f"Drift found in {feature}!")
+    def on_drift(self, feature):
+        """
+        Complete this method with your response to drift.  Options include:
+          - raise an alert
+          - automatically retrain model
+        """
+        print(f"Drift found in {feature}!")
     
 drift_monitor = Monitor(pdf1, pdf2, cat_cols, num_cols)
 drift_monitor.run()

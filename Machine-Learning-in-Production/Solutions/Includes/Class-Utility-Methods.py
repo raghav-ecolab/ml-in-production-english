@@ -91,8 +91,8 @@ def getWorkingDir() -> str:
 
 # When migrating DBR versions this should be one
 # of the only two places that needs to be updated
-latestDbrMajor = 8
-latestDbrMinor = 3
+latestDbrMajor = 9
+latestDbrMinor = 1
 
 # Assert an appropriate Databricks Runtime version
 # def assertDbrVersion(expected:str, latestMajor:int=latestDbrMajor, latestMinor:int=latestDbrMinor, display:bool = True):

@@ -63,42 +63,42 @@ import matplotlib.pyplot as plt
 
 with mlflow.start_run(run_name="parent") as run:
   
-  signature = infer_signature(X_train, pd.DataFrame(y_train))
-  input_example = X_train.head(3)
+    signature = infer_signature(X_train, pd.DataFrame(y_train))
+    input_example = X_train.head(3)
   
-  with mlflow.start_run(run_name="child_1", nested=#FILL_IN):
-    max_depth = 5
-    rf = RandomForestRegressor(random_state=42, max_depth=max_depth)
-    rf_model = rf.fit(X_train, y_train)
-    mse = mean_squared_error(rf_model.predict(X_test), y_test)
-    ## log the max_depth parameter                  
-    # FILL_IN
-    ## log the mse metric
-    # FILL_IN
-    ## log model
-    # FILL_IN
-    
-  with mlflow.start_run(run_name="child_2", nested=#FILL_IN):
-    max_depth = 10
-    rf = RandomForestRegressor(random_state=42, max_depth=max_depth)
-    rf_model = rf.fit(X_train, y_train)
-    mse = mean_squared_error(rf_model.predict(X_test), y_test)
-    ## log the max_depth parameter                  
-    # FILL_IN
-    ## log the mse metric
-    # FILL_IN
-    ## log model
-    # FILL_IN
-    
-    # Generate feature importance plot
-    feature_importances = pd.Series(rf_model.feature_importances_, index=X.columns)
-    fig, ax = plt.subplots()
-    feature_importances.plot.bar(ax=ax)
-    ax.set_title("Feature importances using MDI")
-    ax.set_ylabel("Mean decrease in impurity")
-  
-    # Log figure
-    # FILL_IN
+    with mlflow.start_run(run_name="child_1", nested=#FILL_IN):
+        max_depth = 5
+        rf = RandomForestRegressor(random_state=42, max_depth=max_depth)
+        rf_model = rf.fit(X_train, y_train)
+        mse = mean_squared_error(rf_model.predict(X_test), y_test)
+        ## log the max_depth parameter                  
+        # FILL_IN
+        ## log the mse metric
+        # FILL_IN
+        ## log model
+        # FILL_IN
+
+    with mlflow.start_run(run_name="child_2", nested=#FILL_IN):
+        max_depth = 10
+        rf = RandomForestRegressor(random_state=42, max_depth=max_depth)
+        rf_model = rf.fit(X_train, y_train)
+        mse = mean_squared_error(rf_model.predict(X_test), y_test)
+        ## log the max_depth parameter                  
+        # FILL_IN
+        ## log the mse metric
+        # FILL_IN
+        ## log model
+        # FILL_IN
+
+        # Generate feature importance plot
+        feature_importances = pd.Series(rf_model.feature_importances_, index=X.columns)
+        fig, ax = plt.subplots()
+        feature_importances.plot.bar(ax=ax)
+        ax.set_title("Feature importances using MDI")
+        ax.set_ylabel("Mean decrease in impurity")
+
+        # Log figure
+        # FILL_IN
 
 # COMMAND ----------
 
@@ -127,18 +127,18 @@ from hyperopt import fmin, tpe, hp, SparkTrials
 
 # Define objective function
 def objective(params):
-  # build a Random Forest Regressor with hyperparameters
-  model = RandomForestRegressor(#FILL_IN)
-  
-  # fit model with training data
-  model.fit(X_train, y_train)
+    # build a Random Forest Regressor with hyperparameters
+    model = RandomForestRegressor(#FILL_IN)
 
-  # predict on testing data
-  pred = model.predict(#FILL_IN)
+    # fit model with training data
+    model.fit(X_train, y_train)
 
-  # compute mean squared error
-  score = #FILL_IN
-  return score
+    # predict on testing data
+    pred = model.predict(#FILL_IN)
+
+    # compute mean squared error
+    score = #FILL_IN
+    return score
 
 # COMMAND ----------
 
@@ -153,7 +153,7 @@ spark_trials = SparkTrials(parallelism=#FILL_IN)
 
 # start run
 with mlflow.start_run(run_name="Hyperopt"):
-  argmin = fmin(#FILL_IN)
+    argmin = fmin(#FILL_IN)
 
 # COMMAND ----------
 

@@ -14,6 +14,7 @@
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lesson you:<br>
 # MAGIC  - Manage model inputs and outputs with MLflow signatures and input examples
+# MAGIC  - Utilize autologging to conveniently log information automatically
 # MAGIC  - Explore nested runs for hyperparameter tuning and iterative training
 # MAGIC  - Integrate MLflow with HyperOpt
 # MAGIC  - Log SHAP values and visualizations
@@ -69,15 +70,15 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 
 with mlflow.start_run(run_name="Signature Example") as run:
-  rf = RandomForestRegressor(random_state=42)
-  rf_model = rf.fit(X_train, y_train)
-  mse = mean_squared_error(rf_model.predict(X_test), y_test)
-  mlflow.log_metric("mse", mse)
-  
-  # Log the model with signature and input example
-  signature = infer_signature(X_train, pd.DataFrame(y_train))
-  input_example = X_train.head(3)
-  mlflow.sklearn.log_model(rf_model, "rf_model", signature=signature, input_example=input_example)
+    rf = RandomForestRegressor(random_state=42)
+    rf_model = rf.fit(X_train, y_train)
+    mse = mean_squared_error(rf_model.predict(X_test), y_test)
+    mlflow.log_metric("mse", mse)
+
+    # Log the model with signature and input example
+    signature = infer_signature(X_train, pd.DataFrame(y_train))
+    input_example = X_train.head(3)
+    mlflow.sklearn.log_model(rf_model, "rf_model", signature=signature, input_example=input_example)
 
 # COMMAND ----------
 
@@ -94,18 +95,18 @@ with mlflow.start_run(run_name="Signature Example") as run:
 # MAGIC 
 # MAGIC Example applications: 
 # MAGIC * In **hyperparameter tuning**, you can nest all associated model runs under a parent run to better organize and compare hyperparameters. 
-# MAGIC * In **parallel training** many models such as IoT devices, you can better aggregate the models. More information on this can be found [here]("https://databricks.com/blog/2020/05/19/manage-and-scale-machine-learning-models-for-iot-devices.html").
+# MAGIC * In **parallel training** many models such as IoT devices, you can better aggregate the models. More information on this can be found [here](https://databricks.com/blog/2020/05/19/manage-and-scale-machine-learning-models-for-iot-devices.html).
 # MAGIC * In **iterative training** such as neural networks, you can checkpoint results after `n` epochs to save the model and related metrics.
 
 # COMMAND ----------
 
 with mlflow.start_run(run_name="Nested Example") as run:
-  # Create nested run with nested=True argument
-  with mlflow.start_run(run_name="Child 1", nested=True):
-    mlflow.log_param("run_name", "child_1")
-    
-  with mlflow.start_run(run_name="Child 2", nested=True):
-    mlflow.log_param("run_name", "child_2")
+    # Create nested run with nested=True argument
+    with mlflow.start_run(run_name="Child 1", nested=True):
+        mlflow.log_param("run_name", "child_1")
+
+    with mlflow.start_run(run_name="Child 2", nested=True):
+        mlflow.log_param("run_name", "child_2")
 
 # COMMAND ----------
 
@@ -113,9 +114,41 @@ with mlflow.start_run(run_name="Nested Example") as run:
 
 # COMMAND ----------
 
+# MAGIC %md ### Autologging
+# MAGIC 
+# MAGIC So far we have explored methods for manually logging models, parameters, metrics, and artifacts to MLflow. 
+# MAGIC 
+# MAGIC However, in some cases it would be convenient to do this automatically. This is where MLflow Autologging comes in. 
+# MAGIC 
+# MAGIC Autologging allows you to **log metrics, parameters, and models without the need for explicit log statements.**
+# MAGIC 
+# MAGIC There are two ways to enable autologging: 
+# MAGIC 
+# MAGIC 1. Call mlflow.autolog() before your training code. This will enable autologging for each supported library you have installed as soon as you import it. [A list of supported libraries can be found here](https://www.mlflow.org/docs/latest/tracking.html#automatic-logging).
+# MAGIC 
+# MAGIC 2. Use library-specific autolog calls for each library you use in your code. For example, enabling mlflow for sklearn specically would use `mlflow.sklearn.autolog()`
+# MAGIC 
+# MAGIC Let's try our first example again, this time just with autologging. We'll enable autologging for all libraries. 
+# MAGIC 
+# MAGIC **NOTE:** We do not need to put the code in a `mlflow.start_run()` block. 
+
+# COMMAND ----------
+
+mlflow.autolog()
+
+rf = RandomForestRegressor(random_state=42)
+rf_model = rf.fit(X_train, y_train)
+
+# COMMAND ----------
+
+# MAGIC %md 
+# MAGIC Open the MLflow UI to see what was logged automatically!
+
+# COMMAND ----------
+
 # MAGIC %md ### Hyperparameter Tuning 
 # MAGIC 
-# MAGIC One of the most common use cases for nested runs is hyperparameter tuning. For example, when running **HyperOpt** with SparkTrials on Databricks, it will automatically track the candidate models, parameters, etc as child runs in the MLflow UI.
+# MAGIC One of the most common use cases for nested runs and autologging is hyperparameter tuning. For example, when running **HyperOpt** with SparkTrials on Databricks, it will automatically track the candidate models, parameters, etc as child runs in the MLflow UI.
 # MAGIC 
 # MAGIC Hyperopt allows for efficient hyperparameter tuning and now integrates with Apache Spark via:
 # MAGIC 
@@ -140,22 +173,22 @@ from hyperopt import fmin, tpe, hp, SparkTrials
 
 # Define objective function
 def objective(params):
-  model = RandomForestRegressor(n_estimators=int(params["n_estimators"]), 
-                                max_depth=int(params["max_depth"]), 
-                                min_samples_leaf=int(params["min_samples_leaf"]),
-                                min_samples_split=int(params["min_samples_split"]))
-  model.fit(X_train, y_train)
-  pred = model.predict(X_train)
-  score = mean_squared_error(pred, y_train)
-  
-  # Hyperopt minimizes score, here we minimize mse. 
-  return score
+    model = RandomForestRegressor(n_estimators=int(params["n_estimators"]), 
+                                  max_depth=int(params["max_depth"]), 
+                                  min_samples_leaf=int(params["min_samples_leaf"]),
+                                  min_samples_split=int(params["min_samples_split"]))
+    model.fit(X_train, y_train)
+    pred = model.predict(X_train)
+    score = mean_squared_error(pred, y_train)
+
+    # Hyperopt minimizes score, here we minimize mse. 
+    return score
 
 # COMMAND ----------
 
 # MAGIC %md Execute the MLflow Hyperopt Run
 # MAGIC 
-# MAGIC **Note:** This code using autologging.  You can also turn this on for other libraries such as `mlflow.tensorflow.autolog()`
+# MAGIC **Note:** This code uses autologging. When using autologging with Hyperopt, it logs the hyperparameters used but not the model itself. Unlike the example above, the user has to log the best model manually.
 
 # COMMAND ----------
 
@@ -171,17 +204,16 @@ search_space = {"n_estimators": hp.quniform("n_estimators", 100, 500, 5),
 spark_trials = SparkTrials(parallelism=2)
 
 with mlflow.start_run(run_name="Hyperopt"):
-  argmin = fmin(
-    fn=objective,
-    space=search_space,
-    algo=tpe.suggest,
-    max_evals=16,
-    trials=spark_trials)
+    argmin = fmin(fn=objective,
+                  space=search_space,
+                  algo=tpe.suggest,
+                  max_evals=16,
+                  trials=spark_trials)
 
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC Look at the MLflow UI for the nested runs
+# MAGIC Look at the MLflow UI for the autologged results. Notice how autologging created nested runs with Hyperopt!
 # MAGIC 
 # MAGIC <img style="width:50%" src="https://files.training.databricks.com/images/mlpupdates/HyperOpt.gif" >
 # MAGIC 
@@ -208,18 +240,18 @@ with mlflow.start_run(run_name="Hyperopt"):
 import matplotlib.pyplot as plt
 
 with mlflow.start_run(run_name="Feature Importance Scores"):
-  # Generate and log SHAP plot for first 5 records
-  mlflow.shap.log_explanation(rf.predict, X_train[:5])
-  
-  # Generate feature importance plot
-  feature_importances = pd.Series(rf_model.feature_importances_, index=X_train.columns)
-  fig, ax = plt.subplots()
-  feature_importances.plot.bar(ax=ax)
-  ax.set_title("Feature importances using MDI")
-  ax.set_ylabel("Mean decrease in impurity")
-  
-  # Log figure
-  mlflow.log_figure(fig, "feature_importance_rf.png")
+    # Generate and log SHAP plot for first 5 records
+    mlflow.shap.log_explanation(rf.predict, X_train[:5])
+
+    # Generate feature importance plot
+    feature_importances = pd.Series(rf_model.feature_importances_, index=X_train.columns)
+    fig, ax = plt.subplots()
+    feature_importances.plot.bar(ax=ax)
+    ax.set_title("Feature importances using MDI")
+    ax.set_ylabel("Mean decrease in impurity")
+
+    # Log figure
+    mlflow.log_figure(fig, "feature_importance_rf.png")
 
 # COMMAND ----------
 
@@ -231,10 +263,10 @@ with mlflow.start_run(run_name="Feature Importance Scores"):
 
 # MAGIC %md ## Additional Resources
 # MAGIC 
-# MAGIC * [Hyperopt Docs]("http://hyperopt.github.io/hyperopt/")
-# MAGIC * [Hyperparamter Tuning Blog post]("https://databricks.com/blog/2019/06/07/hyperparameter-tuning-with-mlflow-apache-spark-mllib-and-hyperopt.html")
-# MAGIC * [Spark Trials Hyperopt Documentation]("https://docs.databricks.com/applications/machine-learning/automl-hyperparam-tuning/hyperopt-spark-mlflow-integration.html#how-to-use-hyperopt-with-sparktrials")
-# MAGIC * [Documentation here]("https://www.mlflow.org/docs/latest/python_api/mlflow.shap.html")
+# MAGIC * [Hyperopt Docs](http://hyperopt.github.io/hyperopt/)
+# MAGIC * [Hyperparamter Tuning Blog post](https://databricks.com/blog/2019/06/07/hyperparameter-tuning-with-mlflow-apache-spark-mllib-and-hyperopt.html)
+# MAGIC * [Spark Trials Hyperopt Documentation](https://docs.databricks.com/applications/machine-learning/automl-hyperparam-tuning/hyperopt-spark-mlflow-integration.html#how-to-use-hyperopt-with-sparktrials)
+# MAGIC * [Documentation here](https://www.mlflow.org/docs/latest/python_api/mlflow.shap.html)
 
 # COMMAND ----------
 

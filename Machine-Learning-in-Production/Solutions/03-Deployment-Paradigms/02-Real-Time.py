@@ -16,6 +16,8 @@
 # MAGIC  - Prototype a RESTful service using MLflow
 # MAGIC  - Deploy registered models using MLflow Model Serving
 # MAGIC  - Query an MLflow Model Serving endpoint for inference using individual records and batch requests
+# MAGIC  
+# MAGIC :NOTE: *You need [cluster creation](https://docs.databricks.com/applications/mlflow/model-serving.html#requirements) permissions to create a model serving endpoint. The instructor will either demo this notebook or enable cluster creation permission for the students from the Admin console.*
 
 # COMMAND ----------
 
@@ -83,17 +85,15 @@ import pandas as pd
 
 class TestModel(mlflow.pyfunc.PythonModel):
   
-  def predict(self, context, input_df):
-    return 5
-  
+    def predict(self, context, input_df):
+        return 5
+
 model_run_name="pyfunc-model"
 
 with mlflow.start_run() as run:
-  model = TestModel()
-  
-  mlflow.pyfunc.log_model(artifact_path=model_run_name, python_model=model)
-  
-  model_uri = f"runs:/{run.info.run_id}/{model_run_name}"
+    model = TestModel()
+    mlflow.pyfunc.log_model(artifact_path=model_run_name, python_model=model)
+    model_uri = f"runs:/{run.info.run_id}/{model_run_name}"
 
 # COMMAND ----------
 
@@ -121,19 +121,19 @@ server_port_number = 6501
 host_name = "127.0.0.1"
 
 def run_server():
-  try:
-    import mlflow.models.cli
-    from click.testing import CliRunner
-    
-    CliRunner().invoke(mlflow.models.cli.commands, 
-                       ["serve", 
-                        "--model-uri", model_uri, 
-                        "-p", server_port_number, 
-                        "-w", 4,
-                        "--host", host_name, # "127.0.0.1", 
-                        "--no-conda"])
-  except Exception as e:
-    print(e)
+    try:
+        import mlflow.models.cli
+        from click.testing import CliRunner
+
+        CliRunner().invoke(mlflow.models.cli.commands, 
+                         ["serve", 
+                          "--model-uri", model_uri, 
+                          "-p", server_port_number, 
+                          "-w", 4,
+                          "--host", host_name, # "127.0.0.1", 
+                          "--no-conda"])
+    except Exception as e:
+        print(e)
 
 p = Process(target=run_server) # Create a background process
 p.start()                      # Start the process
@@ -167,11 +167,11 @@ headers = {"Content-type": "application/json"}
 url = f"http://{host_name}:{server_port_number}/invocations"
 
 try:
-  response = requests.post(url=url, headers=headers, data=input_json)
+    response = requests.post(url=url, headers=headers, data=input_json)
 except ConnectionError:
-  print("Connection fails on a Run All.  Sleeping and will try again momentarily...")
-  sleep(5)
-  response = requests.post(url=url, headers=headers, data=input_json)
+    print("Connection fails on a Run All.  Sleeping and will try again momentarily...")
+    sleep(5)
+    response = requests.post(url=url, headers=headers, data=input_json)
 
 print(f"Status: {response.status_code}")
 print(f"Value:  {response.text}")
@@ -229,13 +229,12 @@ input_example = X_train.head(3)
 signature = infer_signature(X_train, pd.DataFrame(y_train))
 
 with mlflow.start_run(run_name="RF Model") as run:
-  mlflow.sklearn.log_model(
-    rf, 
-    "model", 
-    input_example=input_example, 
-    signature=signature, 
-    registered_model_name=model_name
-  )
+    mlflow.sklearn.log_model(rf, 
+                             "model", 
+                             input_example=input_example, 
+                             signature=signature, 
+                             registered_model_name=model_name
+                            )
 
 # COMMAND ----------
 
@@ -275,14 +274,14 @@ instance = tags["browserHostName"]
 # COMMAND ----------
 
 def score_model(dataset: pd.DataFrame):
-  import requests
-  
-  url = f"https://{instance}/model/{model_name}/1/invocations"
-  data_json = dataset.to_dict(orient="split")
-  response = requests.request(method="POST", headers=headers, url=url, json=data_json)
-  if response.status_code != 200:
-    raise Exception(f"Request failed with status {response.status_code}, {response.text}")
-  return response.json()
+    import requests
+
+    url = f"https://{instance}/model/{model_name}/1/invocations"
+    data_json = dataset.to_dict(orient="split")
+    response = requests.request(method="POST", headers=headers, url=url, json=data_json)
+    if response.status_code != 200:
+        raise Exception(f"Request failed with status {response.status_code}, {response.text}")
+    return response.json()
 
 # COMMAND ----------
 
@@ -301,9 +300,9 @@ score_model(X_test)
 # MAGIC Sample code is below:
 # MAGIC ```
 # MAGIC client.transition_model_version_stage(
-# MAGIC   name=model_name,
-# MAGIC   version=model_version,
-# MAGIC   stage="Staging",
+# MAGIC     name=model_name,
+# MAGIC     version=model_version,
+# MAGIC     stage="Staging"
 # MAGIC )
 # MAGIC ```
 

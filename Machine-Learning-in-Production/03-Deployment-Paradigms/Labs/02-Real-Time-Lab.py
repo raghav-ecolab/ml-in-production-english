@@ -14,6 +14,8 @@
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lab you:<br>
 # MAGIC  - Enable MLflow Model Serving for your registered model
 # MAGIC  - Compute predictions in real time for your registered model via a REST API request
+# MAGIC  
+# MAGIC :NOTE: *You need [cluster creation](https://docs.databricks.com/applications/mlflow/model-serving.html#requirements) permissions to create a model serving endpoint. The instructor will either demo this notebook or enable cluster creation permission for the students from the Admin console.*
 
 # COMMAND ----------
 
@@ -74,9 +76,9 @@ model_version = model_details.version
 
 client = mlflow.tracking.MlflowClient()
 client.transition_model_version_stage(
-  name=model_name,
-  version=model_version,
-  stage="Staging",
+    name=model_name,
+    version=model_version,
+    stage="Staging"
 )
 
 # COMMAND ----------
@@ -121,16 +123,14 @@ instance = tags["browserHostName"]
 # COMMAND ----------
 
 # TODO
- 
-import pandas as pd
 import requests
 
 def score_model(dataset: pd.DataFrame, model_name: str, token: str, instance: str):
     url = f"https://{instance}/model/{model_name}/1/invocations"
     data_json = dataset.to_dict(orient='split')
- 
+
     response = <FILL_IN>
- 
+
     if response.status_code != 200:
         raise Exception(f"Request failed with status {response.status_code}, {response.text}")
     return response.json()

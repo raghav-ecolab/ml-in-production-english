@@ -110,12 +110,12 @@ X_train_processed = X_train.copy()
 
 # Feature engineer an aggregate feature
 X_train_processed["review_scores_sum"] = (
-   X_train["review_scores_accuracy"] + 
-   X_train["review_scores_cleanliness"]+
-   X_train["review_scores_checkin"] + 
-   X_train["review_scores_communication"] + 
-   X_train["review_scores_location"] + 
-   X_train["review_scores_value"]
+    X_train["review_scores_accuracy"] + 
+    X_train["review_scores_cleanliness"]+
+    X_train["review_scores_checkin"] + 
+    X_train["review_scores_communication"] + 
+    X_train["review_scores_location"] + 
+    X_train["review_scores_value"]
 )
 X_train_processed = X_train_processed.drop([
     "review_scores_accuracy",
@@ -124,7 +124,7 @@ X_train_processed = X_train_processed.drop([
     "review_scores_communication",
     "review_scores_location",
     "review_scores_value"
-  ], axis=1)
+], axis=1)
 
 # Enforce data types
 X_train_processed["latitude_cleaned"] = X_train["latitude"].astype(float)
@@ -137,12 +137,12 @@ X_test_processed = X_test.copy()
 
 # Feature engineer an aggregate feature
 X_test_processed["review_scores_sum"] = (
-   X_test["review_scores_accuracy"] + 
-   X_test["review_scores_cleanliness"]+
-   X_test["review_scores_checkin"] + 
-   X_test["review_scores_communication"] + 
-   X_test["review_scores_location"] + 
-   X_test["review_scores_value"]
+    X_test["review_scores_accuracy"] + 
+    X_test["review_scores_cleanliness"]+
+    X_test["review_scores_checkin"] + 
+    X_test["review_scores_communication"] + 
+    X_test["review_scores_location"] + 
+    X_test["review_scores_value"]
 )
 X_test_processed = X_test_processed.drop([
     "review_scores_accuracy",
@@ -151,7 +151,7 @@ X_test_processed = X_test_processed.drop([
     "review_scores_communication",
     "review_scores_location",
     "review_scores_value"
-  ], axis=1)
+], axis=1)
 
 # Enforce data types
 X_test_processed["latitude_cleaned"] = X_test["latitude"].astype(float)
@@ -173,76 +173,76 @@ import mlflow
 
 class RFWithPreprocess(mlflow.pyfunc.PythonModel):
 
-  def __init__(self, params):
-    '''
-    Initialize with just the model hyperparameters
-    '''
-    self.params = params
-    self.rf_model = None
-    self.config = None
+    def __init__(self, params):
+        """
+        Initialize with just the model hyperparameters
+        """
+        self.params = params
+        self.rf_model = None
+        self.config = None
         
-  def load_context(self, context=None, config_path=None):
-    '''
-    When loading a pyfunc, this method runs automatically with the related
-    context.  This method is designed to perform the same functionality when
-    run in a notebook or a downstream operation (like a REST endpoint).
-    If the `context` object is provided, it will load the path to a config from 
-    that object (this happens with `mlflow.pyfunc.load_model()` is called).
-    If the `config_path` argument is provided instead, it uses this argument
-    in order to load in the config.
-    '''
-    if context: # This block executes for server run
-      config_path = context.artifacts["config_path"]
-    else: # This block executes for notebook run
-      pass
+    def load_context(self, context=None, config_path=None):
+        """
+        When loading a pyfunc, this method runs automatically with the related
+        context.  This method is designed to perform the same functionality when
+        run in a notebook or a downstream operation (like a REST endpoint).
+        If the `context` object is provided, it will load the path to a config from 
+        that object (this happens with `mlflow.pyfunc.load_model()` is called).
+        If the `config_path` argument is provided instead, it uses this argument
+        in order to load in the config.
+        """
+        if context: # This block executes for server run
+            config_path = context.artifacts["config_path"]
+        else: # This block executes for notebook run
+            pass
+
+        self.config = json.load(open(config_path))
       
-    self.config = json.load(open(config_path))
-      
-  def preprocess_input(self, model_input):
-    '''
-    Return pre-processed model_input
-    '''
-    processed_input = model_input.copy()
-    processed_input["review_scores_sum"] = (
-      processed_input["review_scores_accuracy"] + 
-      processed_input["review_scores_cleanliness"]+
-      processed_input["review_scores_checkin"] + 
-      processed_input["review_scores_communication"] + 
-      processed_input["review_scores_location"] + 
-      processed_input["review_scores_value"]
-    )
-    processed_input = processed_input.drop([
-      "review_scores_accuracy",
-      "review_scores_cleanliness",
-      "review_scores_checkin",
-      "review_scores_communication",
-      "review_scores_location",
-      "review_scores_value"
-    ], axis=1)
-      
-    processed_input["latitude_cleaned"] = processed_input["latitude"].astype(float)
-    processed_input["longitude_cleaned"] = processed_input["longitude"].astype(float)
-    processed_input = processed_input.drop(["latitude", "longitude"], axis=1)
-    return processed_input
+    def preprocess_input(self, model_input):
+        """
+        Return pre-processed model_input
+        """
+        processed_input = model_input.copy()
+        processed_input["review_scores_sum"] = (
+            processed_input["review_scores_accuracy"] + 
+            processed_input["review_scores_cleanliness"]+
+            processed_input["review_scores_checkin"] + 
+            processed_input["review_scores_communication"] + 
+            processed_input["review_scores_location"] + 
+            processed_input["review_scores_value"]
+        )
+        processed_input = processed_input.drop([
+            "review_scores_accuracy",
+            "review_scores_cleanliness",
+            "review_scores_checkin",
+            "review_scores_communication",
+            "review_scores_location",
+            "review_scores_value"
+        ], axis=1)
+
+        processed_input["latitude_cleaned"] = processed_input["latitude"].astype(float)
+        processed_input["longitude_cleaned"] = processed_input["longitude"].astype(float)
+        processed_input = processed_input.drop(["latitude", "longitude"], axis=1)
+        return processed_input
   
-  def fit(self, X_train, y_train):
-    '''
-    Uses the same preprocessing logic to fit the model
-    '''
-    from sklearn.ensemble import RandomForestRegressor
+    def fit(self, X_train, y_train):
+        """
+        Uses the same preprocessing logic to fit the model
+        """
+        from sklearn.ensemble import RandomForestRegressor
+
+        processed_model_input = self.preprocess_input(X_train)
+        rf_model = RandomForestRegressor(**self.params)
+        rf_model.fit(processed_model_input, y_train)
+
+        self.rf_model = rf_model
     
-    processed_model_input = self.preprocess_input(X_train)
-    rf_model = RandomForestRegressor(**self.params)
-    rf_model.fit(processed_model_input, y_train)
-    
-    self.rf_model = rf_model
-    
-  def predict(self, context, model_input):
-    '''
-    This is the main entrance to the model in deployment systems
-    '''
-    processed_model_input = self.preprocess_input(model_input.copy())
-    return self.rf_model.predict(processed_model_input)
+    def predict(self, context, model_input):
+        """
+        This is the main entrance to the model in deployment systems
+        """
+        processed_model_input = self.preprocess_input(model_input.copy())
+        return self.rf_model.predict(processed_model_input)
 
 # COMMAND ----------
 
@@ -262,8 +262,8 @@ import json
 import os
 
 params = {
-  "n_estimators": 15, 
-  "max_depth": 5
+    "n_estimators": 15, 
+    "max_depth": 5
 }
 
 # Designate a path
@@ -271,7 +271,7 @@ config_path = f"{working_dir}/data.json".replace("dbfs:/", "/dbfs/")
 
 # Save the results
 with open(config_path, "w") as f:
-  json.dump(params, f)
+    json.dump(params, f)
 
 # Generate an artifact object to saved
 # All paths to the associated values will be copied over when saving
@@ -306,7 +306,6 @@ model.fit(X_train, y_train)
 # COMMAND ----------
 
 predictions = model.predict(context=None, model_input=X_test)
-
 predictions
 
 # COMMAND ----------
@@ -318,7 +317,6 @@ predictions
 from mlflow.models.signature import infer_signature
 
 signature = infer_signature(X_test, predictions)
-
 signature
 
 # COMMAND ----------
@@ -331,17 +329,15 @@ from sys import version_info
 import sklearn
 
 conda_env = {
-  "channels": ["defaults"],
-  "dependencies": [
-    f"python={version_info.major}.{version_info.minor}.{version_info.micro}",
-    "pip",
-    {"pip": [
-      "mlflow",
-      f"sklearn=={sklearn.__version__}"
-      ],
-     },
-  ],
-  "name": "sklearn_env"
+    "channels": ["defaults"],
+    "dependencies": [
+        f"python={version_info.major}.{version_info.minor}.{version_info.micro}",
+        "pip",
+        {"pip": ["mlflow",
+                 f"sklearn=={sklearn.__version__}"]
+        },
+    ],
+    "name": "sklearn_env"
 }
 
 conda_env
@@ -357,17 +353,17 @@ import shutil
 mlflow_pyfunc_model_path = f"{working_dir}/RFWithPreprocess".replace("dbfs:", "/dbfs")
 
 try:
-  shutil.rmtree(mlflow_pyfunc_model_path) # remove folder if already exists
+    shutil.rmtree(mlflow_pyfunc_model_path) # remove folder if already exists
 except:
-  None
+    None
 
 mlflow.pyfunc.save_model(
-  path=mlflow_pyfunc_model_path, 
-  python_model=model, 
-  artifacts=artifacts,
-  conda_env=conda_env, # Note: this could fail if running in a repo. Comment out this line for workaround.
-  signature=signature,
-  input_example=X_test[:3] 
+    path=mlflow_pyfunc_model_path, 
+    python_model=model, 
+    artifacts=artifacts,
+    conda_env=conda_env,
+    signature=signature,
+    input_example=X_test[:3] 
 )
 
 # COMMAND ----------

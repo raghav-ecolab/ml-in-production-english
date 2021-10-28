@@ -107,22 +107,22 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 
 with mlflow.start_run(run_name="Basic RF Experiment") as run:
-  # Create model, train it, and create predictions
-  rf = RandomForestRegressor(random_state=42)
-  rf.fit(X_train, y_train)
-  predictions = rf.predict(X_test)
+    # Create model, train it, and create predictions
+    rf = RandomForestRegressor(random_state=42)
+    rf.fit(X_train, y_train)
+    predictions = rf.predict(X_test)
 
-  # Log model
-  mlflow.sklearn.log_model(rf, "random_forest_model")
+    # Log model
+    mlflow.sklearn.log_model(rf, "random_forest_model")
 
-  # Log metrics
-  mse = mean_squared_error(y_test, predictions)
-  mlflow.log_metric("mse", mse)
+    # Log metrics
+    mse = mean_squared_error(y_test, predictions)
+    mlflow.log_metric("mse", mse)
 
-  run_id = run.info.run_id
-  experiment_id = run.info.experiment_id
+    run_id = run.info.run_id
+    experiment_id = run.info.experiment_id
 
-  print(f"Inside MLflow Run with run_id `{run_id}` and experiment_id `{experiment_id}`")
+    print(f"Inside MLflow Run with run_id `{run_id}` and experiment_id `{experiment_id}`")
 
 # COMMAND ----------
 
@@ -161,41 +161,40 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 
 def log_rf(experiment_id, run_name, params, X_train, X_test, y_train, y_test):
   
-  with mlflow.start_run(experiment_id=experiment_id, run_name=run_name) as run:
-    # Create model, train it, and create predictions
-    rf = RandomForestRegressor(**params)
-    rf.fit(X_train, y_train)
-    predictions = rf.predict(X_test)
+    with mlflow.start_run(experiment_id=experiment_id, run_name=run_name) as run:
+        # Create model, train it, and create predictions
+        rf = RandomForestRegressor(**params)
+        rf.fit(X_train, y_train)
+        predictions = rf.predict(X_test)
 
-    # Log model
-    mlflow.sklearn.log_model(rf, "random_forest_model")
+        # Log model
+        mlflow.sklearn.log_model(rf, "random_forest_model")
 
-    # Log params
-    mlflow.log_params(params)
+        # Log params
+        mlflow.log_params(params)
 
-    # Log metrics
-    mlflow.log_metrics({
-      "mse": mean_squared_error(y_test, predictions), 
-      "mae": mean_absolute_error(y_test, predictions), 
-      "r2": r2_score(y_test, predictions)
-    })
+        # Log metrics
+        mlflow.log_metrics({
+            "mse": mean_squared_error(y_test, predictions), 
+            "mae": mean_absolute_error(y_test, predictions), 
+            "r2": r2_score(y_test, predictions)
+        })
 
-    # Log feature importance
-    importance = (pd.DataFrame(list(zip(df.columns, rf.feature_importances_)), 
-                               columns=["Feature", "Importance"])
-                  .sort_values("Importance", ascending=False))
-    importance_path = working_dir.replace("dbfs:/", "/dbfs/") + "/importance.csv"
-    importance.to_csv(importance_path, index=False)
-    mlflow.log_artifact(importance_path, "feature-importance.csv")
-    
-    # Log plot
-    fig, ax = plt.subplots()
-    importance.plot.bar(ax=ax)
-    plt.title("Feature Importances")
-    mlflow.log_figure(fig, "feature_importances.png")
-    display(fig)
+        # Log feature importance
+        importance = (pd.DataFrame(list(zip(df.columns, rf.feature_importances_)), columns=["Feature", "Importance"])
+                      .sort_values("Importance", ascending=False))
+        importance_path = working_dir.replace("dbfs:/", "/dbfs/") + "/importance.csv"
+        importance.to_csv(importance_path, index=False)
+        mlflow.log_artifact(importance_path, "feature-importance.csv")
 
-    return run.info.run_id
+        # Log plot
+        fig, ax = plt.subplots()
+        importance.plot.bar(ax=ax)
+        plt.title("Feature Importances")
+        mlflow.log_figure(fig, "feature_importances.png")
+        display(fig)
+
+        return run.info.run_id
 
 # COMMAND ----------
 
@@ -204,9 +203,9 @@ def log_rf(experiment_id, run_name, params, X_train, X_test, y_train, y_test):
 # COMMAND ----------
 
 params = {
-  "n_estimators": 100,
-  "max_depth": 5,
-  "random_state": 42
+    "n_estimators": 100,
+    "max_depth": 5,
+    "random_state": 42
 }
 
 log_rf(experiment_id, "Second Run", params, X_train, X_test, y_train, y_test)
@@ -220,9 +219,9 @@ log_rf(experiment_id, "Second Run", params, X_train, X_test, y_train, y_test)
 # COMMAND ----------
 
 params_1000_trees = {
-  "n_estimators": 1000,
-  "max_depth": 10,
-  "random_state": 42
+    "n_estimators": 1000,
+    "max_depth": 10,
+    "random_state": 42
 }
 
 log_rf(experiment_id, "Third Run", params_1000_trees, X_train, X_test, y_train, y_test)

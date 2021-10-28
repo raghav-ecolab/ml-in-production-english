@@ -49,7 +49,7 @@
 # COMMAND ----------
 
 params = {
-  "file_path": data_path1
+    "file_path": data_path1
 }
 result = dbutils.notebook.run("./01-Data-Validate", 0, params)
 
@@ -76,8 +76,8 @@ dbutils.fs.mkdirs(data_featurized_path)
 # COMMAND ----------
 
 params = {
-  "file_path": data_path1, 
-  "save_path": data_featurized_path
+    "file_path": data_path1, 
+    "save_path": data_featurized_path
 }
 dbutils.notebook.run("./02-Featurize", 0, params)
 
@@ -97,9 +97,9 @@ experiment_path = dbutils.notebook.entry_point.getDbutils().notebook().getContex
 registry_model_name = f"pipeline_example_{uuid.uuid4().hex[:10]}"
 
 params = {
-  "file_path": data_featurized_path,  
-  "experiment_path": experiment_path, 
-  "registry_model_name": registry_model_name
+    "file_path": data_featurized_path,  
+    "experiment_path": experiment_path, 
+    "registry_model_name": registry_model_name
 }
 dbutils.notebook.run("./03-Train", 0, params)
 
@@ -116,8 +116,8 @@ dbutils.notebook.run("./03-Train", 0, params)
 # COMMAND ----------
 
 params = {
-  "file_path": data_featurized_path, 
-  "registry_model_name": registry_model_name
+    "file_path": data_featurized_path, 
+    "registry_model_name": registry_model_name
 }
 dbutils.notebook.run("./04-Model-Validate", 0, params)
 
@@ -138,9 +138,9 @@ dbutils.fs.rm(store_scored_path, True)
 dbutils.fs.mkdirs(store_scored_path)
 
 params = {
-  "file_path": data_featurized_path,
-  "save_path": store_scored_path, 
-  "registry_model_name": registry_model_name  
+    "file_path": data_featurized_path,
+    "save_path": store_scored_path, 
+    "registry_model_name": registry_model_name  
 }
 dbutils.notebook.run("./05-Score", 0, params)
 
@@ -167,9 +167,9 @@ display(spark.read.format("delta").load(store_scored_path))
 drift_path = f"{working_dir}/driftexample/data_featurized_drift"
 
 params = {
-  "file_path_1": data_featurized_path, 
-  "file_path_2": data_path2,
-  "drift_path": drift_path
+    "file_path_1": data_featurized_path, 
+    "file_path_2": data_path2,
+    "drift_path": drift_path
 }
 dbutils.notebook.run("./06-Monitor", 0, params)
 

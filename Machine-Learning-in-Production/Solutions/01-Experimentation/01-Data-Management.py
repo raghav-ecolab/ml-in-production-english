@@ -52,11 +52,12 @@
 
 from pyspark.sql.functions import monotonically_increasing_id 
 
-airbnb_df = (spark.read
-  .format("delta")
-  .load("/mnt/training/airbnb/sf-listings/sf-listings-2019-03-06-clean.delta/")
-  .withColumn("index", monotonically_increasing_id())
-)
+airbnb_df = (spark
+             .read
+             .format("delta")
+             .load("/mnt/training/airbnb/sf-listings/sf-listings-2019-03-06-clean.delta/")
+             .withColumn("index", monotonically_increasing_id())
+            )
 
 display(airbnb_df)
 
@@ -78,11 +79,12 @@ airbnb_df.write.format("delta").save(working_dir)
 
 # COMMAND ----------
 
-delta_df = (spark.read
-  .format("delta")
-  .load(working_dir)
-  .drop("cancellation_policy", "instant_bookable")
-)
+delta_df = (spark
+            .read
+            .format("delta")
+            .load(working_dir)
+            .drop("cancellation_policy", "instant_bookable")
+           )
 
 display(delta_df)
 
@@ -124,11 +126,12 @@ display(delta_df)
 
 timestamp = spark.sql(f"DESCRIBE HISTORY delta.`{working_dir}`").orderBy("version").first().timestamp
 
-display(spark.read
-  .format("delta")
-  .option("timestampAsOf", timestamp)
-  .load(working_dir)
-)
+display(spark
+        .read
+        .format("delta")
+        .option("timestampAsOf", timestamp)
+        .load(working_dir)
+       )
 
 # COMMAND ----------
 
@@ -217,9 +220,9 @@ fs.create_feature_table(
 # MAGIC )
 # MAGIC 
 # MAGIC fs.write_table(
-# MAGIC   name=table_name,
-# MAGIC   df=airbnb_df,
-# MAGIC   mode="overwrite"
+# MAGIC     name=table_name,
+# MAGIC     df=airbnb_df,
+# MAGIC     mode="overwrite"
 # MAGIC )
 # MAGIC ```
 
@@ -247,8 +250,8 @@ fs.create_feature_table(
 
 # COMMAND ----------
 
-print("Feature table description : ", fs.get_feature_table(table_name).description)
-print("Feature table data source : ", fs.get_feature_table(table_name).path_data_sources)
+print(f"Feature table description : {fs.get_feature_table(table_name).description}")
+print(f"Feature table data source : {fs.get_feature_table(table_name).path_data_sources}")
 
 # COMMAND ----------
 
@@ -259,12 +262,12 @@ print("Feature table data source : ", fs.get_feature_table(table_name).path_data
 from pyspark.sql.functions import lit, expr
 
 review_columns = ["review_scores_accuracy", "review_scores_cleanliness", "review_scores_checkin", 
-                 "review_scores_communication", "review_scores_location", "review_scores_value"]
+                  "review_scores_communication", "review_scores_location", "review_scores_value"]
 
 airbnb_df_short_reviews = (airbnb_df
-  .withColumn("average_review_score", expr("+".join(review_columns)) / lit(len(review_columns)))
-  .drop(*review_columns)
-)
+                           .withColumn("average_review_score", expr("+".join(review_columns)) / lit(len(review_columns)))
+                           .drop(*review_columns)
+                          )
 
 display(airbnb_df_short_reviews)
 
@@ -277,9 +280,9 @@ display(airbnb_df_short_reviews)
 # COMMAND ----------
 
 fs.write_table(
-  name=table_name,
-  df=airbnb_df_short_reviews,
-  mode="overwrite"
+    name=table_name,
+    df=airbnb_df_short_reviews,
+    mode="overwrite"
 )
 
 # COMMAND ----------

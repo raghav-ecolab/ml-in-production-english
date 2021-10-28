@@ -42,7 +42,10 @@
 # MAGIC 
 # MAGIC The following steps will create a Databricks job using another notebook in this directory: `03b-Webhooks-Job-Demo`
 # MAGIC 
-# MAGIC **Note:** Ensure that you are an admin on this workspace and that you're not using Community Edition (which has jobs disabled)
+# MAGIC **Note:** 
+# MAGIC * Ensure that you are an admin on this workspace and that you're not using Community Edition (which has jobs disabled). 
+# MAGIC * If you are not an admin, ask the instructor to share their token with you. 
+# MAGIC * Alternatively, you can set `token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)`.
 
 # COMMAND ----------
 
@@ -78,20 +81,20 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 
 with mlflow.start_run(run_name="Webhook RF Experiment") as run:
-  # Data prep
-  df = pd.read_parquet("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet")
-  X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), df["price"], random_state=42)
-  signature = infer_signature(X_train, pd.DataFrame(y_train))
-  example = X_train.head(3)
-  
-  # Train and log model
-  rf = RandomForestRegressor(random_state=42)
-  rf.fit(X_train, y_train)
-  mlflow.sklearn.log_model(rf, "random-forest-model", signature=signature, input_example=example)
-  mse = mean_squared_error(y_test, rf.predict(X_test))
-  mlflow.log_metric("mse", mse)
-  run_id = run.info.run_id
-  experiment_id = run.info.experiment_id
+    # Data prep
+    df = pd.read_parquet("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet")
+    X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), df["price"], random_state=42)
+    signature = infer_signature(X_train, pd.DataFrame(y_train))
+    example = X_train.head(3)
+
+    # Train and log model
+    rf = RandomForestRegressor(random_state=42)
+    rf.fit(X_train, y_train)
+    mlflow.sklearn.log_model(rf, "random-forest-model", signature=signature, input_example=example)
+    mse = mean_squared_error(y_test, rf.predict(X_test))
+    mlflow.log_metric("mse", mse)
+    run_id = run.info.run_id
+    experiment_id = run.info.experiment_id
 
 # COMMAND ----------
 
@@ -171,19 +174,19 @@ endpoint = "/api/2.0/mlflow/registry-webhooks/create"
 host_creds = get_databricks_host_creds("databricks")
 
 new_json = {"model_name": name,
-  "events": ["MODEL_VERSION_TRANSITIONED_STAGE"],
-  "description": "Job webhook trigger",
-  "status": "Active",
-  "job_spec": {
-    "job_id": job_id,
-    "workspace_url": url,
-    "access_token": token}}
+            "events": ["MODEL_VERSION_TRANSITIONED_STAGE"],
+            "description": "Job webhook trigger",
+            "status": "Active",
+            "job_spec": {"job_id": job_id,
+                         "workspace_url": url,
+                         "access_token": token}
+           }
 
 response = http_request(
-  host_creds=host_creds, 
-  endpoint=endpoint,
-  method="POST",
-  json=new_json
+    host_creds=host_creds, 
+    endpoint=endpoint,
+    method="POST",
+    json=new_json
 )
 
 
@@ -200,9 +203,9 @@ response = http_request(
 endpoint = f"/api/2.0/mlflow/registry-webhooks/list/?model_name={name.replace(' ', '%20')}"
 
 response = http_request(
-  host_creds=host_creds, 
-  endpoint=endpoint,
-  method="GET"
+    host_creds=host_creds, 
+    endpoint=endpoint,
+    method="GET"
 )
 
 print(response.json())
@@ -218,10 +221,10 @@ new_json = {"id": delete_hook}
 endpoint = f"/api/2.0/mlflow/registry-webhooks/delete"
 
 response = http_request(
-  host_creds=host_creds, 
-  endpoint=endpoint,
-  method="DELETE",
-  json=new_json
+    host_creds=host_creds, 
+    endpoint=endpoint,
+    method="DELETE",
+    json=new_json
 )
 
 print(response.json())
