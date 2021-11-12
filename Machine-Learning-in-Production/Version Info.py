@@ -10,8 +10,8 @@
 # MAGIC %md # Project Information
 # MAGIC 
 # MAGIC * Name: **Machine Learning in Production**
-# MAGIC * Version:  **3.0.3**
-# MAGIC * Built On: **Nov 11, 2021 at 17:53:51 UTC**
+# MAGIC * Version:  **3.0.4**
+# MAGIC * Built On: **Nov 12, 2021 at 21:07:35 UTC**
 
 # COMMAND ----------
 

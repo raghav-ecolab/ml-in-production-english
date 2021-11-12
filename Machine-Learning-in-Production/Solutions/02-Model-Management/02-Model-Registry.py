@@ -303,28 +303,21 @@ client.transition_model_version_stage(
 client.transition_model_version_stage(
     name=model_name,
     version=new_model_version,
-    stage="Production"
+    stage="Production",
+    archive_existing_versions=True # Archive old versions of this model
 )
 
 # COMMAND ----------
 
-# MAGIC %md ### Archiving and Deleting
+# MAGIC %md ### Deleting
 # MAGIC 
-# MAGIC You can now archive and delete old versions of the model.
-
-# COMMAND ----------
-
-client.transition_model_version_stage(
-    name=model_name,
-    version=1,
-    stage="Archived"
-)
+# MAGIC You can now delete old versions of the model.
 
 # COMMAND ----------
 
 # MAGIC %md Delete version 1.  
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> You cannot delete a model that is not first archived.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> You cannot delete a model that is not first archived. 
 
 # COMMAND ----------
 
