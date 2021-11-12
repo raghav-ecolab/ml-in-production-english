@@ -106,7 +106,7 @@ import mlflow.sklearn
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 
-with mlflow.start_run(run_name="Basic RF Experiment") as run:
+with mlflow.start_run(run_name="Basic RF Run") as run:
     # Create model, train it, and create predictions
     rf = RandomForestRegressor(random_state=42)
     rf.fit(X_train, y_train)

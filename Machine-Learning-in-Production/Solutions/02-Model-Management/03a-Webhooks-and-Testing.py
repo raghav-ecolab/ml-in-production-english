@@ -149,6 +149,8 @@ job_id = "<insert your job id here>"
 # MAGIC %md ## Create a Webhook
 # MAGIC 
 # MAGIC There are a few different events that can trigger a Webhook. In this notebook, we will be experimenting with triggering a job when our model transitions between stages.
+# MAGIC 
+# MAGIC Note that you can find more details on [the `mlflow` REST utility functions here.](https://github.com/mlflow/mlflow/blob/master/mlflow/utils/rest_utils.py)
 
 # COMMAND ----------
 

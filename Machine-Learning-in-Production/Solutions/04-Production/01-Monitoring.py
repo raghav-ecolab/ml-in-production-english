@@ -100,6 +100,8 @@
 # MAGIC **Categorical Comparisons** 
 # MAGIC * [Contingency Tables](https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them.)
 # MAGIC 
+# MAGIC One interesting alternative is to frame monitoring as a supervised learning problem where you use your features and label as inputs to a model and your label is whether a given row comes from the training or inference set. As the model's accuracy improves, it would imply that the model as drifted.
+# MAGIC 
 # MAGIC Let's try them out!
 
 # COMMAND ----------

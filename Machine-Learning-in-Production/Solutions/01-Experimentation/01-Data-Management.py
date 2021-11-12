@@ -316,7 +316,7 @@ display(feature_df)
 # MAGIC %md
 # MAGIC ## Review
 # MAGIC **Question:** Why do we care about Data Management?
-# MAGIC **Answer:** Data Management is an oftentimes overlooked aspect of end-to-end reproducbility.
+# MAGIC **Answer:** Data Management is an oftentimes overlooked aspect of end-to-end reproducibility.
 # MAGIC 
 # MAGIC **Question:** How do we version data with Delta Tables?
 # MAGIC **Answer:** Delta Tables are automatically versioned everytime a new data is written. Accessing a previous version of the table is as simple as using `display(spark.sql(f"DESCRIBE HISTORY delta.{delta_path}"))` to find the version to revert to and loading it in.  You can also revert to previous version using timestamps.

@@ -145,7 +145,7 @@
 # MAGIC 
 # MAGIC |                        | OSS Standard                     | Databricks               | AWS                                 | Azure               | Third Party                       |
 # MAGIC |------------------------|----------------------------------|--------------------------|-------------------------------------|---------------------|-----------------------------------|
-# MAGIC | **Orchestration**         | Airflow, Jenkins                 | Jobs, notebook workflows | CodePipeline, CodeBuild, CodeDeploy | DevOps, Data Factor |                                   |
+# MAGIC | **Orchestration**         | Airflow, Jenkins                 | Jobs, notebook workflows | CodePipeline, CodeBuild, CodeDeploy | DevOps, Data Factory |                                   |
 # MAGIC | **Git Hooks**              |                                  | MLflow Webhooks          |                                     |                     | Github Actions, Gitlab, Travis CI |
 # MAGIC | **Artifact Management**    | PyPI, Maven                      | MLflow Model Registry    |                                     |                     | Nexus                             |
 # MAGIC | **Environment Management** | Docker, Kubernetes, Conda, pyenv |                          | Elastic Container Repository        | Container Registry  | DockerHub                         |
