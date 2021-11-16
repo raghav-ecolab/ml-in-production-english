@@ -94,7 +94,7 @@ dbutils.notebook.run("./02-Featurize", 0, params)
 import uuid
 
 experiment_path = dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get()
-registry_model_name = f"pipeline_example_{uuid.uuid4().hex[:10]}"
+registry_model_name = f"pipeline_example_{uuid.uuid4().hex[:6]}"
 
 params = {
     "file_path": data_featurized_path,  

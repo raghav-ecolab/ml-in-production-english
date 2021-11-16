@@ -13,7 +13,7 @@
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lesson you:<br>
 # MAGIC  - Analyze the types of drift and related statistical methods
-# MAGIC  - Test for drift using statistical tests
+# MAGIC  - Test for drift using the Kolmogorov-Smirnov and Jensen-Shannon tests
 # MAGIC  - Monitor for drift using summary statistics
 # MAGIC  - Apply a comprehensive monitoring solution
 # MAGIC  - Explore architectual considerations in monitoring for drift
@@ -25,7 +25,7 @@
 # MAGIC 
 # MAGIC The majority of machine learning solutions assume that data is generated according to a stationary probability distribution. However, because most datasets involving human activity change over time, machine learning solutions often go stale. 
 # MAGIC 
-# MAGIC For example, a model trained to predict restaurant sales before the COVID-19 pandemic would likely not be an accurate model of restaurant sales during the pandemic. The distribution under which it was trained changed, or drifted, over time. 
+# MAGIC For example, a model trained to predict restaurant sales before the COVID-19 pandemic would likely not be an accurate model of restaurant sales during the pandemic. The distribution generating the data changed, or drifted, over time. 
 # MAGIC 
 # MAGIC Drift is composed of number of different types:<br><br> 
 # MAGIC 
@@ -62,13 +62,11 @@
 # MAGIC 
 # MAGIC * In either case, we may want to alert the company of the changes in case they impact other business processes, so it is important to track all potential drift. 
 # MAGIC 
-# MAGIC **In order to best adapt to possible changes, we compare data and models across time windows to identify any kind of drift that could be occuring, and then analyze and diagnose the issue after looking closer.** 
+# MAGIC **In order to best adapt to possible changes, we compare data and predictions across time windows to identify any kind of drift that could be occuring.** 
 
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC ## Testing for Drift
-# MAGIC 
 # MAGIC The essence of drift monitoring is **running statistical tests on time windows of data.** This allows us to detect drift and localize it to specific root causes. Here are some solutions:
 # MAGIC 
 # MAGIC **Numeric Features**
@@ -82,6 +80,7 @@
 # MAGIC     - Do a check of normalcy and choose the appropriate test based on this (e.g. Mann-Whitney is more permissive of skew) 
 # MAGIC   * [Wasserstein Distance](https://en.wikipedia.org/wiki/Wasserstein_metric)
 # MAGIC   * [Kullback–Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence)
+# MAGIC     - This is related to Jensen-Shannon divergence
 # MAGIC 
 # MAGIC     
 # MAGIC **Categorical Features**
@@ -111,6 +110,8 @@
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ## Kolmogorov-Smirnov Test 
+# MAGIC 
 # MAGIC Use the **Two-Sample Kolmogorov-Smirnov (KS) Test** for numeric features. This test determines whether or not two different samples come from the same distribution. This test:<br><br>
 # MAGIC 
 # MAGIC - Returns a higher KS statistic when there is a higher probability of having two different distributions
@@ -122,6 +123,7 @@
 
 import seaborn as sns
 from scipy.stats import gaussian_kde, truncnorm
+import numpy as np
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -152,6 +154,8 @@ def get_truncated_normal(mean=0, sd=1, low=0.2, upp=0.8, n_size=1000, seed=999):
 
     :return distb: rv_continuous 
     """
+    np.random.seed(seed=233423)
+
     a = (low-mean) / sd
     b = (upp-mean) / sd
     distb = truncnorm(a, b, loc=mean, scale=sd).rvs(n_size)
@@ -169,7 +173,7 @@ def calculate_ks(distibution_1, distibution_2):
     """
     base, comp = distibution_1, distibution_2
     p_value = np.round(stats.ks_2samp(base, comp)[0],3)
-    ks_drift = str(p_value < 0.05)
+    ks_drift = p_value < 0.05
 
     # Generate plots
     plot_distribution(base, comp)
@@ -177,25 +181,44 @@ def calculate_ks(distibution_1, distibution_2):
     plt.title(label, loc="center")
     return p_value, ks_drift
 
-def calculate_js_distance(distibution_1, distibution_2):
+def calculate_probability_vector(distibution_1, distibution_2):
     """
-    Helper function that calculated the JS distance and plots the two distributions used in the calculation 
+    Helper function that turns raw values into a probability vector 
 
     :param distribution_1: rv_continuous
     :param distribution_2: rv_continuous 
 
+    :return p: array, probability vector of distribution_1
+    :return q: array, probability vector of distribution_2
+    """
+    global_min = min(min(distibution_1), min(distibution_2))
+    global_max = max(max(distibution_1), max(distibution_2))
+    
+    p = np.histogram(distibution_1, bins=20, range=(global_min, global_max))
+    q = np.histogram(distibution_2, bins=20, range=(global_min, global_max))
+    
+    return p[0], q[0]
+    
+def calculate_js_distance(p, q, raw_distribution_1, raw_distribution_2, threshold=0.2):
+    """
+    Helper function that calculated the JS distance and plots the two distributions used in the calculation 
+
+    :param p: array, probability vector for the first distribution
+    :param q: array, probability vector for the second distribution 
+    :param raw_distribution_1: array, raw values used in plotting
+    :param raw_distribution_2: array, raw values used in plotting
+    :param threshold: float, cutoff threshold for the JS statistic
+
     :return js_stat: float, resulting distance measure from JS calculation
     :return js_drift: bool, detection of significant difference across the distributions 
     """
-    base, comp = np.sort(distibution_1), np.sort(distibution_2)
-    js_stat = distance.jensenshannon(base, comp, base=2)
-    js_stat_string = str(np.round(js_stat, 3))
-    js_drift = str(js_stat > 0.2)
+    js_stat = distance.jensenshannon(p, q, base=2)
+    js_stat_rounded = np.round(js_stat, 3)
+    js_drift = js_stat > threshold
 
     # Generate plot
-    plot_distribution(base, comp)
-    nl = "\n"
-    label = f"Jensen Shannon suggests model drift: {js_drift} {nl} JS Distance = {js_stat_string}"
+    plot_distribution(raw_distribution_1, raw_distribution_2)
+    label = f"Jensen Shannon suggests model drift: {js_drift} \n JS Distance = {js_stat_rounded}"
     plt.title(label, loc="center")
 
     return js_stat, js_drift
@@ -207,9 +230,10 @@ def calculate_js_distance(distibution_1, distibution_2):
 
 # COMMAND ----------
 
-calculate_ks(get_truncated_normal(upp=.80, n_size=1000), 
-             get_truncated_normal(upp=.79, n_size=1000) 
-            )
+calculate_ks(
+  get_truncated_normal(upp=.80, n_size=1000), 
+  get_truncated_normal(upp=.79, n_size=1000) 
+)
 
 # COMMAND ----------
 
@@ -217,9 +241,10 @@ calculate_ks(get_truncated_normal(upp=.80, n_size=1000),
 
 # COMMAND ----------
 
-calculate_ks(get_truncated_normal(upp=.80, n_size=10000), 
-             get_truncated_normal(upp=.79, n_size=10000)
-            )
+calculate_ks(
+  get_truncated_normal(upp=.80, n_size=10000), 
+  get_truncated_normal(upp=.79, n_size=10000)
+)
 
 # COMMAND ----------
 
@@ -228,34 +253,42 @@ calculate_ks(get_truncated_normal(upp=.80, n_size=10000),
 
 # COMMAND ----------
 
-calculate_ks(get_truncated_normal(upp=.80, n_size=100000), 
-             get_truncated_normal(upp=.79, n_size=100000) 
-            )
+calculate_ks(
+  get_truncated_normal(upp=.80, n_size=100000), 
+  get_truncated_normal(upp=.79, n_size=100000) 
+)
 
 # COMMAND ----------
 
 # MAGIC %md 
-# MAGIC With the increase sample size, our `ks_stat` has dropped to near zero indicating that our two samples are significantly different. However, by just visually looking at the plot of our two overlapping distributions, they look pretty similar. Caculating the `ks_stat` can be useful when determining the similarity between two distributions, however you can quickly run into limitations based on sample size. So how can we test for distribution similarity when we have a *large sample size*?
+# MAGIC With the increased sample size, our `ks_stat` has dropped to near zero indicating that our two samples are significantly different. However, by just visually looking at the plot of our two overlapping distributions, they look pretty similar. Caculating the `ks_stat` can be useful when determining the similarity between two distributions, however you can quickly run into limitations based on sample size. So how can we test for distribution similarity when we have a *large sample size*?
 
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC ## Jensen Shannon
 # MAGIC 
-# MAGIC #### Jensen Shannon
-# MAGIC Jensen Shannon distance is more appropriate for drift detection since it meaures the distance between two probability distributions **and** it is smoothed and normalized. When log base 2 is used for the distance calculation, the value is bounded between 0 and 1, where 0 means the distributions are identical and 1 means the distributions have no similarity. The Jensen Shannon distance is defined as the square root of the [Jensen Shannon divergence](https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence):
+# MAGIC Jensen Shannon (JS) distance is more appropriate for drift detection on a large dataset since it **meaures the distance between two probability distributions and it is smoothed and normalized.** When log base 2 is used for the distance calculation, the JS statistic is bounded between 0 and 1:
 # MAGIC 
+# MAGIC - 0 means the distributions are identical
+# MAGIC - 1 means the distributions have no similarity
 # MAGIC 
+# MAGIC The JS distance is defined as the square root of the [JS divergence](https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence):
 # MAGIC 
 # MAGIC ![Jensen Shannon Divergence](https://miro.medium.com/max/1400/1*viATYZeg9SiT-ZdzYGjKYA.png)
 # MAGIC 
-# MAGIC 
-# MAGIC where *m* is defined as the pointwise mean of *p* and *q* and *H(p)* is defined as the entropy function:
+# MAGIC where *M* is defined as the pointwise mean of *P* and *Q* and *H(P)* is defined as the entropy function:
 # MAGIC 
 # MAGIC ![JS Entropy](https://miro.medium.com/max/1400/1*NSIn8OVTKufpSlvOOoXWQg.png)
+# MAGIC 
+# MAGIC Unlike the KS statistic that provides a p value, the JS statistic only provides a scalar value. You therefore need to **manually provide a cutoff threshold** above which you will count the two datasets as having drifted.
 
 # COMMAND ----------
 
-## Verify with two identical distributions 
+# MAGIC %md Verify a JS statistic of 0 with two identical distributions. Note that the `p` and `q` arguments here are probability vectors, not raw values.
+
+# COMMAND ----------
+
 distance.jensenshannon(p=[1.0, 0.0, 1.0], q=[1.0, 0.0, 1.0], base=2.0)
 
 # COMMAND ----------
@@ -265,9 +298,12 @@ distance.jensenshannon(p=[1.0, 0.0, 1.0], q=[1.0, 0.0, 1.0], base=2.0)
 
 # COMMAND ----------
 
-calculate_js_distance(get_truncated_normal(upp=.80, n_size=1000), 
-                      get_truncated_normal(upp=.79, n_size=1000)
-                     )
+raw_distribution_1 = get_truncated_normal(upp=.80, n_size=1000)
+raw_distribution_2 = get_truncated_normal(upp=.79, n_size=1000)
+
+p, q = calculate_probability_vector(raw_distribution_1, raw_distribution_2)
+
+calculate_js_distance(p, q, raw_distribution_1, raw_distribution_2, threshold=0.2) 
 
 # COMMAND ----------
 
@@ -276,9 +312,12 @@ calculate_js_distance(get_truncated_normal(upp=.80, n_size=1000),
 
 # COMMAND ----------
 
-calculate_js_distance(get_truncated_normal(upp=.80, n_size=10000), 
-                      get_truncated_normal(upp=.79, n_size=10000)
-                     )
+raw_distribution_1 = get_truncated_normal(upp=.80, n_size=10000)
+raw_distribution_2 = get_truncated_normal(upp=.79, n_size=10000)
+
+p, q = calculate_probability_vector(raw_distribution_1, raw_distribution_2)
+
+calculate_js_distance(p, q, raw_distribution_1, raw_distribution_2, threshold=0.2) 
 
 # COMMAND ----------
 
@@ -287,9 +326,12 @@ calculate_js_distance(get_truncated_normal(upp=.80, n_size=10000),
 
 # COMMAND ----------
 
-calculate_js_distance(get_truncated_normal(upp=.80, n_size=100000), 
-                      get_truncated_normal(upp=.79, n_size=100000)
-                     )
+raw_distribution_1 = get_truncated_normal(upp=.80, n_size=100000)
+raw_distribution_2 = get_truncated_normal(upp=.79, n_size=100000)
+
+p, q = calculate_probability_vector(raw_distribution_1, raw_distribution_2)
+
+calculate_js_distance(p, q, raw_distribution_1, raw_distribution_2, threshold=0.2) 
 
 # COMMAND ----------
 
@@ -298,7 +340,7 @@ calculate_js_distance(get_truncated_normal(upp=.80, n_size=100000),
 
 # COMMAND ----------
 
-# MAGIC %md In practice, you would have data over a period of time, divide it into groups based on time (e.g. weekly windows), and then run the tests on the two groups to determine if there was a statistically significant change. The frequency of these monitoring jobs is depedent on the training window, inference data sample size, and use case. We'll simulate this with our dataset. 
+# MAGIC %md In practice, you would have data over a period of time, divide it into groups based on time (e.g. weekly windows), and then run the tests on the two groups to determine if there was a statistically significant change. The frequency of these monitoring jobs depends on the training window, inference data sample size, and use case. We'll simulate this with our dataset. 
 
 # COMMAND ----------
 
@@ -371,12 +413,38 @@ for num in num_cols:
 
 # COMMAND ----------
 
+# MAGIC %md As mentioned above, the Jensen Shannon Distance metric has some advantages over the KS distance, so let's also run that test as well. 
+# MAGIC 
+# MAGIC Because we do not have p-value we do not need the Bonferroni Correction, however we do need to manually set a threshold based on our knowledge of the datset. 
+
+# COMMAND ----------
+
+# Set the JS stat threshold
+threshold = 0.2
+
+# Loop over all numeric attributes (numeric cols and target col, price)
+for num in num_cols:
+    # Run test comparing old and new for that attribute
+    range_min = min(pdf1[num].min(), pdf2[num].min())
+    range_max = max(pdf1[num].max(), pdf2[num].max())
+    base = np.histogram(pdf1[num], bins=20, range=(range_min, range_max))
+    comp = np.histogram(pdf2[num], bins=20, range=(range_min, range_max))
+    js_stat = distance.jensenshannon(base[0], comp[0], base=2)
+    if js_stat >= threshold:
+        print(f"{num} had statistically significant change between the two samples")
+
+# COMMAND ----------
+
 # MAGIC %md Now, let's take a look at the categorical features. Check the rate of null values.
 
 # COMMAND ----------
 
 # Generate missing value counts visual 
-pd.concat([100 * pdf1.isnull().sum() / len(pdf1), 100 * pdf2.isnull().sum() / len(pdf2)], axis=1, keys=["pdf1", "pdf2"]).style.background_gradient(cmap=cm, text_color_threshold=0.5, axis=1)
+pd.concat(
+  [100 * pdf1.isnull().sum() / len(pdf1), 100 * pdf2.isnull().sum() / len(pdf2)], 
+  axis=1, 
+  keys=["pdf1", "pdf2"]
+).style.background_gradient(cmap=cm, text_color_threshold=0.5, axis=1)
 
 # COMMAND ----------
 
@@ -432,10 +500,11 @@ import pandas as pd
 import seaborn as sns
 from scipy import stats
 import numpy as np 
+from scipy.spatial import distance
 
 class Monitor():
   
-    def __init__(self, pdf1, pdf2, cat_cols, num_cols, alpha=.05):
+    def __init__(self, pdf1, pdf2, cat_cols, num_cols, alpha=.05, js_stat_threshold=0.2):
         """
         Pass in two pandas dataframes with the same columns for two time windows
         List the categorical and numeric columns, and optionally provide an alpha level
@@ -443,18 +512,19 @@ class Monitor():
         assert (pdf1.columns == pdf2.columns).all(), "Columns do not match"
         self.pdf1 = pdf1
         self.pdf2 = pdf2
-        self.alpha = alpha
         self.categorical_columns = cat_cols
         self.continuous_columns = num_cols
+        self.alpha = alpha
+        self.js_stat_threshold = js_stat_threshold
     
     def run(self):
         """
         Call to run drift monitoring
         """
-        self.handle_numeric()
+        self.handle_numeric_js()
         self.handle_categorical()
   
-    def handle_numeric(self):
+    def handle_numeric_ks(self):
         """
         Handle the numeric features with the Two-Sample Kolmogorov-Smirnov (KS) Test with Bonferroni Correction 
         """
@@ -463,6 +533,17 @@ class Monitor():
         for num in self.continuous_columns:
             ks_stat, ks_pval = stats.ks_2samp(self.pdf1[num], self.pdf2[num], mode="asymp")
             if ks_pval <= corrected_alpha:
+                self.on_drift(num)
+                
+    def handle_numeric_js(self):
+        for num in self.continuous_columns:
+            # Run test comparing old and new for that attribute
+            range_min = min(self.pdf1[num].min(), self.pdf2[num].min())
+            range_max = max(self.pdf1[num].max(), self.pdf2[num].max())
+            base = np.histogram(self.pdf1[num], bins=20, range=(range_min, range_max))
+            comp = np.histogram(self.pdf2[num], bins=20, range=(range_min, range_max))
+            js_stat = distance.jensenshannon(base[0], comp[0], base=2)
+            if js_stat >= self.js_stat_threshold:
                 self.on_drift(num)
       
     def handle_categorical(self):
@@ -546,8 +627,6 @@ drift_monitor.generate_null_counts()
 # COMMAND ----------
 
 # MAGIC %md-sandbox
-# MAGIC ## Other Drift Monitoring Methods
-# MAGIC 
 # MAGIC In this lesson, we focused on statistical methods for identifying drift. 
 # MAGIC 
 # MAGIC However, there are other methods.
@@ -583,8 +662,7 @@ drift_monitor.generate_null_counts()
 
 # COMMAND ----------
 
-# MAGIC %md #### Other Resources
-# MAGIC 
+# MAGIC %md
 # MAGIC For more information, a great talk by Chengyin Eng and Niall Turbitt can be found here: [Drifting Away: Testing ML Models in Production](https://databricks.com/session_na21/drifting-away-testing-ml-models-in-production).
 # MAGIC 
 # MAGIC Much of the content in this lesson is adapted from this talk. 

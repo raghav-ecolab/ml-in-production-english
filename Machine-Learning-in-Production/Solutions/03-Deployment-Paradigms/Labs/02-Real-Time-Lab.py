@@ -35,6 +35,7 @@ import mlflow.sklearn
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
+import uuid
 
 # Load data
 df = pd.read_parquet("/dbfs/mnt/training/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet/")
@@ -62,7 +63,7 @@ with mlflow.start_run(run_name="Random Forest Model") as run:
     mlflow.sklearn.log_model(regressor, "model")
     
 # Register model
-model_name = f"rfr_model_{clean_username}"
+model_name = f"rfr_model_{uuid.uuid4().hex[:6]}"
 model_uri = f"runs:/{run.info.run_id}/model"
 model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
 model_version = model_details.version

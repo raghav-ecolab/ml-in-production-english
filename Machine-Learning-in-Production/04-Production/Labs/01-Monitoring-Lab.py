@@ -93,23 +93,31 @@ class Monitor():
         """
         Call to run drift monitoring
         """
-        self.handle_numeric()
+        self.handle_numeric_js()
         self.handle_categorical()
   
-    def handle_numeric(self):
+    def handle_numeric_ks(self):
         """
         Handle the numeric features with the Two-Sample Kolmogorov-Smirnov (KS) Test with Bonferroni Correction 
         """
         corrected_alpha = self.alpha / len(self.continuous_columns)
 
         for num in self.continuous_columns:
-            p = stats.norm.pdf(self.pdf1[num], self.pdf1[num].mean(),self.pdf1[num].std())
-            q = stats.norm.pdf(self.pdf2[num], self.pdf2[num].mean(),self.pdf2[num].std())
-            js_stat = distance.jensenshannon(p, q, base=2) 
-            js_drift = bool(js_stat > 0.3)
-            if js_drift == False:
+            ks_stat, ks_pval = stats.ks_2samp(self.pdf1[num], self.pdf2[num], mode="asymp")
+            if ks_pval <= corrected_alpha:
                 self.on_drift(num)
-      
+                
+    def handle_numeric_js(self):
+        for num in self.continuous_columns:
+            # Run test comparing old and new for that attribute
+            range_min = min(self.pdf1[num].min(), self.pdf2[num].min())
+            range_max = max(self.pdf1[num].max(), self.pdf2[num].max())
+            base = np.histogram(self.pdf1[num], bins=20, range=(range_min, range_max))
+            comp = np.histogram(self.pdf2[num], bins=20, range=(range_min, range_max))
+            js_stat = distance.jensenshannon(base[0], comp[0], base=2)
+            if js_stat >= 0.3:
+                self.on_drift(num)
+            
     def handle_categorical(self):
         """
         Handle the Categorical features with Two-Way Chi-Squared Test with Bonferroni Correction
@@ -122,9 +130,9 @@ class Monitor():
             pdf_counts = pdf_count1.join(pdf_count2, how="outer").fillna(0)
             obs = np.array([pdf_counts["pdf1"], pdf_counts["pdf2"]])
             _, p, _, _ = stats.chi2_contingency(obs)
-            if p <= corrected_alpha:
+            if p < corrected_alpha:
                 self.on_drift(feature)
-  
+
     def generate_null_counts(self, palette="#2ecc71"):
         """
         Generate the visualization of percent null counts of all features
@@ -135,7 +143,6 @@ class Monitor():
                           100 * self.pdf2.isnull().sum() / len(self.pdf2)], axis=1, 
                           keys=["pdf1", "pdf2"]).style.background_gradient(cmap=cm, text_color_threshold=0.5, axis=1)
     
-  
     def generate_percent_change(self, palette="#2ecc71"):
         """
         Generate visualization of percent change in summary statistics of numeric features
@@ -146,7 +153,7 @@ class Monitor():
         summary2_pdf = self.pdf2.describe()[self.continuous_columns]
         percent_change = 100 * abs((summary1_pdf - summary2_pdf) / (summary1_pdf + 1e-100))
         return percent_change.style.background_gradient(cmap=cm, text_color_threshold=0.5, axis=1)
-    
+  
     def on_drift(self, feature):
         """
         Complete this method with your response to drift.  Options include:
@@ -161,9 +168,12 @@ class Monitor():
 
 # COMMAND ----------
 
-drift_monitor = (Monitor(df, df2, 
-                        cat_cols = ["most_popular_ice_cream_flavor", "most_popular_sorbet_flavor"], 
-                        num_cols = ["temperature", "number_of_cones_sold", "number_bowls_sold", "total_store_sales", "total_sales_predicted"]))
+drift_monitor = Monitor(
+  df,
+  df2, 
+  cat_cols = ["most_popular_ice_cream_flavor", "most_popular_sorbet_flavor"], 
+  num_cols = ["temperature", "number_of_cones_sold", "number_bowls_sold", "total_store_sales", "total_sales_predicted"]
+)
 
 # COMMAND ----------
 
@@ -174,25 +184,25 @@ drift_monitor = (Monitor(df, df2,
 
 # COMMAND ----------
 
-drift_monitor.generate_percent_change()
+# TODO
 
 # COMMAND ----------
 
-drift_monitor.generate_null_counts()
+# TODO
 
 # COMMAND ----------
 
 # MAGIC %md ### Statistical Tests
 # MAGIC 
-# MAGIC Now let's try the Two Sample KS and Two-Way Chi-Squared Test with Bonferroni Correction. 
+# MAGIC Now let's try the Jensen Shannon and Two-Way Chi-Squared Test with Bonferroni Correction. 
 # MAGIC 
-# MAGIC Both of these are implemented for you when you call `drift_monitor.run()`. It will print a feature name if a statisitically significant p-value was found by the respective test on that feature. 
+# MAGIC Both of these are implemented for you when you call `drift_monitor.run()`. It will print a feature name if a statisitically significant p-value was found by the respective test on that feature or if the JS stat is above our predetermined threshold.
 # MAGIC 
 # MAGIC Examine the results and compare them to the changes we made. 
 
 # COMMAND ----------
 
-drift_monitor.run()
+# TODO
 
 # COMMAND ----------
 

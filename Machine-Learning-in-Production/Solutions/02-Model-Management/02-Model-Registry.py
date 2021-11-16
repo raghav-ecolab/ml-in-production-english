@@ -89,7 +89,7 @@ with mlflow.start_run(run_name="RF Model") as run:
 
 import uuid
 
-model_name = f"airbnb_rf_model_{uuid.uuid4().hex[:10]}"
+model_name = f"airbnb_rf_model_{uuid.uuid4().hex[:6]}"
 model_name
 
 # COMMAND ----------

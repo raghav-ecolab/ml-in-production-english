@@ -102,7 +102,8 @@ with mlflow.start_run(run_name="Webhook RF Experiment") as run:
 
 # COMMAND ----------
 
-name = f"webhook_demo_{run_id}"
+import uuid
+name = f"webhook_demo_{uuid.uuid4().hex[:6]}"
 model_uri = f"runs:/{run_id}/random-forest-model"
 
 model_details = mlflow.register_model(model_uri=model_uri, name=name)

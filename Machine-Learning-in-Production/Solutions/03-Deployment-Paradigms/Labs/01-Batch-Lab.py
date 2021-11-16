@@ -44,6 +44,7 @@ import xgboost as xgb
 import mlflow
 import mlflow.xgboost
 from sklearn.metrics import mean_squared_error
+import uuid
 
 # Start run
 with mlflow.start_run(run_name="xgboost_model") as run:
@@ -70,7 +71,7 @@ with mlflow.start_run(run_name="xgboost_model") as run:
     mlflow.xgboost.log_model(regressor, "xgboost-model")
     
 # Register model
-model_name = f"xgboost_model_{clean_username}"
+model_name = f"xgboost_model_{uuid.uuid4().hex[:6]}"
 model_uri = f"runs:/{run.info.run_id}/xgboost-model"
 model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
 

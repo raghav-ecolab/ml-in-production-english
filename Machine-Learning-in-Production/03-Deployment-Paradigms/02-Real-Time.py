@@ -309,7 +309,7 @@ score_model(X_test)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> **Remember to shut down the Model Serving Cluster to avoid incurring unexpected cost**. It does not terminate automatically! Click on `Stop` next to `Status` to stop the serving cluster.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> **Remember to shut down the Model Serving Cluster to avoid incurring unexpected cost**. It does not terminate automatically! Click on `Stop` next to `Status` to stop the serving cluster.
 # MAGIC <Br>
 # MAGIC 
 # MAGIC <div><img src="http://files.training.databricks.com/images/mlflow/demo_model_hex.png" style="height: 250px; margin: 20px"/></div>
