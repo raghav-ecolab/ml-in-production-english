@@ -17,7 +17,7 @@
 # MAGIC  - Deploy registered models using MLflow Model Serving
 # MAGIC  - Query an MLflow Model Serving endpoint for inference using individual records and batch requests
 # MAGIC  
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_32.png"> *You need [cluster creation](https://docs.databricks.com/applications/mlflow/model-serving.html#requirements) permissions to create a model serving endpoint. The instructor will either demo this notebook or enable cluster creation permission for the students from the Admin console.*
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_32.png"> *You need <a href="https://docs.databricks.com/applications/mlflow/model-serving.html#requirements" target="_blank">cluster creation</a> permissions to create a model serving endpoint. The instructor will either demo this notebook or enable cluster creation permission for the students from the Admin console.*
 
 # COMMAND ----------
 
@@ -99,11 +99,11 @@ with mlflow.start_run() as run:
 # COMMAND ----------
 
 # MAGIC %md There are a few ways to send requests to the development server for testing purpose:
-# MAGIC * using `click` library 
+# MAGIC * using **`click`** library 
 # MAGIC * using MLflow Model Serving API
-# MAGIC * through CLI using `mlflow models serve`
+# MAGIC * through CLI using **`mlflow models serve`**
 # MAGIC 
-# MAGIC In this lesson, we are going to demonstrate how to use both the `click` library and MLflow Model Serving API. 
+# MAGIC In this lesson, we are going to demonstrate how to use both the **`click`** library and MLflow Model Serving API. 
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> This is just to demonstrate how a basic development server works. This design pattern (which hosts a server on the driver of your Spark cluster) is not recommended for production.<br>
 # MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Models can be served in this way in other languages as well.
@@ -199,9 +199,9 @@ p.terminate()
 # MAGIC ### Method 2: MLflow Model Serving
 # MAGIC Now, let's use MLflow Model Serving. 
 # MAGIC 
-# MAGIC Step 1: We first need to register the model in MLflow Model Registry and load the model. At this step, we don't specify the model stage, so that the stage version would be `None`. 
+# MAGIC Step 1: We first need to register the model in MLflow Model Registry and load the model. At this step, we don't specify the model stage, so that the stage version would be **`None`**. 
 # MAGIC 
-# MAGIC You can refer to the MLflow documentation [here](https://www.mlflow.org/docs/latest/model-registry.html#api-workflow).
+# MAGIC You can refer to the MLflow documentation <a href="https://www.mlflow.org/docs/latest/model-registry.html#api-workflow" target="_blank">here</a>.
 
 # COMMAND ----------
 
@@ -287,7 +287,7 @@ assert r.status_code == 200, f"Expected an HTTP 200 response, received {r.status
 
 # COMMAND ----------
 
-# MAGIC %md Define the `score_model` function.
+# MAGIC %md Define the **`score_model`** function.
 
 # COMMAND ----------
 
@@ -302,7 +302,7 @@ def score_model(dataset: pd.DataFrame):
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC After the model serving cluster is in the `ready` state, you can now send requests to the REST endpoint.
+# MAGIC After the model serving cluster is in the **`ready`** state, you can now send requests to the REST endpoint.
 
 # COMMAND ----------
 
@@ -311,7 +311,7 @@ score_model(X_test)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC You can also optionally transition the model to the `Staging` or `Production` stage, using [MLflow Model Registry](https://www.mlflow.org/docs/latest/model-registry.html#transitioning-an-mlflow-models-stage). 
+# MAGIC You can also optionally transition the model to the **`Staging`** or **`Production`** stage, using <a href="https://www.mlflow.org/docs/latest/model-registry.html#transitioning-an-mlflow-models-stage" target="_blank">MLflow Model Registry</a>. 
 # MAGIC 
 # MAGIC Sample code is below:
 # MAGIC ```
@@ -325,7 +325,7 @@ score_model(X_test)
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> **Remember to shut down the Model Serving Cluster to avoid incurring unexpected cost**. It does not terminate automatically! Click on `Stop` next to `Status` to stop the serving cluster.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_warn_24.png"/> **Remember to shut down the Model Serving Cluster to avoid incurring unexpected cost**. It does not terminate automatically! Click on **`Stop`** next to **`Status`** to stop the serving cluster.
 # MAGIC <Br>
 # MAGIC 
 # MAGIC <div><img src="http://files.training.databricks.com/images/mlflow/demo_model_hex.png" style="height: 250px; margin: 20px"/></div>
@@ -338,20 +338,28 @@ score_model(X_test)
 
 # MAGIC %md ## AWS SageMaker
 # MAGIC 
-# MAGIC - [mlflow.sagemaker](https://docs.aws.amazon.com/sagemaker/index.html) can deploy a trained model to SageMaker using a single function: `mlflow.sagemaker.deploy`
-# MAGIC - During deployment, MLflow will use a specialized Docker container with the resources required to load and serve the model. This container is named `mlflow-pyfunc`.
+# MAGIC - <a href="https://docs.aws.amazon.com/sagemaker/index.html" target="_blank">mlflow.sagemaker</a> can deploy a trained model to SageMaker using a single function: <a href="https://www.mlflow.org/docs/latest/python_api/mlflow.sagemaker.html#mlflow.sagemaker.deploy" target="_blank">**`mlflow.sagemaker.deploy`**</a>
+# MAGIC - During deployment, MLflow will use a specialized Docker container with the resources required to load and serve the model. This container is named **`mlflow-pyfunc`**.
 # MAGIC - By default, MLflow will search for this container within your AWS Elastic Container Registry (ECR). You can build and upload this container to ECR using the
-# MAGIC `mlflow.sagemaker.build_image()` function in MLflow. Alternatively, you can specify an alternative URL for this container by setting an environment variable as follows:
+# MAGIC **`mlflow sagemaker build-and-push-container`** function in MLflow's <a href="https://www.mlflow.org/docs/latest/cli.html#mlflow-sagemaker-build-and-push-container" target="_blank">CLI</a>.  Alternatively, you can specify an alternative URL for this container by setting an environment variable as follows:
 # MAGIC 
 # MAGIC ```
 # MAGIC   # the ECR URL should look like:
 # MAGIC   {account_id}.dkr.ecr.{region}.amazonaws.com/{repo_name}:{tag}
 # MAGIC   
+# MAGIC   image_ecr_url = "<ecr-url>"
 # MAGIC   # Set the environment variable based on the URL
-# MAGIC   os.environ["SAGEMAKER_DEPLOY_IMG_URL"] = "<ecr-url>"
+# MAGIC   os.environ["SAGEMAKER_DEPLOY_IMG_URL"] = image_ecr_url
+# MAGIC   
+# MAGIC   # Deploy the model
+# MAGIC   mlflow.sagemaker.deploy(
+# MAGIC      app_name, # application/model name
+# MAGIC      model_uri, # model URI in Model Registry
+# MAGIC      image_url=image_ecr_url, region_name=region, mode="create")
+# MAGIC   )
 # MAGIC ```
-# MAGIC - You can contact your Databricks representative for a prebuilt `mlflow-pyfunc` image URL in ECR (in private preview).
-# MAGIC - Once the endpoint is up and running, the `sagemaker-runtime` API in `boto3` can query against the REST API:
+# MAGIC - Running deployment and inference in a Databricks notebook requires the Databricks cluster to be configured with an AWS IAM role with permissions to perform these operations.
+# MAGIC - Once the endpoint is up and running, the **`sagemaker-runtime`** API in **`boto3`** can query against the REST API:
 # MAGIC ```python
 # MAGIC client = boto3.session.Session().client("sagemaker-runtime", "{region}")
 # MAGIC   
@@ -365,20 +373,19 @@ score_model(X_test)
 # MAGIC   print(f"Received response: {preds}")
 # MAGIC   ```
 # MAGIC 
-# MAGIC 
-# MAGIC ** Tip: Each Sagemaker endpoint is scoped to a single region. If deployment is required across regions, Sagemaker endpoints must exist in each region. **
+# MAGIC **Tip**: Each Sagemaker endpoint is scoped to a single region. If deployment is required across regions, Sagemaker endpoints must exist in each region.
 
 # COMMAND ----------
 
 # MAGIC %md-sandbox
 # MAGIC ## Azure
-# MAGIC - AzureML and MLflow can deploy models as [REST endpoints](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-deploy-mlflow-models) by using either:
+# MAGIC - AzureML and MLflow can deploy models as <a href="https://docs.microsoft.com/en-us/azure/machine-learning/how-to-deploy-mlflow-models" target="_blank">REST endpoints</a> by using either:
 # MAGIC   - **Azure Container Instances**: when deploying through ACI, it automatically registers the model, creates and registers the container (if one doesn't already exist), builds the image, and sets up the endpoint. The endpoint can then be monitored via the AzureML studio UI. **Note that Azure Kubernetes Service is generally recommended for production over ACI.**
 # MAGIC   
 # MAGIC   <img src="http://files.training.databricks.com/images/mlflow/rest_serving.png" style="height: 700px; margin: 10px"/>
-# MAGIC   - **Azure Kubernetes Service**: when deploying through AKS, the K8s cluster is configured as the compute target, use the `deployment_configuration()` [function](https://docs.microsoft.com/en-us/python/api/azureml-core/azureml.core.webservice.aks.akswebservice?view=azure-ml-py#deploy-configuration-autoscale-enabled-none--autoscale-min-replicas-none--autoscale-max-replicas-none--autoscale-refresh-seconds-none--autoscale-target-utilization-none--collect-model-data-none--auth-enabled-none--cpu-cores-none--memory-gb-none--enable-app-insights-none--scoring-timeout-ms-none--replica-max-concurrent-requests-none--max-request-wait-time-none--num-replicas-none--primary-key-none--secondary-key-none--tags-none--properties-none--description-none--gpu-cores-none--period-seconds-none--initial-delay-seconds-none--timeout-seconds-none--success-threshold-none--failure-threshold-none--namespace-none--token-auth-enabled-none--compute-target-name-none--cpu-cores-limit-none--memory-gb-limit-none-) create a json configuration file for the compute target, the model is then registered and the cluster is ready for serving. Because Azure Kubernetes services inlcudes features like load balancing, fallover, etc. it's a more robust production serving option. 
+# MAGIC   - **Azure Kubernetes Service**: when deploying through AKS, the K8s cluster is configured as the compute target, use the `deployment_configuration()` <a href="https://docs.microsoft.com/en-us/python/api/azureml-core/azureml.core.webservice.aks.akswebservice?view=azure-ml-py#deploy-configuration-autoscale-enabled-none--autoscale-min-replicas-none--autoscale-max-replicas-none--autoscale-refresh-seconds-none--autoscale-target-utilization-none--collect-model-data-none--auth-enabled-none--cpu-cores-none--memory-gb-none--enable-app-insights-none--scoring-timeout-ms-none--replica-max-concurrent-requests-none--max-request-wait-time-none--num-replicas-none--primary-key-none--secondary-key-none--tags-none--properties-none--description-none--gpu-cores-none--period-seconds-none--initial-delay-seconds-none--timeout-seconds-none--success-threshold-none--failure-threshold-none--namespace-none--token-auth-enabled-none--compute-target-name-none--cpu-cores-limit-none--memory-gb-limit-none-" target="_blank">function</a> create a json configuration file for the compute target, the model is then registered and the cluster is ready for serving. Because Azure Kubernetes services inlcudes features like load balancing, fallover, etc. it's a more robust production serving option. 
 # MAGIC   - Azure Machine Learning endpoints (currently in preview)
-# MAGIC - Note that when you're deploying your model on Azure, you'll need to connect the [MLflow Tracking URI](https://docs.microsoft.com/en-us/azure/machine-learning/how-to-use-mlflow) from your Databricks Workspace to your AzureML workspace. Once the connection has been created, experiments can be tracked across the two. 
+# MAGIC - Note that when you're deploying your model on Azure, you'll need to connect the <a href="https://docs.microsoft.com/en-us/azure/machine-learning/how-to-use-mlflow" target="_blank">MLflow Tracking URI</a> from your Databricks Workspace to your AzureML workspace. Once the connection has been created, experiments can be tracked across the two. 
 # MAGIC 
 # MAGIC ** Tip:`azureml-mlflow` will need to be installed on the cluster as it is *not* included in the ML runtime ** 
 
@@ -387,12 +394,12 @@ score_model(X_test)
 # MAGIC %md-sandbox 
 # MAGIC ## GCP
 # MAGIC 
-# MAGIC GCP users can train their models on GCP Databricks workspace, log their trained model to MLFlow Model Registry, then deploy production-ready models to [Vertex AI](https://cloud.google.com/vertex-ai) and create model-serving endpoint. You need to set up your GCP service account and install MLflow plugin for Google Cloud (`%pip install google_cloud_mlflow`).
+# MAGIC GCP users can train their models on GCP Databricks workspace, log their trained model to MLFlow Model Registry, then deploy production-ready models to <a href="https://cloud.google.com/vertex-ai" target="_blank">Vertex AI</a> and create model-serving endpoint. You need to set up your GCP service account and install MLflow plugin for Google Cloud (`%pip install google_cloud_mlflow`).
 # MAGIC 
 # MAGIC ####**To set up GCP service account**:
-# MAGIC - Create a GCP project, see intructions [here](https://cloud.google.com/apis/docs/getting-started). You can use the project that the Databricks workspace belongs to.
+# MAGIC - Create a GCP project, see intructions <a href="https://cloud.google.com/apis/docs/getting-started" target="_blank">here</a>. You can use the project that the Databricks workspace belongs to.
 # MAGIC - Enable Vertex AI and Cloud Build APIs of your GCP project
-# MAGIC - Create a service account with the following minimum IAM permissions (see instructions [here](https://cloud.google.com/iam/docs/creating-managing-service-accounts)) to load Mlflow models from GCS, build containers, and deploy the container into a Vertex AI endpoint:
+# MAGIC - Create a service account with the following minimum IAM permissions (see instructions <a href="https://cloud.google.com/iam/docs/creating-managing-service-accounts" target="_blank">here</a> to load Mlflow models from GCS, build containers, and deploy the container into a Vertex AI endpoint:
 # MAGIC 
 # MAGIC ```
 # MAGIC cloudbuild.builds.create
@@ -485,7 +492,7 @@ score_model(X_test)
 # MAGIC %md
 # MAGIC ## Additional Topics & Resources
 # MAGIC 
-# MAGIC **Q:** Where can I find out more information on MLflow's `pyfunc`?  
+# MAGIC **Q:** Where can I find out more information on MLflow's **`pyfunc`**?  
 # MAGIC **A:** Check out <a href="https://www.mlflow.org/docs/latest/models.html#pyfunc-deployment" target="_blank">the MLflow documentation</a>
 # MAGIC 
 # MAGIC **Q:** Where can I learn more about MLflow Model Serving on Databricks?   

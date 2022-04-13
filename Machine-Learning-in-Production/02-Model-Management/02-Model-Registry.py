@@ -115,7 +115,7 @@ model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
 
 # COMMAND ----------
 
-# MAGIC %md Check the status.  It will initially be in `PENDING_REGISTRATION` status. 
+# MAGIC %md Check the status.  It will initially be in **`PENDING_REGISTRATION`** status. 
 
 # COMMAND ----------
 
@@ -153,16 +153,16 @@ client.update_model_version(
 
 # MAGIC %md ### Deploying a Model
 # MAGIC 
-# MAGIC The MLflow Model Registry defines several model stages: `None`, `Staging`, `Production`, and `Archived`. Each stage has a unique meaning. For example, `Staging` is meant for model testing, while `Production` is for models that have completed the testing or review processes and have been deployed to applications. 
+# MAGIC The MLflow Model Registry defines several model stages: **`None`**, **`Staging`**, **`Production`**, and **`Archived`**. Each stage has a unique meaning. For example, **`Staging`** is meant for model testing, while **`Production`** is for models that have completed the testing or review processes and have been deployed to applications. 
 # MAGIC 
 # MAGIC Users with appropriate permissions can transition models between stages. In private preview, any user can transition a model to any stage. In the near future, administrators in your organization will be able to control these permissions on a per-user and per-model basis.
 # MAGIC 
-# MAGIC If you have permission to transition a model to a particular stage, you can make the transition directly by using the `MlflowClient.update_model_version()` function. If you do not have permission, you can request a stage transition using the REST API; for example: ```%sh curl -i -X POST -H "X-Databricks-Org-Id: <YOUR_ORG_ID>" -H "Authorization: Bearer <YOUR_ACCESS_TOKEN>" https://<YOUR_DATABRICKS_WORKSPACE_URL>/api/2.0/preview/mlflow/transition-requests/create -d '{"comment": "Please move this model into production!", "model_version": {"version": 1, "registered_model": {"name": "power-forecasting-model"}}, "stage": "Production"}'
-# MAGIC ```
+# MAGIC If you have permission to transition a model to a particular stage, you can make the transition directly by using the **`MlflowClient.update_model_version()`** function. If you do not have permission, you can request a stage transition using the REST API; for example: ***```%sh curl -i -X POST -H "X-Databricks-Org-Id: <YOUR_ORG_ID>" -H "Authorization: Bearer <YOUR_ACCESS_TOKEN>" https://<YOUR_DATABRICKS_WORKSPACE_URL>/api/2.0/preview/mlflow/transition-requests/create -d '{"comment": "Please move this model into production!", "model_version": {"version": 1, "registered_model": {"name": "power-forecasting-model"}}, "stage": "Production"}'
+# MAGIC ```***
 
 # COMMAND ----------
 
-# MAGIC %md Now that you've learned about stage transitions, transition the model to the `Production` stage.
+# MAGIC %md Now that you've learned about stage transitions, transition the model to the **`Production`** stage.
 
 # COMMAND ----------
 
@@ -192,7 +192,7 @@ print(f"The current model stage is: '{model_version_details.current_stage}'")
 
 # COMMAND ----------
 
-# MAGIC %md Fetch the latest model using a `pyfunc`.  Loading the model in this way allows us to use the model regardless of the package that was used to train it.
+# MAGIC %md Fetch the latest model using a **`pyfunc`**.  Loading the model in this way allows us to use the model regardless of the package that was used to train it.
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> You can load a specific version of the model too.
 
@@ -282,7 +282,7 @@ client.update_model_version(
 
 # COMMAND ----------
 
-# MAGIC %md Put this new model version into `Staging`
+# MAGIC %md Put this new model version into **`Staging`**
 
 # COMMAND ----------
 
@@ -296,7 +296,7 @@ client.transition_model_version_stage(
 
 # COMMAND ----------
 
-# MAGIC %md Sicne this model is now in staging, you can execute an automated CI/CD pipeline against it to test it before going into production.  Once that is completed, you can push that model into production.
+# MAGIC %md Since this model is now in staging, you can execute an automated CI/CD pipeline against it to test it before going into production.  Once that is completed, you can push that model into production.
 
 # COMMAND ----------
 
@@ -350,23 +350,30 @@ client.delete_registered_model(model_name)
 
 # MAGIC %md-sandbox 
 # MAGIC 
-# MAGIC ## Central Model Registry 
+# MAGIC ## Sharing of Registered Models
 # MAGIC 
-# MAGIC In this lesson, we have explored how to use your workspace's local model registry. Databricks also supports sharing models across multiple workspaces. 
+# MAGIC In this lesson, we have explored how to use your workspace's local model registry.  Models can be shared through model level permissions granted to individual users or groups.
 # MAGIC 
-# MAGIC Typically mutliple workspaces are used for different stages of the deployment lifecycle, such as development, staging, and production. 
+# MAGIC Databricks also supports sharing models across workspaces.  Typically multiple workspaces are used for different stages of the deployment lifecycle, such as development, staging, and production. Workspace level separation <!-- isolation -->helps to mitigate risks of work done in one environment affecting work in another.
 # MAGIC 
-# MAGIC Having a central model registry allows us to pass artifacts into our production environment. This keeps the production environment as separate as possible from our other environments.
+# MAGIC From a CI/CD infrastructure perspective, each workspace separation introduces a boundary in the deployment lifecycle that needs to somehow be crossed.  <!-- For example, a CI/CD process may orchestrate transitioning of a model developed in the *development* workspace in to the *staging* workspace for validation and testing. -->
+# MAGIC The decision of how to cross a boundary depends upon *what* needs to be transitioned. The *what* may be the *code* used to generate the model, or the *model* itself. 
 # MAGIC 
-# MAGIC We recommend the use of a **Central Model Registry** to help with this. 
+# MAGIC Here, consider the scenario where the model is transitioned to different stages by tasks performed in different workspaces. In this scenario, a model is fully trained in the *development* workspace and does not change going forward through its lifecycle, only the model's stage changes. *Where* should this model be registered? 
 # MAGIC 
-# MAGIC This architecture uses a separate Databricks workspace for the sole purpose of hosting a model registry. This acts as a swap point for transitioning models. Once a model is ready to be sent to a new stage of deployment, it is pushed to the central model registry. Other environments then pull the artifacts into the workspace dedicated to the next stage of the deployment. 
+# MAGIC An initial thought may be: because the model is developed and finalized in *development* workspace it should be registered in the *development* environment. The implication of this, however, is that *production* and *staging* become directly dependent upon the *development* workspace.  This is not advised.
+# MAGIC 
+# MAGIC Alternatively, one might consider using a **Central Model Registry**.  This architecture uses a separate Databricks workspace for the sole purpose of hosting a model registry. This acts as a swap point for transitioning models and breaks any direct dependencies between the lifecycle stage workspaces. Once a model is ready to be sent to a new stage of deployment, it is pushed to the central model registry. Other environments then pull the artifacts into the workspace dedicated to the next stage of the deployment. See <a href="https://docs.databricks.com/applications/machine-learning/manage-model-lifecycle/multiple-workspaces.html" target="_blank">this documentation for more information.</a> 
 # MAGIC 
 # MAGIC The diagram below shows how this process works:
 # MAGIC 
 # MAGIC <img src="https://docs.databricks.com/_images/multiworkspace1.png" style="height: 450px">
 # MAGIC 
-# MAGIC This separates environments so that issues in development don't affect production systems. It also plays a critical role in CI/CD infrastructure where models are tested in the staging branch of this central model registry before being promoted to production. See [this documentation for more information.](https://docs.databricks.com/applications/machine-learning/manage-model-lifecycle/multiple-workspaces.html) 
+# MAGIC <!-- This separates environments so that issues in development don't affect production systems. It also plays a critical role in CI/CD infrastructure where models are tested in the staging branch of this central model registry before being promoted to production.  -->
+# MAGIC 
+# MAGIC Similar to many centralized patterns, a centralized model registry is not without challenges. For example, users who need access to the registry need to be granted the necessary permissions to access it. In effect, a user may need permission to access multiple workspaces. Depending upon how an organization choses to configure their workspaces, this may be administratively managed process and cumbersome to scale.
+# MAGIC 
+# MAGIC It is also worth noting that often the datasets that exist in a *development* are only representative datasets of the production data. That is, production datasets may undergo obfuscation, or anonymization, transforms or are randomly sampled to produce a development dataset.  As such, development models may only demonstrate a viable model architecture (and configuration) that should be re-trained and evaluated on production quality data. From this perspective, a development *model* should not be shared, rather its *code* should be. Sharing of *code* is outside the scope for this Notebook.
 
 # COMMAND ----------
 

@@ -9,7 +9,7 @@
 
 # MAGIC %md
 # MAGIC # Lab: Deploying a Model in Batch
-# MAGIC Deploying a model via batch is the preferred solution for most machine learning applications. In this lab, you will scale the deployment of a single-node model via Spark UDFs and MLflow's `pyfunc`. 
+# MAGIC Deploying a model via batch is the preferred solution for most machine learning applications. In this lab, you will scale the deployment of a single-node model via Spark UDFs and MLflow's **`pyfunc`**. 
 # MAGIC 
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lab you:<br>
@@ -36,7 +36,7 @@ df = (spark
 # MAGIC 
 # MAGIC In this exercise, you will build, log, and register an XGBoost model using Scikit-learn and MLflow.
 # MAGIC 
-# MAGIC This model will predict the `price` variable using `bathrooms`, `bedrooms`, and `number_of_reviews` as features.
+# MAGIC This model will predict the **`price`** variable using **`bathrooms`**, **`bedrooms`**, and **`number_of_reviews`** as features.
 
 # COMMAND ----------
 

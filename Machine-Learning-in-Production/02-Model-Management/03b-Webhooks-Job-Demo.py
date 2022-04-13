@@ -7,7 +7,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md Load the model name. The `event_message` is automatically populated by the webhook.
+# MAGIC %md Load the model name. The **`event_message`** is automatically populated by the webhook.
 
 # COMMAND ----------
 
@@ -34,7 +34,7 @@ version
 
 # COMMAND ----------
 
-# MAGIC %md Use the model name and version to load a `pyfunc` model of our model in production.
+# MAGIC %md Use the model name and version to load a **`pyfunc`** model of our model in production.
 
 # COMMAND ----------
 

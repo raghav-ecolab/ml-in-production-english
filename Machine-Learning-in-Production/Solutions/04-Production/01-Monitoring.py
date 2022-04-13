@@ -73,13 +73,13 @@
 # MAGIC * Summary Statisitcs
 # MAGIC   * Mean, Median, Variance, Missing value count, Max, Min
 # MAGIC * Tests
-# MAGIC   * [Jensen-Shannon](https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence)
+# MAGIC   * <a href="https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence" target="_blank">Jensen-Shannon</a>
 # MAGIC     - This method provides a smoothed and normalized metric
-# MAGIC   * [Two-Sample Kolmogorov-Smirnov (KS)](https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test), [Mann-Whitney](https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test), or [Wilcoxon tests](https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test).
+# MAGIC   * <a href="https://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test" target="_blank">Two-Sample Kolmogorov-Smirnov (KS)</a>, <a href="https://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U_test" target="_blank">Mann-Whitney</a>, or <a href="https://en.wikipedia.org/wiki/Wilcoxon_signed-rank_test" target="_blank">Wilcoxon tests</a>.
 # MAGIC     - Note: These tests vary largely in their assumption of normalcy and ability to handle larger data sizes
 # MAGIC     - Do a check of normalcy and choose the appropriate test based on this (e.g. Mann-Whitney is more permissive of skew) 
-# MAGIC   * [Wasserstein Distance](https://en.wikipedia.org/wiki/Wasserstein_metric)
-# MAGIC   * [Kullback–Leibler divergence](https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence)
+# MAGIC   * <a href="https://en.wikipedia.org/wiki/Wasserstein_metric" target="_blank">Wasserstein Distance</a>
+# MAGIC   * <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence" target="_blank">Kullback–Leibler divergence</a>
 # MAGIC     - This is related to Jensen-Shannon divergence
 # MAGIC 
 # MAGIC     
@@ -87,17 +87,17 @@
 # MAGIC * Summary Statistics
 # MAGIC   * Mode, Number of unique values, Number of missing values
 # MAGIC * Tests
-# MAGIC   * [One-way Chi-Squared Test](https://en.wikipedia.org/wiki/Chi-squared_test)
-# MAGIC   * [Chi-Squared Contingency Test](https://en.wikipedia.org/wiki/Chi-squared_test)
-# MAGIC   * [Fisher's Exact Test](https://en.wikipedia.org/wiki/Fisher%27s_exact_test)
+# MAGIC   * <a href="https://en.wikipedia.org/wiki/Chi-squared_test" target="_blank">One-way Chi-Squared Test</a>
+# MAGIC   * <a href="https://en.wikipedia.org/wiki/Chi-squared_test" target="_blank">Chi-Squared Contingency Test</a>
+# MAGIC   * <a href="https://en.wikipedia.org/wiki/Fisher%27s_exact_test" target="_blank">Fisher's Exact Test</a>
 # MAGIC 
 # MAGIC We also might want to store the relationship between the input variables and label. In that case, we handle this differently depending on the label variable type. 
 # MAGIC 
 # MAGIC **Numeric Comparisons**
-# MAGIC * [Pearson Coefficient](https://en.wikipedia.org/wiki/Pearson_correlation_coefficient)
+# MAGIC * <a href="https://en.wikipedia.org/wiki/Pearson_correlation_coefficient" target="_blank">Pearson Coefficient</a>
 # MAGIC 
 # MAGIC **Categorical Comparisons** 
-# MAGIC * [Contingency Tables](https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them.)
+# MAGIC * <a href="https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them." target="_blank">Contingency Tables</a>
 # MAGIC 
 # MAGIC One interesting alternative is to frame monitoring as a supervised learning problem where you use your features and label as inputs to a model and your label is whether a given row comes from the training or inference set. As the model's accuracy improves, it would imply that the model as drifted.
 # MAGIC 
@@ -154,11 +154,11 @@ def get_truncated_normal(mean=0, sd=1, low=0.2, upp=0.8, n_size=1000, seed=999):
 
     :return distb: rv_continuous 
     """
-    np.random.seed(seed=233423)
+    np.random.seed(seed=seed)
 
     a = (low-mean) / sd
     b = (upp-mean) / sd
-    distb = truncnorm(a, b, loc=mean, scale=sd).rvs(n_size)
+    distb = truncnorm(a, b, loc=mean, scale=sd).rvs(n_size, random_state=seed)
     return distb
 
 def calculate_ks(distibution_1, distibution_2):
@@ -226,30 +226,30 @@ def calculate_js_distance(p, q, raw_distribution_1, raw_distribution_2, threshol
 # COMMAND ----------
 
 # MAGIC %md 
-# MAGIC Let's start with a sample size of 1000.
+# MAGIC Let's start with a sample size of 50.
+
+# COMMAND ----------
+
+calculate_ks(
+  get_truncated_normal(upp=.80, n_size=50), 
+  get_truncated_normal(upp=.79, n_size=50) 
+)
+
+# COMMAND ----------
+
+# MAGIC %md Great! We can see the distributions look pretty similar and we have a high p-value. Now, let's increase the sample size and see its impact on the p-value...Let's set **`N = 10,000`**
 
 # COMMAND ----------
 
 calculate_ks(
   get_truncated_normal(upp=.80, n_size=1000), 
-  get_truncated_normal(upp=.79, n_size=1000) 
-)
-
-# COMMAND ----------
-
-# MAGIC %md Great! We can see the distributions look pretty similar and we have a high p-value. Now, let's increase the sample size and see its impact on the p-value...Let's set `N = 10,000`
-
-# COMMAND ----------
-
-calculate_ks(
-  get_truncated_normal(upp=.80, n_size=10000), 
-  get_truncated_normal(upp=.79, n_size=10000)
+  get_truncated_normal(upp=.79, n_size=1000)
 )
 
 # COMMAND ----------
 
 # MAGIC %md 
-# MAGIC Wow! Increasing the sample size decreased the p-value significantly. Let's bump up the sample size by one more factor of 10: `N = 100,000`
+# MAGIC Wow! Increasing the sample size decreased the p-value significantly. Let's bump up the sample size by one more factor of 10: **`N = 100,000`**
 
 # COMMAND ----------
 
@@ -261,7 +261,7 @@ calculate_ks(
 # COMMAND ----------
 
 # MAGIC %md 
-# MAGIC With the increased sample size, our `ks_stat` has dropped to near zero indicating that our two samples are significantly different. However, by just visually looking at the plot of our two overlapping distributions, they look pretty similar. Caculating the `ks_stat` can be useful when determining the similarity between two distributions, however you can quickly run into limitations based on sample size. So how can we test for distribution similarity when we have a *large sample size*?
+# MAGIC With the increased sample size, our **`ks_stat`** has dropped to near zero indicating that our two samples are significantly different. However, by just visually looking at the plot of our two overlapping distributions, they look pretty similar. Caculating the **`ks_stat`** can be useful when determining the similarity between two distributions, however you can quickly run into limitations based on sample size. So how can we test for distribution similarity when we have a *large sample size*?
 
 # COMMAND ----------
 
@@ -273,7 +273,7 @@ calculate_ks(
 # MAGIC - 0 means the distributions are identical
 # MAGIC - 1 means the distributions have no similarity
 # MAGIC 
-# MAGIC The JS distance is defined as the square root of the [JS divergence](https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence):
+# MAGIC The JS distance is defined as the square root of the <a href="https://en.wikipedia.org/wiki/Jensen%E2%80%93Shannon_divergence" target="_blank">JS divergence</a>:
 # MAGIC 
 # MAGIC ![Jensen Shannon Divergence](https://miro.medium.com/max/1400/1*viATYZeg9SiT-ZdzYGjKYA.png)
 # MAGIC 
@@ -285,7 +285,7 @@ calculate_ks(
 
 # COMMAND ----------
 
-# MAGIC %md Verify a JS statistic of 0 with two identical distributions. Note that the `p` and `q` arguments here are probability vectors, not raw values.
+# MAGIC %md Verify a JS statistic of 0 with two identical distributions. Note that the **`p`** and **`q`** arguments here are probability vectors, not raw values.
 
 # COMMAND ----------
 
@@ -308,7 +308,7 @@ calculate_js_distance(p, q, raw_distribution_1, raw_distribution_2, threshold=0.
 # COMMAND ----------
 
 # MAGIC %md 
-# MAGIC And now with `N = 10,000`
+# MAGIC And now with **`N = 10,000`**
 
 # COMMAND ----------
 
@@ -322,7 +322,7 @@ calculate_js_distance(p, q, raw_distribution_1, raw_distribution_2, threshold=0.
 # COMMAND ----------
 
 # MAGIC %md 
-# MAGIC And lastly, `N = 100,000`
+# MAGIC And lastly, **`N = 100,000`**
 
 # COMMAND ----------
 
@@ -360,7 +360,7 @@ pdf2 = airbnb_pdf.drop(pdf1.index)
 
 # COMMAND ----------
 
-# MAGIC %md Alter `pdf2` to simulate drift. Add the following realistic changes: 
+# MAGIC %md Alter **`pdf2`** to simulate drift. Add the following realistic changes: 
 # MAGIC 
 # MAGIC * ***The demand for Airbnbs skyrockted, so the prices of Airbnbs doubled***.
 # MAGIC   * *Type of Drift*: Concept, Label 
@@ -379,7 +379,7 @@ pdf2["neighbourhood_cleansed"] = pdf2["neighbourhood_cleansed"].map(lambda x: No
 
 # MAGIC %md ## Apply Summary Stats
 # MAGIC 
-# MAGIC Start by looking at the summary statistics for the distribution of data in the two datasets with `dbutils.data.summarize`
+# MAGIC Start by looking at the summary statistics for the distribution of data in the two datasets with **`dbutils.data.summarize`**
 
 # COMMAND ----------
 
@@ -404,11 +404,11 @@ percent_change.style.background_gradient(cmap=cm, text_color_threshold=0.5, axis
 
 # COMMAND ----------
 
-# MAGIC %md The `review_scores_rating` and `price` seem to have many of their stats changed significantly, so we would want to look into those. Now run the KS test on the two subsets of the data. However, we cannot use the default alpha level of 0.05 in this situation because we are running a group of tests. This is because the probability of at least one false positive (concluding the feature's distribution changed when it did not) in a group of tests increases with the number of tests in the group. 
+# MAGIC %md The **`review_scores_rating`** and **`price`** seem to have many of their stats changed significantly, so we would want to look into those. Now run the KS test on the two subsets of the data. However, we cannot use the default alpha level of 0.05 in this situation because we are running a group of tests. This is because the probability of at least one false positive (concluding the feature's distribution changed when it did not) in a group of tests increases with the number of tests in the group. 
 # MAGIC 
 # MAGIC To solve this problem we will employ the **Bonferroni Correction**. This changes the alpha level to 0.05 / number of tests in group. It is common practice and reduces the probability of false positives. 
 # MAGIC 
-# MAGIC More information can be found [here](https://en.wikipedia.org/wiki/Bonferroni_correction).
+# MAGIC More information can be found <a href="https://en.wikipedia.org/wiki/Bonferroni_correction" target="_blank">here</a>.
 
 # COMMAND ----------
 
@@ -460,7 +460,7 @@ pd.concat(
 
 # COMMAND ----------
 
-# MAGIC %md `neighbourhood_cleansed` has some missing values it did not before. Now, let's run the `Two-Way Chi Squared Contigency Test` for this example. This test works by creating a [Contingency Table](https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them.) with a column for the counts of each feature category for a given categorical feature and a row for `pdf1` and `pdf2`. 
+# MAGIC %md **`neighbourhood_cleansed`** has some missing values it did not before. Now, let's run the **`Two-Way Chi Squared Contigency Test`** for this example. This test works by creating a <a href="https://en.wikipedia.org/wiki/Contingency_table#:~:text=In%20statistics%2C%20a%20contingency%20table,frequency%20distribution%20of%20the%20variables.&text=They%20provide%20a%20basic%20picture,help%20find%20interactions%20between%20them." target="_blank">Contingency Table</a> with a column for the counts of each feature category for a given categorical feature and a row for **`pdf1`** and **`pdf2`**. 
 # MAGIC 
 # MAGIC It will then return a p-value determining whether or not there is an association between the time window of data and the distribution of that feature. If it is significant, we would conclude the distribution did change over time, and so there was drift. 
 
@@ -504,7 +504,7 @@ for feature in cat_cols:
 
 # MAGIC %md ## Combine into One Class
 # MAGIC 
-# MAGIC Here, we'll combine the tests and code we have seen so far into a class `Monitor` that shows how you might implement the code above in practice. 
+# MAGIC Here, we'll combine the tests and code we have seen so far into a class **`Monitor`** that shows how you might implement the code above in practice. 
 
 # COMMAND ----------
 
@@ -653,7 +653,7 @@ drift_monitor.generate_null_counts()
 # MAGIC 
 # MAGIC However, there are other methods.
 # MAGIC 
-# MAGIC [The package `skmultiflow`](https://scikit-multiflow.github.io/) has some good options for drift detection algorithms. Try the DDM method.
+# MAGIC <a href="https://scikit-multiflow.github.io/" target="_blank">The package `skmultiflow`</a> has some good options for drift detection algorithms. Try the DDM method.
 # MAGIC 
 # MAGIC 
 # MAGIC <div><img src="https://files.training.databricks.com/images/eLearning/ML-Part-4/drift.png" style="height: 400px; margin: 20px"/></div>
@@ -685,7 +685,7 @@ drift_monitor.generate_null_counts()
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC For more information, a great talk by Chengyin Eng and Niall Turbitt can be found here: [Drifting Away: Testing ML Models in Production](https://databricks.com/session_na21/drifting-away-testing-ml-models-in-production).
+# MAGIC For more information, a great talk by Chengyin Eng and Niall Turbitt can be found here: <a href="https://databricks.com/session_na21/drifting-away-testing-ml-models-in-production" target="_blank">Drifting Away: Testing ML Models in Production</a>.
 # MAGIC 
 # MAGIC Much of the content in this lesson is adapted from this talk. 
 

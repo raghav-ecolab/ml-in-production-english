@@ -7,6 +7,10 @@
 
 # COMMAND ----------
 
+# MAGIC %run "../../Includes/Drift-Monitoring-Setup"
+
+# COMMAND ----------
+
 # MAGIC %md 
 # MAGIC # Drift Monitoring Lab
 # MAGIC 
@@ -15,23 +19,19 @@
 # MAGIC The data contains the following columns:
 # MAGIC 
 # MAGIC **Numeric:**
-# MAGIC * `temperature`: The temperature on the given day
-# MAGIC * `number_of_cones_sold`: The number of ice cream cones sold on the given day
-# MAGIC * `number_bowls_sold`: The number of bowls sold, as opposed to cones
-# MAGIC * `total_store_sales`: The total amount of money in sales done by the other, non ice cream products at the shop.
-# MAGIC * `total_sales_predicted`: Our imaginary model's prediction for the total_store_sales that day. 
+# MAGIC * **`temperature`**: The temperature on the given day
+# MAGIC * **`number_of_cones_sold`**: The number of ice cream cones sold on the given day
+# MAGIC * **`number_bowls_sold`**: The number of bowls sold, as opposed to cones
+# MAGIC * **`total_store_sales`**: The total amount of money in sales done by the other, non ice cream products at the shop.
+# MAGIC * **`total_sales_predicted`**: Our imaginary model's prediction for the total_store_sales that day. 
 # MAGIC 
 # MAGIC **Categorical:**
-# MAGIC * `most_popular_ice_cream_flavor`: The most popular ice cream flavor on a given day
-# MAGIC * `most_popular_sorbet_flavor`: The most popular sorbet flavor on a given day
+# MAGIC * **`most_popular_ice_cream_flavor`**: The most popular ice cream flavor on a given day
+# MAGIC * **`most_popular_sorbet_flavor`**: The most popular sorbet flavor on a given day
 # MAGIC 
 # MAGIC 
 # MAGIC In this situation, we have an imaginary model attempting to predict the total sales at the store of other, non ice cream items at the store, such as t-shirts or other merchandise. 
 # MAGIC Given the first and second time period of simulated data, identify any potential drift and analyze how you might handle it. 
-
-# COMMAND ----------
-
-# MAGIC %run "../../Includes/Drift-Monitoring-Setup"
 
 # COMMAND ----------
 
@@ -50,8 +50,8 @@ df1.head()
 # MAGIC 3. The most popular flavor of ice cream distribution changed, but no nulls were introduced
 # MAGIC 4. Bowls became more popular, and the number of bowls sold increased
 # MAGIC 5. The most popular sorbet flavors had nulls introduced, and although they are still evenly distributed, the counts thus changed
-# MAGIC 6. The `total_store_sales` of other, non ice cream merchandise, increased
-# MAGIC 7. The prediction of `total_store_sales` decreased
+# MAGIC 6. The **`total_store_sales`** of other, non ice cream merchandise, increased
+# MAGIC 7. The prediction of **`total_store_sales`** decreased
 # MAGIC 
 # MAGIC Keep these changes in mind and see how we would detect them using the tools we have learned. 
 
@@ -65,7 +65,7 @@ df2.head()
 
 # COMMAND ----------
 
-# MAGIC %md We have defined a `Monitor` class for you. Please invoke it below to answer the following questions.
+# MAGIC %md We have defined a **`Monitor`** class for you. Please invoke it below to answer the following questions.
 
 # COMMAND ----------
 
@@ -176,7 +176,7 @@ class Monitor():
 
 # COMMAND ----------
 
-# MAGIC %md Create a `Monitor` object based on our first and second period of ice cream data to identify drift. 
+# MAGIC %md Create a **`Monitor`** object based on our first and second period of ice cream data to identify drift. 
 
 # COMMAND ----------
 
@@ -194,7 +194,7 @@ drift_monitor = Monitor(
 # MAGIC %md 
 # MAGIC ### Summary Statistics
 # MAGIC 
-# MAGIC Look over and compare some of the data and their summary stats. Use the `drift_monitor` class to generate the null counts. Does anything jump out at you?
+# MAGIC Look over and compare some of the data and their summary stats. Use the **`drift_monitor`** class to generate the null counts. Does anything jump out at you?
 
 # COMMAND ----------
 
@@ -204,7 +204,7 @@ drift_monitor.generate_null_counts()
 
 # COMMAND ----------
 
-# MAGIC %md Use the `drift_monitor` class to generate percent changes. Does anything jump out at you?
+# MAGIC %md Use the **`drift_monitor`** class to generate percent changes. Does anything jump out at you?
 
 # COMMAND ----------
 
@@ -218,7 +218,7 @@ drift_monitor.generate_percent_change()
 # MAGIC 
 # MAGIC Now let's try the Jensen Shannon and Two-Way Chi-Squared Test with Bonferroni Correction. 
 # MAGIC 
-# MAGIC Both of these are implemented for you when you call `drift_monitor.run()`. It will print a feature name if a statisitically significant p-value was found by the respective test on that feature or if the JS stat is above our predetermined threshold.
+# MAGIC Both of these are implemented for you when you call **`drift_monitor.run()`**. It will print a feature name if a statisitically significant p-value was found by the respective test on that feature or if the JS stat is above our predetermined threshold.
 # MAGIC 
 # MAGIC Examine the results and compare them to the changes we made. 
 

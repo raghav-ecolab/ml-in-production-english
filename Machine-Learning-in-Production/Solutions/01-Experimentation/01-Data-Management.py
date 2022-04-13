@@ -9,7 +9,7 @@
 
 # MAGIC %md # Data Management
 # MAGIC 
-# MAGIC Production machine learning solutions start with reproducible data management. Strategies that we'll cover in this notebook include [Delta Table Versioning](https://docs.databricks.com/delta/versioning.html) and working with the [Feature Store](https://docs.databricks.com/applications/machine-learning/feature-store.html).
+# MAGIC Production machine learning solutions start with reproducible data management. Strategies that we'll cover in this notebook include <a href="https://docs.databricks.com/delta/versioning.html" target="_blank">Delta Table Versioning</a> and working with the <a href="https://docs.databricks.com/applications/machine-learning/feature-store.html" target="_blank">Feature Store</a>.
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lesson you will:<br>
 # MAGIC  - Version tables with Delta
@@ -75,7 +75,7 @@ airbnb_df.write.format("delta").save(working_dir)
 
 # COMMAND ----------
 
-# MAGIC %md Now let's read our Delta Table and modify it, dropping the `cancellation_policy` and `instant_bookable` columns.
+# MAGIC %md Now let's read our Delta Table and modify it, dropping the **`cancellation_policy`** and **`instant_bookable`** columns.
 
 # COMMAND ----------
 
@@ -90,7 +90,7 @@ display(delta_df)
 
 # COMMAND ----------
 
-# MAGIC %md Now we can `overwrite` our Delta Table using the `mode` parameter.
+# MAGIC %md Now we can **`overwrite`** our Delta Table using the **`mode`** parameter.
 
 # COMMAND ----------
 
@@ -98,9 +98,9 @@ delta_df.write.format("delta").mode("overwrite").save(working_dir)
 
 # COMMAND ----------
 
-# MAGIC %md Whoops! We actually wanted to keep the `cancellation_policy` column. Luckily we can use data versioning to return to an older version of this table. 
+# MAGIC %md Whoops! We actually wanted to keep the **`cancellation_policy`** column. Luckily we can use data versioning to return to an older version of this table. 
 # MAGIC 
-# MAGIC Start by using the `DESCRIBE HISTORY` SQL command.
+# MAGIC Start by using the **`DESCRIBE HISTORY`** SQL command.
 
 # COMMAND ----------
 
@@ -108,7 +108,7 @@ display(spark.sql(f"DESCRIBE HISTORY delta.`{working_dir}`"))
 
 # COMMAND ----------
 
-# MAGIC %md As we can see in the `operationParameters` column in version 1, we overwrote the table. We now need to travel back in time to load in version 0 to get all the original columns, then we can delete just the `instant_bookable` column.
+# MAGIC %md As we can see in the **`operationParameters`** column in version 1, we overwrote the table. We now need to travel back in time to load in version 0 to get all the original columns, then we can delete just the **`instant_bookable`** column.
 
 # COMMAND ----------
 
@@ -120,7 +120,7 @@ display(delta_df)
 
 # MAGIC %md You can also query based upon timestamp.  
 # MAGIC 
-# MAGIC **Note that the ability to query an older snapshot of a table (time travel) is lost after running [a VACUUM command.](https://docs.databricks.com/delta/delta-batch.html#deltatimetravel)**
+# MAGIC **Note that the ability to query an older snapshot of a table (time travel) is lost after running <a href="https://docs.databricks.com/delta/delta-batch.html#deltatimetravel" target="_blank">a VACUUM command.</a>**
 
 # COMMAND ----------
 
@@ -135,7 +135,7 @@ display(spark
 
 # COMMAND ----------
 
-# MAGIC %md Now we can drop `instant_bookable` and overwrite the table.
+# MAGIC %md Now we can drop **`instant_bookable`** and overwrite the table.
 
 # COMMAND ----------
 
@@ -153,7 +153,7 @@ display(spark.sql(f"DESCRIBE HISTORY delta.`{working_dir}`"))
 
 # MAGIC %md ## Feature Store
 # MAGIC 
-# MAGIC A [feature store](https://docs.databricks.com/applications/machine-learning/feature-store.html#databricks-feature-store) is a **centralized repository of features.** It enables feature **sharing and discovery across** your organization and also ensures that the same feature computation code is used for model training and inference.
+# MAGIC A <a href="https://docs.databricks.com/applications/machine-learning/feature-store.html#databricks-feature-store" target="_blank">feature store</a> is a **centralized repository of features.** It enables feature **sharing and discovery across** your organization and also ensures that the same feature computation code is used for model training and inference.
 
 # COMMAND ----------
 
@@ -170,7 +170,7 @@ print(table_name)
 
 # COMMAND ----------
 
-# MAGIC %md Let's start creating a [Feature Store Client](https://docs.databricks.com/applications/machine-learning/feature-store.html#create-a-feature-table-in-databricks-feature-store) so we can populate our feature store.
+# MAGIC %md Let's start creating a <a href="https://docs.databricks.com/applications/machine-learning/feature-store.html#create-a-feature-table-in-databricks-feature-store" target="_blank">Feature Store Client</a> so we can populate our feature store.
 
 # COMMAND ----------
 
@@ -184,15 +184,15 @@ help(fs.create_table)
 
 # MAGIC %md #### Create Feature Table
 # MAGIC 
-# MAGIC Next, we can create the Feature Table using the `create_table` method.
+# MAGIC Next, we can create the Feature Table using the **`create_table`** method.
 # MAGIC 
 # MAGIC This method takes a few parameters as inputs:
-# MAGIC * `name`- A feature table name of the form ``<database_name>.<table_name>``
-# MAGIC * `primary_keys`- The primary key(s). If multiple columns are required, specify a list of column names.
-# MAGIC * `df`- Data to insert into this feature table.  The schema of `features_df` will be used as the feature table schema.
-# MAGIC * `schema`- Feature table schema. Note that either `schema` or `features_df` must be provided.
-# MAGIC * `description`- Description of the feature table
-# MAGIC * `partition_columns`- Column(s) used to partition the feature table.
+# MAGIC * **`name`** - A feature table name of the form **<database_name>.<table_name>`**
+# MAGIC * **`primary_keys`** - The primary key(s). If multiple columns are required, specify a list of column names.
+# MAGIC * **`df`** - Data to insert into this feature table.  The schema of **`features_df`** will be used as the feature table schema.
+# MAGIC * **`schema`** - Feature table schema. Note that either **`schema`** or **`features_df`** must be provided.
+# MAGIC * **`description`** - Description of the feature table
+# MAGIC * **`partition_columns`** - Column(s) used to partition the feature table.
 
 # COMMAND ----------
 
@@ -207,7 +207,7 @@ fs.create_table(
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC Alternatively, you can `create_table` with schema only (without `df`), and populate data to the feature table with `fs.write_table`, `fs.write_table` has both `overwrite` and `merge` mode.
+# MAGIC Alternatively, you can **`create_table`** with schema only (without **`df`**), and populate data to the feature table with **`fs.write_table`**, **`fs.write_table`** has both **`overwrite`** and **`merge`** mode.
 # MAGIC 
 # MAGIC Example:
 # MAGIC 
@@ -238,7 +238,7 @@ fs.create_table(
 # MAGIC %md In this screenshot, we can see the feature table that we created.
 # MAGIC <br>
 # MAGIC <br>
-# MAGIC Note the section of `Producers`. This section indicates which notebook produces the feature table.
+# MAGIC Note the section of **`Producers`**. This section indicates which notebook produces the feature table.
 # MAGIC <br>
 # MAGIC <br>
 # MAGIC <img src="https://s3.us-west-2.amazonaws.com/files.training.databricks.com/images/mlflow/fs_details+(1).png" alt="step12" width="1000"/>
@@ -246,7 +246,7 @@ fs.create_table(
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC We can also look at the metadata of the feature store via the FeatureStore client by using `get_table()`.
+# MAGIC We can also look at the metadata of the feature store via the FeatureStore client by using **`get_table()`**.
 
 # COMMAND ----------
 
@@ -275,7 +275,7 @@ display(airbnb_df_short_reviews)
 
 # MAGIC %md #### Overwrite Features
 # MAGIC 
-# MAGIC We set the mode to `overwrite` to remove the deleted feature columns from the latest table.
+# MAGIC We set the mode to **`overwrite`** to remove the deleted feature columns from the latest table.
 
 # COMMAND ----------
 
@@ -289,7 +289,7 @@ fs.write_table(
 
 # MAGIC %md By navigating back to the UI, we can again see that the modified date has changed and a new column has been added to the feature list. 
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_32.png"> The deleted columns are still present in the schema of the table and their values have been replaced by `null`.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_32.png"> The deleted columns are still present in the schema of the table and their values have been replaced by **`null`**.
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/mlflow/FS_New_Feature.png" alt="step12" width="800"/>
 
@@ -305,9 +305,9 @@ display(feature_df)
 
 # COMMAND ----------
 
-# MAGIC %md If you need to use the features for real-time serving, you can publish your features to an [online store](https://docs.databricks.com/applications/machine-learning/feature-store.html#publish-features-to-an-online-feature-store).
+# MAGIC %md If you need to use the features for real-time serving, you can publish your features to an <a href="https://docs.databricks.com/applications/machine-learning/feature-store.html#publish-features-to-an-online-feature-store" target="_blank">online store</a>.
 # MAGIC 
-# MAGIC We can also control permissions to the feature table. To delete the table, use the `delete` button on the UI. **You need to delete the delta table from database as well.**
+# MAGIC We can also control permissions to the feature table. To delete the table, use the **`delete`** button on the UI. **You need to delete the delta table from database as well.**
 # MAGIC 
 # MAGIC <img src="https://s3.us-west-2.amazonaws.com/files.training.databricks.com/images/mlflow/fs_permissions+(1).png" alt="step12" width="700"/>
 
@@ -319,7 +319,7 @@ display(feature_df)
 # MAGIC **Answer:** Data Management is an oftentimes overlooked aspect of end-to-end reproducibility.
 # MAGIC 
 # MAGIC **Question:** How do we version data with Delta Tables?
-# MAGIC **Answer:** Delta Tables are automatically versioned everytime a new data is written. Accessing a previous version of the table is as simple as using `display(spark.sql(f"DESCRIBE HISTORY delta.{delta_path}"))` to find the version to revert to and loading it in.  You can also revert to previous version using timestamps.
+# MAGIC **Answer:** Delta Tables are automatically versioned everytime a new data is written. Accessing a previous version of the table is as simple as using **`display(spark.sql(f"DESCRIBE HISTORY delta.{delta_path}"))`** to find the version to revert to and loading it in.  You can also revert to previous version using timestamps.
 # MAGIC 
 # MAGIC **Question:** What challenges does the Feature Store help solve?
 # MAGIC **Answer:** A key issue many ML pipelines struggle with is feature reproducibility and data sharing. The Feature Store lets different users across the same organization utilize the same feature computation code.
@@ -346,7 +346,7 @@ display(feature_df)
 # MAGIC **A:** The <a href="https://docs.databricks.com/applications/machine-learning/feature-store.html" target="_blank"> documentation </a> provides an in-depth look at what the Feature Store can do for your pipeline.
 # MAGIC 
 # MAGIC **Q:** Where can I learn more about reproducibility and its importance?
-# MAGIC **A:** This [blog post](https://databricks.com/blog/2021/04/26/reproduce-anything-machine-learning-meets-data-lakehouse.html) by Mary Grace Moesta and Srijith Rajamohan provides a starting point for creating reproducible data and models
+# MAGIC **A:** This <a href="https://databricks.com/blog/2021/04/26/reproduce-anything-machine-learning-meets-data-lakehouse.html" target="_blank">blog post</a> by Mary Grace Moesta and Srijith Rajamohan provides a starting point for creating reproducible data and models
 
 # COMMAND ----------
 

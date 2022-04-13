@@ -51,7 +51,7 @@ observed.sort(key=lambda x: x.name)
 
 # MAGIC %md Now we can return the boolean comparison to the Orchestrate notebook so we can assert it. 
 # MAGIC 
-# MAGIC **Note:** Data passed between notebooks with `dbutils` can only be string, so this will return the string form of the boolean. 
+# MAGIC **Note:** Data passed between notebooks with **`dbutils`** can only be string, so this will return the string form of the boolean. 
 
 # COMMAND ----------
 

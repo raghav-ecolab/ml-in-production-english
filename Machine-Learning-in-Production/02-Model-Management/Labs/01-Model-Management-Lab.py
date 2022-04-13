@@ -49,11 +49,11 @@ rf_model.fit(X_train, y_train)
 
 # MAGIC %md
 # MAGIC ## Create Pyfunc with Post-Processing Steps
-# MAGIC In the demo notebook, we built a custom `RFWithPreprocess` model class that uses a `preprocess_result(self, results)` helper function to automatically pre-processes the raw input it receives before passing that input into the trained model's `.predict()` function.
+# MAGIC In the demo notebook, we built a custom **`RFWithPreprocess`** model class that uses a **`preprocess_result(self, results)`** helper function to automatically pre-processes the raw input it receives before passing that input into the trained model's **`.predict()`** function.
 # MAGIC 
-# MAGIC Now suppose we are not as interested in a numerical prediction as we are in a categorical label of `Expensive` and `Not Expensive` where the cut-off is above a price of $100. Instead of retraining an entirely new classification model, we can simply add on a post-processing step to the model trained above so it returns the predicted label instead of numerical price.
+# MAGIC Now suppose we are not as interested in a numerical prediction as we are in a categorical label of **`Expensive`** and **`Not Expensive`** where the cut-off is above a price of $100. Instead of retraining an entirely new classification model, we can simply add on a post-processing step to the model trained above so it returns the predicted label instead of numerical price.
 # MAGIC 
-# MAGIC Complete the following model class with **a new `postprocess_result(self, result)`** function such that passing in `X_test` into our model will return an `Expensive` or `Not Expensive` label for each row.
+# MAGIC Complete the following model class with **a new `postprocess_result(self, result)`** function such that passing in **`X_test`** into our model will return an **`Expensive`** or **`Not Expensive`** label for each row.
 
 # COMMAND ----------
 
@@ -80,7 +80,7 @@ class RFWithPostprocess(mlflow.pyfunc.PythonModel):
 # COMMAND ----------
 
 # MAGIC %md %md
-# MAGIC Create, save, and apply the model to `X_test`.
+# MAGIC Create, save, and apply the model to **`X_test`**.
 
 # COMMAND ----------
 

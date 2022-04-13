@@ -9,7 +9,7 @@
 
 # MAGIC %md # Model Management
 # MAGIC 
-# MAGIC A MLflow `pyfunc` allows for fully customizable deployments. This lesson provides a generalizable way of handling machine learning models created in and deployed to a variety of environments.
+# MAGIC A MLflow **`pyfunc`** allows for fully customizable deployments. This lesson provides a generalizable way of handling machine learning models created in and deployed to a variety of environments.
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lesson you:<br>
 # MAGIC  - Introduce model management best practices
@@ -61,23 +61,23 @@
 
 # MAGIC %md ### Custom Models using `pyfunc`
 # MAGIC 
-# MAGIC A `pyfunc` is a generic python model that can define any arbitrary logic, regardless of the libraries used to train it. **This object interoperates with any MLflow functionality, especially downstream scoring tools.**  As such, it's defined as a class with a related directory structure with all of the dependencies.  It is then "just an object" with a various methods such as a predict method.  Since it makes very few assumptions, it can be deployed using MLflow, SageMaker, a Spark UDF, or in any other environment.
+# MAGIC A **`pyfunc`** is a generic python model that can define any arbitrary logic, regardless of the libraries used to train it. **This object interoperates with any MLflow functionality, especially downstream scoring tools.**  As such, it's defined as a class with a related directory structure with all of the dependencies.  It is then "just an object" with a various methods such as a predict method.  Since it makes very few assumptions, it can be deployed using MLflow, SageMaker, a Spark UDF, or in any other environment.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#pyfunc-create-custom" target="_blank">the `pyfunc` documentation for details</a><br>
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://github.com/mlflow/mlflow/blob/master/docs/source/models.rst#example-saving-an-xgboost-model-in-mlflow-format" target="_blank">this README for generic example code and integration with `XGBoost`</a><br>
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://mlflow.org/docs/latest/models.html#example-creating-a-custom-add-n-model" target="_blank">this eaxmple that creates a basic class that adds `n` to the input values</a>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html#pyfunc-create-custom" target="_blank">the **`pyfunc`** documentation for details</a><br>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://github.com/mlflow/mlflow/blob/master/docs/source/models.rst#example-saving-an-xgboost-model-in-mlflow-format" target="_blank">this README for generic example code and integration with **`XGBoost`**</a><br>
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Check out <a href="https://mlflow.org/docs/latest/models.html#example-creating-a-custom-add-n-model" target="_blank">this eaxmple that creates a basic class that adds **`n`** to the input values</a>
 
 # COMMAND ----------
 
 # MAGIC %md
 # MAGIC We will train a random forest model using a pre-processed training set. The input dataframes are processed with the following steps:<br><br>
 # MAGIC 
-# MAGIC 1. Create an additional feature (`review_scores_sum`) aggregated from various review scores
+# MAGIC 1. Create an additional feature (**`review_scores_sum`**) aggregated from various review scores
 # MAGIC 2. Enforce the proper data types
 # MAGIC 
 # MAGIC When creating predictions from our model, we need to re-apply the same pre-processing logic to the data each time we use our model. 
 # MAGIC 
-# MAGIC To streamline the steps, we define a custom `RFWithPreprocess` model class that uses a `preprocess_input(self, model_input)` helper method to automatically pre-processes the raw input it receives before executing a custom `fit()` method or before passing that input into the trained model's `.predict()` function. This way, in future applications of our model we will no longer have to handle arbitrary pre-processing logic for every batch of data.
+# MAGIC To streamline the steps, we define a custom **`RFWithPreprocess`** model class that uses a **`preprocess_input(self, model_input)`** helper method to automatically pre-processes the raw input it receives before executing a custom **`fit()`** method or before passing that input into the trained model's **`.predict()`** function. This way, in future applications of our model we will no longer have to handle arbitrary pre-processing logic for every batch of data.
 
 # COMMAND ----------
 
@@ -246,7 +246,7 @@ class RFWithPreprocess(mlflow.pyfunc.PythonModel):
 
 # COMMAND ----------
 
-# MAGIC %md The `context` parameter is provided automatically by MLflow in downstream tools. This can be used to add custom dependent objects such as models that are not easily serialized (e.g. `keras` models) or custom configuration files.
+# MAGIC %md The **`context`** parameter is provided automatically by MLflow in downstream tools. This can be used to add custom dependent objects such as models that are not easily serialized (e.g. **`keras`** models) or custom configuration files.
 # MAGIC 
 # MAGIC Use the following to provide a config file. Note the steps:<br><br>
 # MAGIC 
@@ -279,7 +279,7 @@ artifacts = {"config_path": config_path}
 
 # COMMAND ----------
 
-# MAGIC %md Instantiate the class. Run `load_context` to load the config. This automatically runs in downstream serving tools.
+# MAGIC %md Instantiate the class. Run **`load_context`** to load the config. This automatically runs in downstream serving tools.
 
 # COMMAND ----------
 
@@ -321,7 +321,7 @@ signature
 
 # COMMAND ----------
 
-# MAGIC %md Generate the conda environment. This can be arbitrarily complex. This is necessary because when we use `mlflow.sklearn`, we automatically log the appropriate version of `sklearn`. With a `pyfunc`, we must manually construct our deployment environment.
+# MAGIC %md Generate the conda environment. This can be arbitrarily complex. This is necessary because when we use **`mlflow.sklearn`**, we automatically log the appropriate version of **`sklearn`**. With a **`pyfunc`**, we must manually construct our deployment environment.
 
 # COMMAND ----------
 
@@ -360,7 +360,7 @@ with mlflow.start_run() as run:
 
 # COMMAND ----------
 
-# MAGIC %md Load the model in `python_function` format.
+# MAGIC %md Load the model in **`python_function`** format.
 
 # COMMAND ----------
 
@@ -390,7 +390,7 @@ loaded_preprocess_model.predict(X_test)
 # MAGIC **Answer:** Flavors are a convention that deployment tools can use to understand the model, which makes it possible to write tools that work with models from any ML library without having to integrate each tool with each library.  Instead of having to map each training environment to a deployment environment, ML model flavors manages this mapping for you.
 # MAGIC 
 # MAGIC **Question:** How do I add pre and post processing logic to my models?
-# MAGIC **Answer:** A model class that extends `mlflow.pyfunc.PythonModel` allows you to have load, pre-processing, and post-processing logic.
+# MAGIC **Answer:** A model class that extends **`mlflow.pyfunc.PythonModel`** allows you to have load, pre-processing, and post-processing logic.
 
 # COMMAND ----------
 

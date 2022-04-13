@@ -15,7 +15,7 @@
 # MAGIC  - Enable MLflow Model Serving for your registered model
 # MAGIC  - Compute predictions in real time for your registered model via a REST API request
 # MAGIC  
-# MAGIC <img src="https://files.training.databricks.com/images/icon_note_32.png"> *You need [cluster creation](https://docs.databricks.com/applications/mlflow/model-serving.html#requirements) permissions to create a model serving endpoint. The instructor will either demo this notebook or enable cluster creation permission for the students from the Admin console.*
+# MAGIC <img src="https://files.training.databricks.com/images/icon_note_32.png"> *You need <a href="https://docs.databricks.com/applications/mlflow/model-serving.html#requirements" target="_blank">cluster creation</a> permissions to create a model serving endpoint. The instructor will either demo this notebook or enable cluster creation permission for the students from the Admin console.*
 
 # COMMAND ----------
 
@@ -89,7 +89,7 @@ client.transition_model_version_stage(
 # MAGIC 
 # MAGIC Your first task is to enable MLflow Model Serving for the model that was just registered.
 # MAGIC 
-# MAGIC <img src="https://files.training.databricks.com/images/icon_hint_24.png"/>&nbsp;**Hint:** Check out the [documentation](https://docs.databricks.com/applications/mlflow/model-serving.html#enable-and-disable-model-serving) for a demo of how to enable model serving via the UI.
+# MAGIC <img src="https://files.training.databricks.com/images/icon_hint_24.png"/>&nbsp;**Hint:** Check out the <a href="https://docs.databricks.com/applications/mlflow/model-serving.html#enable-and-disable-model-serving" target="_blank">documentation</a> for a demo of how to enable model serving via the UI.
 # MAGIC 
 # MAGIC <img src="http://files.training.databricks.com/images/mlflow/demo_model_register.png" width="600" height="20"/>
 

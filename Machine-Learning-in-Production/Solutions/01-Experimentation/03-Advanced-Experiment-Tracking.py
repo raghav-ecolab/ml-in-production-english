@@ -24,22 +24,22 @@
 # MAGIC %md
 # MAGIC ### Signatures and Input Examples
 # MAGIC 
-# MAGIC Previously, when logging a model in MLflow we only logged the model and name for the model artifact with `.log_model(model, model_name)`
+# MAGIC Previously, when logging a model in MLflow we only logged the model and name for the model artifact with **`.log_model(model, model_name)`**
 # MAGIC 
 # MAGIC However, it is a best practice to also log a model signature and input example. This allows for better schema checks and, therefore, integration with automated deployment tools.
 # MAGIC 
 # MAGIC **Signature**
 # MAGIC * A model signature is just the schema of the input(s) and the output(s) of the model
-# MAGIC * We usually get this with the `infer_schema` function
+# MAGIC * We usually get this with the **`infer_schema`** function
 # MAGIC 
 # MAGIC **Input Example**
 # MAGIC * This is simply a few example inputs to the model 
 # MAGIC * This will be converted to JSON and stored in our MLflow run
 # MAGIC * It integrates well with MLflow model serving
 # MAGIC 
-# MAGIC In general, logging a model with these looks like `.log_model(model, model_name, signature=signature, input_example=input_example)`.
+# MAGIC In general, logging a model with these looks like **`.log_model(model, model_name, signature=signature, input_example=input_example)`**.
 # MAGIC 
-# MAGIC Let's look at an example, where we create a `sklearn` Random Forest Regressor model and log it with the signature and input example.
+# MAGIC Let's look at an example, where we create a **`sklearn`** Random Forest Regressor model and log it with the signature and input example.
 
 # COMMAND ----------
 
@@ -60,7 +60,7 @@ X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), 
 
 # COMMAND ----------
 
-# MAGIC %md Now, let's train our model and log it with MLflow. This time, we will add a `signature` and `input_examples` when we log our model.
+# MAGIC %md Now, let's train our model and log it with MLflow. This time, we will add a **`signature`** and **`input_examples`** when we log our model.
 
 # COMMAND ----------
 
@@ -95,8 +95,8 @@ with mlflow.start_run(run_name="Signature Example") as run:
 # MAGIC 
 # MAGIC Example applications: 
 # MAGIC * In **hyperparameter tuning**, you can nest all associated model runs under a parent run to better organize and compare hyperparameters. 
-# MAGIC * In **parallel training** many models such as IoT devices, you can better aggregate the models. More information on this can be found [here](https://databricks.com/blog/2020/05/19/manage-and-scale-machine-learning-models-for-iot-devices.html).
-# MAGIC * In **iterative training** such as neural networks, you can checkpoint results after `n` epochs to save the model and related metrics.
+# MAGIC * In **parallel training** many models such as IoT devices, you can better aggregate the models. More information on this can be found <a href="https://databricks.com/blog/2020/05/19/manage-and-scale-machine-learning-models-for-iot-devices.html" target="_blank">here</a>.
+# MAGIC * In **iterative training** such as neural networks, you can checkpoint results after **`n`** epochs to save the model and related metrics.
 
 # COMMAND ----------
 
@@ -124,13 +124,13 @@ with mlflow.start_run(run_name="Nested Example") as run:
 # MAGIC 
 # MAGIC There are two ways to enable autologging: 
 # MAGIC 
-# MAGIC 1. Call mlflow.autolog() before your training code. This will enable autologging for each supported library you have installed as soon as you import it. [A list of supported libraries can be found here](https://www.mlflow.org/docs/latest/tracking.html#automatic-logging).
+# MAGIC 1. Call mlflow.autolog() before your training code. This will enable autologging for each supported library you have installed as soon as you import it. <a href="https://www.mlflow.org/docs/latest/tracking.html#automatic-logging" target="_blank">A list of supported libraries can be found here</a>.
 # MAGIC 
-# MAGIC 2. Use library-specific autolog calls for each library you use in your code. For example, enabling mlflow for sklearn specically would use `mlflow.sklearn.autolog()`
+# MAGIC 2. Use library-specific autolog calls for each library you use in your code. For example, enabling mlflow for sklearn specically would use **`mlflow.sklearn.autolog()`**
 # MAGIC 
 # MAGIC Let's try our first example again, this time just with autologging. We'll enable autologging for all libraries. 
 # MAGIC 
-# MAGIC **NOTE:** We do not need to put the code in a `mlflow.start_run()` block. 
+# MAGIC **NOTE:** We do not need to put the code in a **`mlflow.start_run()`** block. 
 
 # COMMAND ----------
 
@@ -153,19 +153,19 @@ rf_model = rf.fit(X_train, y_train)
 # MAGIC Hyperopt allows for efficient hyperparameter tuning and now integrates with Apache Spark via:
 # MAGIC 
 # MAGIC * **Trials:** Sequential training of single-node or distributed ML models (e.g. MLlib)
-# MAGIC * **SparkTrials:** Parallel training of single-node models (e.g. sklearn). The amount of parallelism is controlled via the `parallelism` parameter. 
+# MAGIC * **SparkTrials:** Parallel training of single-node models (e.g. sklearn). The amount of parallelism is controlled via the **`parallelism`** parameter. 
 # MAGIC 
 # MAGIC Let's try using HyperOpt with SparkTrials to find the best sklearn random forest model. 
 # MAGIC 
-# MAGIC Check out this blog by Sean Owen on [How (Not) to Tune Your Model With Hyperopt](https://databricks.com/blog/2021/04/15/how-not-to-tune-your-model-with-hyperopt.html).
+# MAGIC Check out this blog by Sean Owen on <a href="https://databricks.com/blog/2021/04/15/how-not-to-tune-your-model-with-hyperopt.html" target="_blank">How (Not) to Tune Your Model With Hyperopt</a>.
 
 # COMMAND ----------
 
 # MAGIC %md Set up the Hyperopt run.  We need to define an objective function to minimize and a search space for the parameters for our Hyperopt run. 
 # MAGIC 
-# MAGIC Hyperopt will work to minimize the objective function, so here we simply return the `loss` as the mse, since that is what we are trying to minimize. 
+# MAGIC Hyperopt will work to minimize the objective function, so here we simply return the **`loss`** as the mse, since that is what we are trying to minimize. 
 # MAGIC 
-# MAGIC **Note**: If you're trying to maximize a metric, such as accuracy or r2, you would need to return `-accuracy` or `-r2` so Hyperopt can minimize it. 
+# MAGIC **Note**: If you're trying to maximize a metric, such as accuracy or r2, you would need to return **`-accuracy`** or **`-r2`** so Hyperopt can minimize it. 
 
 # COMMAND ----------
 
@@ -217,9 +217,9 @@ with mlflow.start_run(run_name="Hyperopt"):
 # MAGIC 
 # MAGIC <img style="width:50%" src="https://files.training.databricks.com/images/mlpupdates/HyperOpt.gif" >
 # MAGIC 
-# MAGIC If we select all the nested runs in this run and select `Compare` we can also create useful visualizations to better understand the hyperparameter tuning processes. 
+# MAGIC If we select all the nested runs in this run and select **`Compare`** we can also create useful visualizations to better understand the hyperparameter tuning processes. 
 # MAGIC 
-# MAGIC Select `Compare` as shown above, and then `Parallel Coordinates Plot` in the next window to generate the following image. 
+# MAGIC Select `Compare` as shown above, and then **`Parallel Coordinates Plot`** in the next window to generate the following image. 
 # MAGIC 
 # MAGIC **Note**: You will have to add which parameters and metrics you want to generate the visualization.
 # MAGIC 
@@ -232,8 +232,8 @@ with mlflow.start_run(run_name="Hyperopt"):
 # MAGIC In addition to the logging of artifacts you have already seen, there are some more advanced options. 
 # MAGIC 
 # MAGIC We will now look at: 
-# MAGIC * [mlflow.shap](https://www.mlflow.org/docs/latest/python_api/mlflow.shap.html#mlflow.shap): Automatically calculates and logs Shapley feature importance plots
-# MAGIC * [mlflow.log_figure](https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.log_figure): Logs matplotlib and plotly plots
+# MAGIC * <a href="https://www.mlflow.org/docs/latest/python_api/mlflow.shap.html#mlflow.shap" target="_blank">mlflow.shap</a>: Automatically calculates and logs Shapley feature importance plots
+# MAGIC * <a href="https://mlflow.org/docs/latest/python_api/mlflow.html#mlflow.log_figure" target="_blank">mlflow.log_figure</a>: Logs matplotlib and plotly plots
 
 # COMMAND ----------
 
@@ -263,10 +263,10 @@ with mlflow.start_run(run_name="Feature Importance Scores"):
 
 # MAGIC %md ## Additional Resources
 # MAGIC 
-# MAGIC * [Hyperopt Docs](http://hyperopt.github.io/hyperopt/)
-# MAGIC * [Hyperparamter Tuning Blog post](https://databricks.com/blog/2019/06/07/hyperparameter-tuning-with-mlflow-apache-spark-mllib-and-hyperopt.html)
-# MAGIC * [Spark Trials Hyperopt Documentation](https://docs.databricks.com/applications/machine-learning/automl-hyperparam-tuning/hyperopt-spark-mlflow-integration.html#how-to-use-hyperopt-with-sparktrials)
-# MAGIC * [Documentation here](https://www.mlflow.org/docs/latest/python_api/mlflow.shap.html)
+# MAGIC * <a href="http://hyperopt.github.io/hyperopt/" target="_blank">Hyperopt Docs</a>
+# MAGIC * <a href="https://databricks.com/blog/2019/06/07/hyperparameter-tuning-with-mlflow-apache-spark-mllib-and-hyperopt.html" target="_blank">Hyperparamter Tuning Blog post</a>
+# MAGIC * <a href="https://docs.databricks.com/applications/machine-learning/automl-hyperparam-tuning/hyperopt-spark-mlflow-integration.html#how-to-use-hyperopt-with-sparktrials" target="_blank">Spark Trials Hyperopt Documentation</a>
+# MAGIC * <a href="https://www.mlflow.org/docs/latest/python_api/mlflow.shap.html" target="_blank">MLflow Shap Documentation</a>
 
 # COMMAND ----------
 

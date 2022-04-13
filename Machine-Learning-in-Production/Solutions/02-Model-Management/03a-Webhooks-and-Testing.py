@@ -24,7 +24,7 @@
 # MAGIC 
 # MAGIC The backbone of the continuous integration, continuous deployment (CI/CD) process is the automated building, testing, and deployment of code. A **webhook or trigger** causes the execution of code based upon some event.  This is commonly when new code is pushed to a code repository.  In the case of machine learning jobs, this could be the arrival of a new model in the model registry.
 # MAGIC 
-# MAGIC The two types of [**MLflow Model Registry Webhooks**](https://docs.databricks.com/applications/mlflow/model-registry-webhooks.html):
+# MAGIC The two types of <a href="https://docs.databricks.com/applications/mlflow/model-registry-webhooks.html" target="_blank">**MLflow Model Registry Webhooks**</a>:
 # MAGIC  - Webhooks with Job triggers: Trigger a job in a Databricks workspace
 # MAGIC  - Webhooks with HTTP endpoints: Send triggers to any HTTP endpoint
 # MAGIC  
@@ -48,12 +48,12 @@
 # MAGIC %md 
 # MAGIC ## Create a Model and Job
 # MAGIC 
-# MAGIC The following steps will create a Databricks job using another notebook in this directory: `03b-Webhooks-Job-Demo`
+# MAGIC The following steps will create a Databricks job using another notebook in this directory: **`03b-Webhooks-Job-Demo`**
 # MAGIC 
 # MAGIC **Note:** 
 # MAGIC * Ensure that you are an admin on this workspace and that you're not using Community Edition (which has jobs disabled). 
 # MAGIC * If you are not an admin, ask the instructor to share their token with you. 
-# MAGIC * Alternatively, you can set `token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)`.
+# MAGIC * Alternatively, you can set **`token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)`**.
 
 # COMMAND ----------
 
@@ -62,7 +62,7 @@
 # MAGIC 
 # MAGIC Create a user access token using the following steps:<br><br>
 # MAGIC 
-# MAGIC 1. Click the user profile icon User Profile in the upper right corner of your Databricks workspace
+# MAGIC 1. Click the Settings icon
 # MAGIC 1. Click User Settings
 # MAGIC 1. Go to the Access Tokens tab
 # MAGIC 1. Click the Generate New Token button
@@ -73,9 +73,9 @@
 # MAGIC **Note:**
 # MAGIC * Ensure that you are an admin on this workspace and that you're not using Community Edition (which has jobs disabled). 
 # MAGIC * If you are not an admin, ask the instructor to share their token with you. 
-# MAGIC * Alternatively, you can set `token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)`.
+# MAGIC * Alternatively, you can set **`token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)`**.
 # MAGIC 
-# MAGIC You can find details [about access tokens here](https://docs.databricks.com/dev-tools/api/latest/authentication.html)
+# MAGIC You can find details <a href="https://docs.databricks.com/dev-tools/api/latest/authentication.html" target="_blank">about access tokens here</a>
 
 # COMMAND ----------
 
@@ -145,11 +145,11 @@ model_details = mlflow.register_model(model_uri=model_uri, name=name)
 # MAGIC %md 
 # MAGIC ### Creating the Job
 # MAGIC 
-# MAGIC The following steps will create a Databricks job using another notebook in this directory: `03b-Webhooks-Job-Demo`
+# MAGIC The following steps will create a Databricks job using another notebook in this directory: **`03b-Webhooks-Job-Demo`**
 
 # COMMAND ----------
 
-# MAGIC %md Create a job that executes the notebook `03b-Webhooks-Job-Demo` in the same folder as this notebook.<br><br>
+# MAGIC %md Create a job that executes the notebook **`03b-Webhooks-Job-Demo`** in the same folder as this notebook.<br><br>
 # MAGIC 
 # MAGIC - Hover over the sidebar in the Databricks UI on the left.
 # MAGIC 
@@ -162,7 +162,7 @@ model_details = mlflow.register_model(model_uri=model_uri, name=name)
 # MAGIC 
 # MAGIC <br></br>
 # MAGIC - Name your Job
-# MAGIC - Select the notebook `03b-Webhooks-Job-Demo` 
+# MAGIC - Select the notebook **`03b-Webhooks-Job-Demo`** 
 # MAGIC - Select the current cluster
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/ml-deployment/Job_3_6.png" alt="step12" width="750"/>
@@ -174,9 +174,82 @@ model_details = mlflow.register_model(model_uri=model_uri, name=name)
 
 # COMMAND ----------
 
-# Enter Job ID here
+# MAGIC %md Alternatively, the code below will programmatically create the job.
 
-job_id = "<insert your job id here>" 
+# COMMAND ----------
+
+import requests
+
+def find_job_id(instance, headers, job_name, offset_limit=1000):
+    params = {"offset": 0}
+    uri = f"https://{instance}/api/2.1/jobs/list"
+    done = False
+    job_id = None
+    while not done:
+        done = True
+        res = requests.get(uri, params=params, headers=headers)
+        assert res.status_code == 200, f"Job list not returned; {res.content}"
+        
+        jobs = res.json().get("jobs", [])
+        if len(jobs) > 0:
+            for job in jobs:
+                if job.get("settings", {}).get("name", None) == job_name:
+                    job_id = job.get("job_id", None)
+                    break
+
+            # if job_id not found; update the offset and try again
+            if job_id is None:
+                params["offset"] += len(jobs)
+                if params["offset"] < offset_limit:
+                    done = False
+    
+    return job_id
+
+def get_job_parameters(job_name, cluster_id, notebook_path):
+    params = {
+            "name": job_name,
+            "tasks": [{"task_key": "webhook_task", 
+                       "existing_cluster_id": cluster_id,
+                       "notebook_task": {
+                           "notebook_path": notebook_path
+                       }
+                      }]
+        }
+    return params
+
+def get_create_parameters(job_name, cluster_id, notebook_path):
+    api = "api/2.1/jobs/create"
+    return api, get_job_parameters(job_name, cluster_id, notebook_path)
+
+def get_reset_parameters(job_name, cluster_id, notebook_path, job_id):
+    api = "api/2.1/jobs/reset"
+    params = {"job_id": job_id, "new_settings": get_job_parameters(job_name, cluster_id, notebook_path)}
+    return api, params
+
+def get_webhook_job(instance, headers, job_name, cluster_id, notebook_path):
+    job_id = find_job_id(instance, headers, job_name)
+    if job_id is None:
+        api, params = get_create_parameters(job_name, cluster_id, notebook_path)
+    else:
+        api, params = get_reset_parameters(job_name, cluster_id, notebook_path, job_id)
+    
+    uri = f"https://{instance}/{api}"
+    res = requests.post(uri, headers=headers, json=params)
+    assert res.status_code == 200, f"Expected an HTTP 200 response, received {res.status_code}; {res.content}"
+    job_id = res.json().get("job_id", job_id)
+    return job_id
+
+notebook_path = dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get().replace("03a-Webhooks-and-Testing", "03b-Webhooks-Job-Demo")
+
+# if the Job was created via UI, set it here.
+job_id = get_webhook_job(instance, 
+                         headers, 
+                         f"{clean_username}_webhook_job",
+                         spark.conf.get("spark.databricks.clusterUsageTags.clusterId"),
+                         notebook_path
+                        )
+
+print(job_id)
 
 # COMMAND ----------
 
@@ -242,7 +315,7 @@ print(response.json())
 
 # COMMAND ----------
 
-delete_hook = "<insert your webhook id here>" 
+delete_hook = "<insert your webhook id here>"
 new_json = {"id": delete_hook}
 endpoint = f"/api/2.0/mlflow/registry-webhooks/delete"
 
@@ -262,9 +335,9 @@ print(response.json())
 # MAGIC 
 # MAGIC This section requires that you have access to a Slack workspace and permissions to create a webhook. This design pattern also works with Teams or other endpoints that accept HTTP requests.
 # MAGIC  
-# MAGIC Set a Slack incoming webhook following [this page](https://api.slack.com/messaging/webhooks). Past your webhook in the code below and uncomment the code. It should look like `https://hooks.slack.com...` Upon the arrival of a new model version with a given name in the model registry, it will send notifications to the slack channel.
+# MAGIC Set a Slack incoming webhook following <a href="https://api.slack.com/messaging/webhooks" target="_blank">this page</a>. Paste your webhook in the code below and uncomment the code. It should look like **`https://hooks.slack.com...`** Upon the arrival of a new model version with a given name in the model registry, it will send notifications to the slack channel.
 # MAGIC 
-# MAGIC Note that you can find more details on [the `mlflow` REST utility functions here.](https://github.com/mlflow/mlflow/blob/master/mlflow/utils/rest_utils.py)
+# MAGIC Note that you can find more details on <a href="https://github.com/mlflow/mlflow/blob/master/mlflow/utils/rest_utils.py" target="_blank">the **`mlflow`** REST utility functions here.</a>
 
 # COMMAND ----------
 
@@ -299,13 +372,16 @@ print(response.json())
 
 # COMMAND ----------
 
-# MAGIC %md Now that we have registered the webhook, we can **test it by transitioning our model from stage `None` to `Staging` in the Experiment UI.** We should see an incoming message in the associated slack channel.
+# MAGIC %md Now that we have registered the webhook, we can **test it by transitioning our model from stage `None` to `Staging` in the Experiment UI.** We should see an incoming message in the associated slack channel. 
+# MAGIC 
+# MAGIC <img src="http://files.training.databricks.com/images/ml-deployment/webhook_slack.png" alt="webhook_notification" width="400"/>
+# MAGIC <br></br>
 
 # COMMAND ----------
 
 # MAGIC %md ## Resources
 # MAGIC 
-# MAGIC - [See this blog for more details on CI/CD and webhooks](https://databricks.com/blog/2020/11/19/mlflow-model-registry-on-databricks-simplifies-mlops-with-ci-cd-features.html)
+# MAGIC - <a href="https://databricks.com/blog/2020/11/19/mlflow-model-registry-on-databricks-simplifies-mlops-with-ci-cd-features.html" target="_blank">See this blog for more details on CI/CD and webhooks</a>
 
 # COMMAND ----------
 

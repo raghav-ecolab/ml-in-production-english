@@ -29,10 +29,10 @@
 # MAGIC 
 # MAGIC Run the cell below to generate the following variables we will use in this demo:
 # MAGIC 
-# MAGIC * `df`: original time period of airbnb data we will create our production model on.
-# MAGIC * `df2`: the second time period of data we will drift detect against later, drift simulated as described above.
-# MAGIC * `data_path1`: The delta path that we can access `df1` from.
-# MAGIC * `data_path2`: The delta path that we can access `df2` from. 
+# MAGIC * **`df`**: original time period of airbnb data we will create our production model on.
+# MAGIC * **`df2`**: the second time period of data we will drift detect against later, drift simulated as described above.
+# MAGIC * **`data_path1`**: The delta path that we can access **`df1`** from.
+# MAGIC * **`data_path2`**: The delta path that we can access **`df2`** from. 
 
 # COMMAND ----------
 
@@ -71,7 +71,7 @@ dbutils.fs.mkdirs(data_featurized_path)
 
 # COMMAND ----------
 
-# MAGIC %md Now run the featurize notebook. After running this we will have a featurized dataset in the `data_featurized_path` ready for training. 
+# MAGIC %md Now run the featurize notebook. After running this we will have a featurized dataset in the **`data_featurized_path`** ready for training. 
 
 # COMMAND ----------
 
@@ -88,6 +88,8 @@ dbutils.notebook.run("./02-Featurize", 0, params)
 # MAGIC For this notebook, we will pass in the path to the featurized data we want to train on, an experiment path for MLflow, and a registry model name.
 # MAGIC 
 # MAGIC The notebook will train a model on the data, log the run under the experiment provided, and push the model to the Staging branch in the MLflow model registry.  
+# MAGIC 
+# MAGIC **Note:** This code involves creating a new MLflow experiment, which could error if this is run in a repo.
 
 # COMMAND ----------
 

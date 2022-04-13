@@ -39,9 +39,9 @@ X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), 
 # MAGIC %md
 # MAGIC ## Perform Grid Search using scikit-learn
 # MAGIC 
-# MAGIC We want to know which combination of hyperparameter values is the most effective. Fill in the code below to perform <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV" target="_blank"> grid search using `sklearn`</a>.
+# MAGIC We want to know which combination of hyperparameter values is the most effective. Fill in the code below to perform <a href="https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV" target="_blank"> grid search using **`sklearn`**</a>.
 # MAGIC 
-# MAGIC Set `n_estimators` to `[50, 100]` and `max_depth` to `[3, 5]`.
+# MAGIC Set **`n_estimators`** to **`[50, 100]`** and **`max_depth`** to **`[3, 5]`**.
 
 # COMMAND ----------
 
@@ -67,7 +67,7 @@ for p in parameters:
 # MAGIC %md
 # MAGIC ## Log Best Model with MLflow
 # MAGIC 
-# MAGIC Log the best model as `grid-random-forest-model`, its parameters, and its MSE metric under a run with name `RF-Grid-Search` in our new MLflow experiment.
+# MAGIC Log the best model as **`grid-random-forest-model`**, its parameters, and its MSE metric under a run with name **`RF-Grid-Search`** in our new MLflow experiment.
 
 # COMMAND ----------
 

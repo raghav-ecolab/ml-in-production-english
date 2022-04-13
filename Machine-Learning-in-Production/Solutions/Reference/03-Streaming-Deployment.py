@@ -13,7 +13,7 @@
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lesson you:<br>
 # MAGIC  - Make predictions on streaming data
-# MAGIC  - Predict using an `sklearn` model on a stream of data
+# MAGIC  - Predict using an **`sklearn`** model on a stream of data
 # MAGIC  - Stream predictions into an always up-to-date delta file
 
 # COMMAND ----------
@@ -71,7 +71,7 @@
 # MAGIC 
 # MAGIC This technology brokers messages between producers, such as an IoT device writing data, and consumers, such as a Spark cluster reading data to perform real time analytics. There can be a many-to-many relationship between producers and consumers and the broker itself is scalable and fault tolerant.
 # MAGIC 
-# MAGIC We'll simulate a stream using the `maxFilesPerTrigger` option.
+# MAGIC We'll simulate a stream using the **`maxFilesPerTrigger`** option.
 # MAGIC 
 # MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/>  There are a number of ways to stream data.  One other common design pattern is to stream from an an object store where any new files that appear will be read by the stream.
 
@@ -139,7 +139,7 @@ spark.conf.set("spark.sql.shuffle.partitions", "8")
 
 # COMMAND ----------
 
-# MAGIC %md Create a data stream using `readStream` and `maxFilesPerTrigger`.
+# MAGIC %md Create a data stream using **`readStream`** and **`maxFilesPerTrigger`**.
 
 # COMMAND ----------
 
@@ -175,7 +175,7 @@ with mlflow.start_run(run_name="Final RF Model") as run:
 
 # COMMAND ----------
 
-# MAGIC %md Create a UDF from the model you just trained in `sklearn` so that you can apply it in Spark.
+# MAGIC %md Create a UDF from the model you just trained in **`sklearn`** so that you can apply it in Spark.
 
 # COMMAND ----------
 

@@ -94,11 +94,11 @@ X_train.head()
 
 # MAGIC %md Log a basic experiment by doing the following:<br><br>
 # MAGIC 
-# MAGIC 1. Start an experiment using `mlflow.start_run()` and passing it a name for the run
+# MAGIC 1. Start an experiment using **`mlflow.start_run()`** and passing it a name for the run
 # MAGIC 2. Train your model
-# MAGIC 3. Log the model using `mlflow.sklearn.log_model()`
-# MAGIC 4. Log the model error using `mlflow.log_metric()`
-# MAGIC 5. Print out the run id using `run.info.run_id`
+# MAGIC 3. Log the model using **`mlflow.sklearn.log_model()`**
+# MAGIC 4. Log the model error using **`mlflow.log_metric()`**
+# MAGIC 5. Print out the run id using **`run.info.run_id`**
 
 # COMMAND ----------
 
@@ -140,7 +140,7 @@ with mlflow.start_run(run_name="Basic RF Run") as run:
 # MAGIC %md-sandbox After clicking on the time of the run, take a look at the following:<br><br>
 # MAGIC 
 # MAGIC 1. The Run ID will match what we printed above
-# MAGIC 2. The model that we saved, included a picked version of the model as well as the Conda environment and the `MLmodel` file, which will be discussed in the next lesson.
+# MAGIC 2. The model that we saved, included a picked version of the model as well as the Conda environment and the **`MLmodel`** file, which will be discussed in the next lesson.
 # MAGIC 
 # MAGIC <div><img src="http://files.training.databricks.com/images/mlflow/mlflow_model_page.png" style="height: 400px; margin: 20px"/></div>
 
@@ -231,7 +231,7 @@ log_rf(experiment_id, "Third Run", params_1000_trees, X_train, X_test, y_train, 
 # MAGIC %md-sandbox
 # MAGIC ### Querying Past Runs
 # MAGIC 
-# MAGIC You can query past runs programatically in order to use this data back in Python.  The pathway to doing this is an `MlflowClient` object.
+# MAGIC You can query past runs programatically in order to use this data back in Python.  The pathway to doing this is an **`MlflowClient`** object.
 # MAGIC 
 # MAGIC <img alt="Side Note" title="Side Note" style="vertical-align: text-bottom; position: relative; height:1.75em; top:0.05em; transform:rotate(15deg)" src="https://files.training.databricks.com/static/images/icon-note.webp"/> You can also set tags for runs using `client.set_tag(run.info.run_id, "tag_key", "tag_value")`
 
@@ -244,7 +244,7 @@ client = MlflowClient()
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC Now list all the runs for your experiment using `.list_run_infos()`, which takes your `experiment_id` as a parameter.
+# MAGIC Now list all the runs for your experiment using **`.list_run_infos()`**, which takes your **`experiment_id`** as a parameter.
 
 # COMMAND ----------
 
@@ -302,13 +302,13 @@ model.feature_importances_
 # MAGIC - **Source:** the original code, including the commit hash if linked to git
 # MAGIC 
 # MAGIC **Question:** How do you log experiments?
-# MAGIC **Answer:** Experiments are logged by first creating a run and using the logging methods on that run object (e.g. `run.log_param("MSE", .2)`).
+# MAGIC **Answer:** Experiments are logged by first creating a run and using the logging methods on that run object (e.g. **`run.log_param("MSE", .2)`**).
 # MAGIC 
 # MAGIC **Question:** Where do logged artifacts get saved?
 # MAGIC **Answer:** Logged artifacts are saved in a directory of your choosing.  On Databricks, this would be DBFS (Databricks File System).
 # MAGIC 
 # MAGIC **Question:** How can I query past runs?
-# MAGIC **Answer:** This can be done using an `MlflowClient` object.  This allows you do everything you can within the UI programatically so you never have to step outside of your programming environment.
+# MAGIC **Answer:** This can be done using an **`MlflowClient`** object.  This allows you do everything you can within the UI programatically so you never have to step outside of your programming environment.
 
 # COMMAND ----------
 

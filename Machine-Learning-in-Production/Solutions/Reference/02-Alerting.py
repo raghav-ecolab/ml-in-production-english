@@ -64,7 +64,7 @@
 # MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> Define your own Slack webhook <a href="https://api.slack.com/incoming-webhooks#getting-started" target="_blank">using these 4 steps. </a><br>
 # MAGIC <img src="https://files.training.databricks.com/images/icon_note_24.png"/> This same approach applies to PagerDuty as well.
 # MAGIC 
-# MAGIC Follow the directions here to enable [incoming webhooks](https://api.slack.com/incoming-webhooks#).
+# MAGIC Follow the directions here to enable <a href="https://api.slack.com/incoming-webhooks#" target="_blank">incoming webhooks</a>.
 
 # COMMAND ----------
 

@@ -10,8 +10,8 @@
 # MAGIC %md # Lab: Advanced Experiment Tracking
 # MAGIC 
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) In this lab you:<br>
-# MAGIC  - Manually log nested runs for hyperparameter tuning with [MLflow Tracking](https://www.mlflow.org/docs/latest/tracking.html)
-# MAGIC  - Autolog nested runs using [hyperopt](http://hyperopt.github.io/hyperopt/)
+# MAGIC  - Manually log nested runs for hyperparameter tuning with <a href="https://www.mlflow.org/docs/latest/tracking.html" target="_blank">MLflow Tracking</a>
+# MAGIC  - Autolog nested runs using <a href="http://hyperopt.github.io/hyperopt/" target="_blank">hyperopt</a>
 
 # COMMAND ----------
 
@@ -23,19 +23,19 @@
 # MAGIC 
 # MAGIC Create an mlflow run structured in the following way:
 # MAGIC 
-# MAGIC * Create a parent run named `parent`
+# MAGIC * Create a parent run named **`parent`**
 # MAGIC * In this parent run:
-# MAGIC   * Train a sklearn RandomForestRegressor on `X_train` and `y_train`
-# MAGIC   * Get the signature and an input example. (Get the signature with `infer_signature`)
-# MAGIC * Created a nested run named `child_1`
-# MAGIC   * In `child_1`:
-# MAGIC     * Train a sklearn RandomForestRegressor on `X_train` and `y_train` with a max_depth of 5
+# MAGIC   * Train a sklearn RandomForestRegressor on **`X_train`** and **`y_train`**
+# MAGIC   * Get the signature and an input example. (Get the signature with **`infer_signature`**)
+# MAGIC * Created a nested run named **`child_1`**
+# MAGIC   * In **`child_1`**:
+# MAGIC     * Train a sklearn RandomForestRegressor on **`X_train`** and **`y_train`** with a max_depth of 5
 # MAGIC     * Log the "max_depth" parameter
 # MAGIC     * Log the mse
 # MAGIC     * Log the model with input example and signature 
-# MAGIC * Create another nested run named `child_2`
-# MAGIC   * In `child_2`:
-# MAGIC     * Train a sklearn RandomForestRegressor on `X_train` and `y_train` with a max_depth of 10
+# MAGIC * Create another nested run named **`child_2`**
+# MAGIC   * In **`child_2`**:
+# MAGIC     * Train a sklearn RandomForestRegressor on **`X_train`** and **`y_train`** with a max_depth of 10
 # MAGIC     * Log the "max_depth" parameter
 # MAGIC     * Log the mse
 # MAGIC     * Log the model with input example and signature 
@@ -108,13 +108,13 @@ with mlflow.start_run(run_name="parent") as run:
 # MAGIC 
 # MAGIC For this exercise:
 # MAGIC 
-# MAGIC 1. Use HyperOpt to tune `n_estimators` and `max_depth` in a sklearn random forest.
-# MAGIC   * `n_estimators`: Use 50-500, in steps of 10
-# MAGIC     * Take a look at the [docs](http://hyperopt.github.io/hyperopt/getting-started/search_spaces/) to find the correct distribution to use
-# MAGIC   * `max_depth`: Use 5-15, in steps of 1 
-# MAGIC     * Take a look at the [docs](http://hyperopt.github.io/hyperopt/getting-started/search_spaces/) to find the correct distribution to use
-# MAGIC   * `parallelism`: 2
-# MAGIC   * `max_evals`: 16
+# MAGIC 1. Use HyperOpt to tune **`n_estimators`** and **`max_depth`** in a sklearn random forest.
+# MAGIC   * **`n_estimators`**: Use 50-500, in steps of 10
+# MAGIC     * Take a look at the <a href="http://hyperopt.github.io/hyperopt/getting-started/search_spaces/" target="_blank">docs</a> to find the correct distribution to use
+# MAGIC   * **`max_depth`**: Use 5-15, in steps of 1 
+# MAGIC     * Take a look at the <a href="http://hyperopt.github.io/hyperopt/getting-started/search_spaces/" target="_blank">docs</a> to find the correct distribution to use
+# MAGIC   * **`parallelism`**: 2
+# MAGIC   * **`max_evals`**: 16
 # MAGIC 2. Find the nested runs in the MLflow UI
 # MAGIC 3. Generate the Parallel Coordinates Plot as shown in the lesson on your nested runs. 
 # MAGIC 

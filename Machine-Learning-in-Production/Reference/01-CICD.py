@@ -160,21 +160,21 @@
 # MAGIC 
 # MAGIC **Blogs**<br>
 # MAGIC 
-# MAGIC * [Continuous Integration and Continuous Delivery with Databricks](https://databricks.com/blog/2017/10/30/continuous-integration-continuous-delivery-databricks.html)
-# MAGIC * [Productionizing Machine Learning: From Deployment to Drift Detection](https://databricks.com/blog/2019/09/18/productionizing-machine-learning-from-deployment-to-drift-detection.html)
-# MAGIC * [Using MLOps with MLflow and Azure](https://databricks.com/blog/2020/10/13/using-mlops-with-mlflow-and-azure.html)
-# MAGIC * [MLOps Principles](https://ml-ops.org/content/mlops-principles)
+# MAGIC * <a href="https://databricks.com/blog/2017/10/30/continuous-integration-continuous-delivery-databricks.html" target="_blank">Continuous Integration and Continuous Delivery with Databricks</a>
+# MAGIC * <a href="https://databricks.com/blog/2019/09/18/productionizing-machine-learning-from-deployment-to-drift-detection.html" target="_blank">Productionizing Machine Learning: From Deployment to Drift Detection</a>
+# MAGIC * <a href="https://databricks.com/blog/2020/10/13/using-mlops-with-mlflow-and-azure.html" target="_blank">Using MLOps with MLflow and Azure</a>
+# MAGIC * <a href="https://ml-ops.org/content/mlops-principles" target="_blank">MLOps Principles</a>
 # MAGIC 
 # MAGIC **Documentation**<br>
 # MAGIC 
-# MAGIC * [Continuous integration and delivery on Azure Databricks using Azure DevOps](https://docs.microsoft.com/en-us/azure/databricks/dev-tools/ci-cd/ci-cd-azure-devops)
-# MAGIC * [MLOps Continuous Delivery](https://cloud.google.com/solutions/machine-learning/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning)
-# MAGIC * [Continuous Integration and Delivery on Databricks using Jenkins](https://docs.databricks.com/dev-tools/ci-cd.html)
+# MAGIC * <a href="https://docs.microsoft.com/en-us/azure/databricks/dev-tools/ci-cd/ci-cd-azure-devops" target="_blank">Continuous integration and delivery on Azure Databricks using Azure DevOps</a>
+# MAGIC * <a href="https://cloud.google.com/solutions/machine-learning/mlops-continuous-delivery-and-automation-pipelines-in-machine-learning" target="_blank">MLOps Continuous Delivery</a>
+# MAGIC * <a href="https://docs.databricks.com/dev-tools/ci-cd.html" target="_blank">Continuous Integration and Delivery on Databricks using Jenkins</a>
 # MAGIC 
 # MAGIC **Tools**<br>
 # MAGIC 
-# MAGIC * [CI/CD Templates](https://github.com/databrickslabs/cicd-templates)
-# MAGIC * [DBX library](https://github.com/databrickslabs/dbx)
+# MAGIC * <a href="https://github.com/databrickslabs/cicd-templates" target="_blank">CI/CD Templates</a>
+# MAGIC * <a href="https://github.com/databrickslabs/dbx" target="_blank">DBX library</a>
 
 # COMMAND ----------
 
