@@ -100,7 +100,7 @@ display(prediction_df)
 # MAGIC %md
 # MAGIC ## ![Spark Logo Tiny](https://files.training.databricks.com/images/105/logo_spark_tiny.png) Next Lesson<br>
 # MAGIC 
-# MAGIC Start the next lesson, [Real Time]($../02-Real-Time )
+# MAGIC Start the next lesson, [Real Time]($../02-Real-Time)
 
 # COMMAND ----------
 
