@@ -7,17 +7,18 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="c83d51d6-428b-4691-82ea-778976cde46b"/>
 # MAGIC 
 # MAGIC # Project Information
 # MAGIC 
 # MAGIC * Name: **Machine Learning in Production**
-# MAGIC * Version:  **3.4.0**
-# MAGIC * Built On: **Aug 19, 2022 at 18:55:24 UTC**
+# MAGIC * Version:  **3.4.1**
+# MAGIC * Built On: **Sep 10, 2022 at 18:27:50 UTC**
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="0de6d320-330c-4889-95b5-78d478a65d55"/>
+# MAGIC 
 # MAGIC Run the following cell for additional information on this course's datasets, and their copyrights.
 
 # COMMAND ----------

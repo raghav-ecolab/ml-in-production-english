@@ -1,8 +1,8 @@
 # Databricks notebook source
 # MAGIC %pip install \
-# MAGIC git+https://github.com/databricks-academy/dbacademy-gems@c3032c2df47472f1600d368523f052d2920b406d \
-# MAGIC git+https://github.com/databricks-academy/dbacademy-rest@04a7a66df15a54460f01ee98003d244819281ab1 \
-# MAGIC git+https://github.com/databricks-academy/dbacademy-helper@0206e867312f6efc3af117f3742878c65f406ee8 \
+# MAGIC git+https://github.com/databricks-academy/dbacademy-gems@e8183eed9481624f25b34436810cf6666b4438c0 \
+# MAGIC git+https://github.com/databricks-academy/dbacademy-rest@bc48bdb21810c4fd69d27154bfff2076cc4d02cc \
+# MAGIC git+https://github.com/databricks-academy/dbacademy-helper@736460d3f40ef5dfdd04c2554dd02cbdc5f256f5 \
 # MAGIC --quiet --disable-pip-version-check
 
 # COMMAND ----------
@@ -11,11 +11,12 @@
 
 # COMMAND ----------
 
+import re
 from dbacademy_gems import dbgems
 from dbacademy_helper import DBAcademyHelper, Paths
 
 helper_arguments = {
-    "course_code" : "mlip",          # The abreviated version of the course
+    "course_code" : "mlp",             # The abreviated version of the course
     "course_name" : "ml-in-production",      # The full name of the course, hyphenated
     "data_source_name" : "ml-in-production", # Should be the same as the course
     "data_source_version" : "v01",     # New courses would start with 01

@@ -3,10 +3,6 @@
 
 # COMMAND ----------
 
-import re
-from dbacademy_gems import dbgems
-from dbacademy_helper import DBAcademyHelper, Paths
-
 DA = DBAcademyHelper(**helper_arguments) # Create the DA object
 DA.reset_environment()                   # Reset by removing databases and files from other lessons
 DA.init(install_datasets=True,           # Initialize, install and validate the datasets

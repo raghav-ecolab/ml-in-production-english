@@ -7,7 +7,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="5be07803-280c-44df-8e24-f546b3204f14"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -26,7 +26,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="e572473d-49ff-4ce6-bdb9-5d50b0fad4e5"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -34,7 +34,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="cfc42f33-5726-4b6c-93f4-e2ce7b64f7e1"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -56,7 +56,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
+# MAGIC %md-sandbox <i18n value="6002f472-4e82-4d1e-b361-6611117e59dd"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -77,7 +77,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="1fd61935-d780-4322-80e4-cdc43c9ebcf7"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -98,7 +98,7 @@ display(airbnb_df)
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="ed0a634a-3aac-4225-a533-6e508e59e205"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -135,7 +135,7 @@ schema = (StructType()
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="5488445f-162c-4e8a-9311-ac0bbfaa8b0e"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -147,7 +147,7 @@ schema == airbnb_df.schema
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="98b3fcc8-4b65-43fa-9eb0-d3ef38171026"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -159,7 +159,7 @@ spark.conf.get("spark.sql.shuffle.partitions")
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="3545be89-e696-4c69-bf60-463925f861e6"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -171,7 +171,7 @@ spark.conf.set("spark.sql.shuffle.partitions", "8")
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="f1cde533-f5e0-47b0-a4b3-3d38b6d12354"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -188,7 +188,7 @@ streaming_data = (spark
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="1f097a74-075d-4616-9edb-e6b6f49aa949"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -215,7 +215,7 @@ with mlflow.start_run(run_name="Final RF Model") as run:
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="9630f176-9589-4ab2-b9d2-98fe34676250"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -229,7 +229,7 @@ pyfunc_udf = mlflow.pyfunc.spark_udf(spark, f"runs:/{run.info.run_id}/random-for
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="3e451958-fc3f-47a8-9c1d-adaff3fbc9b3"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -241,7 +241,7 @@ my_stream_name = "lesson03_stream"
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="6b46b356-b828-4032-b2f8-c7a60e7f70d6"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -264,7 +264,7 @@ def until_stream_is_ready(name, progressions=3):
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="6ff16efc-b40f-4386-b000-2f40edc19d2b"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -289,7 +289,7 @@ for stream in spark.streams.active:
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="0d285926-c3a5-40d5-a36f-c4963ab81f71"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -319,7 +319,7 @@ until_stream_is_ready(my_stream_name)
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="3657d466-7062-4c34-beaa-4452d19fe1af"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -340,7 +340,7 @@ for stream in spark.streams.active:
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="d297c548-624f-4ea6-b4d1-7934f9abc58e"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -357,7 +357,7 @@ for stream in spark.streams.active:
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="0be2552c-9387-4d52-858e-b564c157c978"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 

@@ -7,7 +7,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="61413ef3-42e5-4aa9-85c4-8c1d38cc46b5"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -24,7 +24,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="04810706-c6b1-4e15-aa4e-f879e3c4144d"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -53,7 +53,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="1b08a7f0-d9bb-4633-ae3d-e3a54903558f"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -84,7 +84,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md-sandbox
+# MAGIC %md-sandbox <i18n value="91bbbcf5-dbc3-43d7-b309-a5aec7c1c22c"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -92,7 +92,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="69237e1c-636c-4faa-8901-64eeb1240c2a"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -142,7 +142,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="a77d37ff-6aa1-4a02-abb4-002ac0c638aa"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -150,7 +150,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="241daf63-5043-4caf-99d1-a074412f45ec"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -181,7 +181,7 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="d6203326-d8a9-4dab-bc9a-9ee5f6f0c93c"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 

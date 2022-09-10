@@ -7,7 +7,11 @@
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %run ../Includes/Classroom-Setup
+
+# COMMAND ----------
+
+# MAGIC %md <i18n value="da6eb3d9-8d66-4bd3-aa77-0eb4bcc5e5e5"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -26,7 +30,7 @@ print(model_name)
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="3ff7d618-4a2c-46b4-88f4-4a145075f6eb"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -42,7 +46,7 @@ version
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="f12c134f-9381-464b-9649-c31496f207c2"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -56,7 +60,7 @@ pyfunc_model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/{versio
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="bc0f099e-5dba-45a1-bed6-73ca44316cf3"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -69,7 +73,7 @@ output_schema = pyfunc_model.metadata.get_output_schema().as_spark_schema()
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="225097e4-01a8-4f30-a08a-14949d7ef152"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -111,7 +115,7 @@ assert expected_output_schema.fields.sort(key=lambda x: x.name) == output_schema
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="69bdc2fe-8c27-44b2-b563-e5dc977a97f8"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
@@ -128,7 +132,7 @@ predictions
 
 # COMMAND ----------
 
-# MAGIC %md
+# MAGIC %md <i18n value="d5a0a864-f28d-42d6-8221-353c8085df59"/>
 # MAGIC 
 # MAGIC 
 # MAGIC 
