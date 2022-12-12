@@ -7,7 +7,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ../Includes/Classroom-Setup-2.3
+# MAGIC %run ../Includes/Classroom-Setup
 
 # COMMAND ----------
 
@@ -144,6 +144,18 @@ import numpy as np
 
 assert type(predictions) == np.ndarray
 assert type(predictions[0]) == np.float64
+
+# COMMAND ----------
+
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
 
 # COMMAND ----------
 

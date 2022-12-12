@@ -202,17 +202,6 @@ display(spark.read
 # MAGIC A <a href="https://docs.databricks.com/applications/machine-learning/feature-store.html#databricks-feature-store" target="_blank">feature store</a> is a **centralized repository of features.** 
 # MAGIC 
 # MAGIC It enables feature **sharing and discovery across** your organization and also ensures that the same feature computation code is used for model training and inference.
-# MAGIC 
-# MAGIC In DBR 10.5+, we can drop Feature Store tables, but for now we need a uniuqe name in case we re-run this notebook.
-
-# COMMAND ----------
-
-import uuid
-
-uid = uuid.uuid4().hex[:6]
-table_name = f"{DA.db_name}.airbnb_{uid}"
-
-print(f"Table: {table_name}")
 
 # COMMAND ----------
 
@@ -249,6 +238,9 @@ help(fs.create_table)
 # MAGIC * **`partition_columns`** - Column(s) used to partition the feature table.
 
 # COMMAND ----------
+
+table_name = f"{DA.schema_name}.airbnb"
+print(f"Table: {table_name}\n")
 
 fs.create_table(
     name=table_name,
@@ -414,6 +406,18 @@ display(feature_df)
 # MAGIC We can also control permissions to the feature table. To delete the table, use the **`delete`** button on the UI. **You need to delete the delta table from database as well.**
 # MAGIC 
 # MAGIC <img src="https://s3.us-west-2.amazonaws.com/files.training.databricks.com/images/mlflow/fs_permissions+(1).png" alt="step12" width="700"/>
+
+# COMMAND ----------
+
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
 
 # COMMAND ----------
 

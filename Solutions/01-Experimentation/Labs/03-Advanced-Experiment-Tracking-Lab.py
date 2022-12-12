@@ -170,6 +170,18 @@ with mlflow.start_run(run_name="Hyperopt"):
 
 # COMMAND ----------
 
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
+
+# COMMAND ----------
+
 # MAGIC %md-sandbox
 # MAGIC &copy; 2022 Databricks, Inc. All rights reserved.<br/>
 # MAGIC Apache, Apache Spark, Spark and the Spark logo are trademarks of the <a href="https://www.apache.org/">Apache Software Foundation</a>.<br/>

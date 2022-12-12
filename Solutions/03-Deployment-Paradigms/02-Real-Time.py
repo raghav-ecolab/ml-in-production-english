@@ -259,10 +259,9 @@ import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split
 from mlflow.models.signature import infer_signature
-import uuid
 
-uid = uuid.uuid4().hex[:6]
-model_name = f"{DA.unique_name}_demo-model_{uid}"
+suffix=DA.unique_name("-")
+model_name = f"demo-model_{suffix}"
 
 df = pd.read_parquet(f"{DA.paths.datasets_path}/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet")
 X_train, X_test, y_train, y_test = train_test_split(df.drop(["price"], axis=1), df["price"], random_state=42)
@@ -278,7 +277,8 @@ with mlflow.start_run(run_name="RF Model") as run:
                              "model", 
                              input_example=input_example, 
                              signature=signature, 
-                             registered_model_name=model_name
+                             registered_model_name=model_name, 
+                             extra_pip_requirements=["mlflow==1.*"]
                             )
 
 # COMMAND ----------
@@ -312,7 +312,8 @@ model_version_1 = mlflow.pyfunc.load_model(model_version_uri)
 
 import mlflow 
 # We need both a token for the API, which we can get from the notebook.
-token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)
+# Recall that we discuss the method below to retrieve tokens is not the best practice. We recommend you create your personal access token and save it in a secret scope. 
+token = mlflow.utils.databricks_utils._get_command_context().apiToken().get()
 
 # With the token, we can create our authorization header for our subsequent REST calls
 headers = {"Authorization": f"Bearer {token}"}
@@ -356,7 +357,7 @@ def wait_for_endpoint():
         assert response.status_code == 200, f"Expected an HTTP 200 response, received {response.status_code}\n{response.text}"
 
         status = response.json().get("endpoint_status", {}).get("state", "UNKNOWN")
-        if status == "ENDPOINT_STATE_READY": print("-"*80); return
+        if status == "ENDPOINT_STATE_READY": print(status); print("-"*80); return
         else: print(f"Endpoint not ready ({status}), waiting 10 seconds"); time.sleep(10) # Wait 10 seconds
 
 # COMMAND ----------
@@ -369,7 +370,7 @@ def wait_for_version():
         assert response.status_code == 200, f"Expected an HTTP 200 response, received {response.status_code}\n{response.text}"
 
         state = response.json().get("endpoint_versions")[0].get("state")
-        if state == "VERSION_STATE_READY": print("-"*80); return
+        if state == "VERSION_STATE_READY": print(state); print("-"*80); return
         else: print(f"Version not ready ({state}), waiting 10 seconds"); time.sleep(10) # Wait 10 seconds
 
 
@@ -389,10 +390,10 @@ def score_model(dataset: pd.DataFrame, timeout_sec=300):
     print(f"Scoring {model_name}")
     
     url = f"{api_url}/model/{model_name}/1/invocations"
-    data_json = dataset.to_dict(orient="split")
+    ds_dict = dataset.to_dict(orient="split")
     
     while True:
-        response = requests.request(method="POST", headers=headers, url=url, json=data_json)
+        response = requests.request(method="POST", headers=headers, url=url, json=ds_dict)
         elapsed = int(time.time()) - start
         
         if response.status_code == 200: return response.json()
@@ -602,6 +603,18 @@ score_model(X_test)
 # MAGIC arr = X_test.tolist() ## X_test is an array
 # MAGIC pred = vtx_endpoint.predict(instances=arr)
 # MAGIC ```
+
+# COMMAND ----------
+
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
 
 # COMMAND ----------
 

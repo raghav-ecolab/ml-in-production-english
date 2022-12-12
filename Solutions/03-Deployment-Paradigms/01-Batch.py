@@ -268,15 +268,11 @@ inference_df = df.select("index", "price")
 
 # COMMAND ----------
 
-import uuid
-
-# create unique table name
-uid = uuid.uuid4().hex[:6]
-feature_table_name = f"{DA.db_name}.airbnb_fs_{uid}"
-print(f"Table: {feature_table_name}")
+feature_table_name = f"{DA.schema_name}.airbnb_fs"
+print(f"Table: {feature_table_name}\n")
 
 # create feature table
-fs.create_table(
+result = fs.create_table(
     name=feature_table_name,
     primary_keys=["index"],
     df=features_df,
@@ -313,8 +309,8 @@ training_set = fs.create_training_set(inference_df, feature_lookups, label="pric
 
 # COMMAND ----------
 
-uid = uuid.uuid4().hex[:6]
-model_name = f"{DA.unique_name}_airbnb-fs-model_{uid}"
+suffix = DA.unique_name("-")
+model_name = f"airbnb-fs-model_{suffix}"
 
 print(f"Model Name: {model_name}")
 
@@ -361,6 +357,18 @@ batch_input_df = inference_df.drop("price") #exclude true label
 with_predictions = fs.score_batch(f"models:/{model_name}/1", 
                                   batch_input_df, result_type='double')
 display(with_predictions)
+
+# COMMAND ----------
+
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
 
 # COMMAND ----------
 

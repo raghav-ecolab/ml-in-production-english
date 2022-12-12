@@ -11,23 +11,11 @@
 
 # COMMAND ----------
 
-# Define only so that we can reference known variables, 
-# not actually invoking anything other functions.
-DA = DBAcademyHelper(**helper_arguments)
+lesson_config.create_schema = False
+lesson_config.installing_datasets = False
 
-# Remove all databases associated with this course
-for row in spark.sql("SHOW DATABASES").collect():
-    db_name = row[0]
-    if db_name.startswith(DA.db_name_prefix):
-        print(f"Dropping database {db_name}")
-        spark.sql(f"DROP DATABASE IF EXISTS {db_name} CASCADE")
-
-# Remove all assets from DBFS associated with this course
-if Paths.exists(DA.paths._working_dir_root):
-    result = dbutils.fs.rm(DA.paths._working_dir_root, True)
-    print(f"Deleted {DA.paths._working_dir_root}: {result}")
-
-print("Course environment succesfully reset.")
+DA = DBAcademyHelper(course_config, lesson_config)
+DA.reset_learning_environment()
 
 # COMMAND ----------
 

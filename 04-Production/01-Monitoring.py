@@ -794,6 +794,18 @@ drift_monitor.generate_null_counts()
 
 # COMMAND ----------
 
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
+
+# COMMAND ----------
+
 # MAGIC %md <i18n value="1074438b-a67b-401d-972d-06e70542c967"/>
 # MAGIC 
 # MAGIC 

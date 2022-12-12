@@ -19,6 +19,8 @@ df1['most_popular_sorbet_flavor'] = sorbet
 df1['total_store_sales'] = np.random.normal(100, 10, 1000)
 df1['total_sales_predicted'] = np.random.normal(100, 10, 1000)
 
+# COMMAND ----------
+
 # Simulate new ice cream dataset
 df2 = pd.DataFrame()
 df2['temperature'] = (df1['temperature'] - 32) * (5/9) # F -> C

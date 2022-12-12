@@ -134,6 +134,18 @@ model = mlflow.sklearn.load_model(f"runs:/{run_id}/{model_name}/")
 
 # COMMAND ----------
 
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
+
+# COMMAND ----------
+
 # MAGIC %md <i18n value="2c011665-8444-441c-b830-e0e74886684f"/>
 # MAGIC 
 # MAGIC 

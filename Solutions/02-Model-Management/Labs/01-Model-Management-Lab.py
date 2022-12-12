@@ -116,6 +116,18 @@ loaded_postprocess_model.predict(X_test)
 
 # COMMAND ----------
 
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
+
+# COMMAND ----------
+
 # MAGIC %md <i18n value="19dc2c17-fe8c-4229-9d5d-8808c64a30b2"/>
 # MAGIC 
 # MAGIC 

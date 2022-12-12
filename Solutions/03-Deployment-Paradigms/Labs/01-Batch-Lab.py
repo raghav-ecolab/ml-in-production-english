@@ -50,7 +50,6 @@ import xgboost as xgb
 import mlflow
 import mlflow.xgboost
 from sklearn.metrics import mean_squared_error
-import uuid
 
 # Start run
 with mlflow.start_run(run_name="xgboost_model") as run:
@@ -77,8 +76,8 @@ with mlflow.start_run(run_name="xgboost_model") as run:
     mlflow.xgboost.log_model(regressor, "xgboost-model")
     
 # Register model
-uid = uuid.uuid4().hex[:6]
-model_name = f"{DA.unique_name}_xgboost-model_{uid}"
+suffix = DA.unique_name("-")
+model_name = f"xgboost-model_{suffix}"
 model_uri = f"runs:/{run.info.run_id}/xgboost-model"
 model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
 
@@ -103,6 +102,18 @@ prediction_df = df.withColumn("prediction", predict(*df.drop("price").columns))
                  
 # View the results
 display(prediction_df)
+
+# COMMAND ----------
+
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
 
 # COMMAND ----------
 

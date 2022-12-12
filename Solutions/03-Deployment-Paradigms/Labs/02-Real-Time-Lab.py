@@ -41,7 +41,6 @@ import mlflow.sklearn
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
-import uuid
 
 # Load data
 df = pd.read_parquet(f"{DA.paths.datasets_path}/airbnb/sf-listings/airbnb-cleaned-mlflow.parquet/")
@@ -66,11 +65,11 @@ with mlflow.start_run(run_name="Random Forest Model") as run:
     mlflow.log_metric("rmse", rmse)
     
     # Log model
-    mlflow.sklearn.log_model(regressor, "model")
+    mlflow.sklearn.log_model(regressor, "model", extra_pip_requirements=["mlflow==1.*"])
     
 # Register model
-uid = uuid.uuid4().hex[:6]
-model_name = f"{DA.unique_name}_rfr-model_{uid}"
+suffix = DA.unique_name("-")
+model_name = f"rfr-model_{suffix}"
 model_uri = f"runs:/{run.info.run_id}/model"
 model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
 model_version = model_details.version
@@ -122,8 +121,8 @@ client.transition_model_version_stage(
 
 import mlflow
 
-# We need both a token for the API, which we can get from the notebook.
-token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)
+# As the best practice, use secret scope for tokens. 
+token = mlflow.utils.databricks_utils._get_command_context().apiToken().get()
 # With the token, we can create our authorization header for our subsequent REST calls
 headers = {"Authorization": f"Bearer {token}"}
 
@@ -164,7 +163,7 @@ def wait_for_endpoint():
         assert response.status_code == 200, f"Expected an HTTP 200 response, received {response.status_code}\n{response.text}"
 
         status = response.json().get("endpoint_status", {}).get("state", "UNKNOWN")
-        if status == "ENDPOINT_STATE_READY": print("-"*80); return
+        if status == "ENDPOINT_STATE_READY": print(status); print("-"*80); return
         else: print(f"Endpoint not ready ({status}), waiting 10 seconds"); time.sleep(10) # Wait 10 seconds
 
 # COMMAND ----------
@@ -177,7 +176,7 @@ def wait_for_version():
         assert response.status_code == 200, f"Expected an HTTP 200 response, received {response.status_code}\n{response.text}"
 
         state = response.json().get("endpoint_versions")[0].get("state")
-        if state == "VERSION_STATE_READY": print("-"*80); return
+        if state == "VERSION_STATE_READY": print(state); print("-"*80); return
         else: print(f"Version not ready ({state}), waiting 10 seconds"); time.sleep(10) # Wait 10 seconds
 
 
@@ -194,8 +193,8 @@ import requests
 
 def score_model(dataset: pd.DataFrame, model_name: str, token: str, api_url: str):
     url = f"{api_url}/model/{model_name}/1/invocations"
-    data_json = dataset.to_dict(orient="split")
-    response = requests.request(method="POST", headers=headers, url=url, json=data_json)
+    ds_dict = dataset.to_dict(orient="split")
+    response = requests.request(method="POST", headers=headers, url=url, json=ds_dict)
 
     if response.status_code != 200:
         raise Exception(f"Request failed with status {response.status_code}, {response.text}")
@@ -220,6 +219,44 @@ wait_for_version()
 
 single_row_df = pd.DataFrame([[2, 2, 150]], columns=["bathrooms", "bedrooms", "number_of_reviews"])
 score_model(single_row_df, model_name, token, api_url)
+
+# COMMAND ----------
+
+# MAGIC %md <i18n value="629fa869-2f79-402d-bb4e-ba6495dfed34"/>
+# MAGIC 
+# MAGIC ### Notes on request format and API versions
+# MAGIC 
+# MAGIC The model serving endpoint accepts a JSON object as input.
+# MAGIC ```
+# MAGIC {
+# MAGIC   "index": [0],
+# MAGIC   "columns": ["bathrooms", "bedrooms", "number_of_reviews"],
+# MAGIC   "data": [[2, 2, 150]]
+# MAGIC } 
+# MAGIC ```
+# MAGIC 
+# MAGIC With Databricks Serverless Real-Time Inference, the endpoint takes a different body format:
+# MAGIC ```
+# MAGIC {
+# MAGIC   "dataframe_records": [
+# MAGIC     { "bathrooms": 2, "bedrooms": 2, "number_of_reviews": 150 }
+# MAGIC   ]
+# MAGIC }
+# MAGIC ```
+# MAGIC 
+# MAGIC Databricks Serverless Real-Time Inference is in preview; to enroll, follow the [instructions](https://docs.microsoft.com/azure/databricks/applications/mlflow/migrate-and-enable-serverless-real-time-inference#enable-serverless-real-time-inference-for-your-workspace).
+
+# COMMAND ----------
+
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
 
 # COMMAND ----------
 

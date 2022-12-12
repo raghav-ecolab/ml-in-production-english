@@ -357,6 +357,18 @@ model.feature_importances_
 
 # COMMAND ----------
 
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
+
+# COMMAND ----------
+
 # MAGIC %md <i18n value="6d9be940-9705-4f7a-b453-a29df8a62cad"/>
 # MAGIC 
 # MAGIC 

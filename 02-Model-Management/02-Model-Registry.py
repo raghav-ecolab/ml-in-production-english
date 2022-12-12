@@ -106,11 +106,8 @@ with mlflow.start_run(run_name="RF Model") as run:
 
 # COMMAND ----------
 
-import uuid
-
-uid = uuid.uuid4().hex[:6]
-model_name = f"airbnb-rf-model_{uid}"
-model_name
+suffix = DA.unique_name("-")
+model_name = f"airbnb-rf-model_{suffix}"
 
 # COMMAND ----------
 
@@ -448,6 +445,18 @@ client.transition_model_version_stage(
 # COMMAND ----------
 
 client.delete_registered_model(model_name)
+
+# COMMAND ----------
+
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
 
 # COMMAND ----------
 

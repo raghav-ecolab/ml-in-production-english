@@ -117,6 +117,18 @@ post_api_endpoint("This is my post from Python", webhook_ml_production_api_demo)
 
 # COMMAND ----------
 
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
+
+# COMMAND ----------
+
 # MAGIC %md <i18n value="ab770d35-14e0-4616-8b3f-7e19a96b74f3"/>
 # MAGIC 
 # MAGIC 

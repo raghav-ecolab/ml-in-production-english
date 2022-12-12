@@ -86,14 +86,17 @@
 # MAGIC **Note:**
 # MAGIC * Ensure that you are an admin on this workspace and that you're not using Community Edition (which has jobs disabled). 
 # MAGIC * If you are not an admin, ask the instructor to share their token with you. 
-# MAGIC * Alternatively, you can set **`token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)`**.
+# MAGIC * Alternatively, you can set **`token = mlflow.utils.databricks_utils._get_command_context().apiToken().get()`**. However, this is not a best practice. We recommend you create your personal access token using the steps above and save it in your [secret scope](https://docs.databricks.com/security/secrets/secret-scopes.html). 
+# MAGIC 
 # MAGIC 
 # MAGIC You can find details <a href="https://docs.databricks.com/dev-tools/api/latest/authentication.html" target="_blank">about access tokens here</a>
 
 # COMMAND ----------
 
 # ANSWER
-token = dbutils.notebook.entry_point.getDbutils().notebook().getContext().apiToken().getOrElse(None)
+# Programmatically get the token
+import mlflow
+token = mlflow.utils.databricks_utils._get_command_context().apiToken().get()
 
 # COMMAND ----------
 
@@ -149,10 +152,8 @@ with mlflow.start_run(run_name="Webhook RF Experiment") as run:
 
 # COMMAND ----------
 
-import uuid
-
-uid = uuid.uuid4().hex[:6]
-name = f"{DA.unique_name}_webhook-demo_{uid}"
+suffix = DA.unique_name("-")
+name = f"webhook-demo_{suffix}"
 model_uri = f"runs:/{run_id}/random-forest-model"
 
 model_details = mlflow.register_model(model_uri=model_uri, name=name)
@@ -271,15 +272,15 @@ notebook_path = mlflow.utils.databricks_utils.get_notebook_path().replace("03a-W
 
 # We can use our utility method for creating a unique 
 # database name to help us construct a unique job name.
-job_name = f"{DA.unique_name}_webhook_job"
+prefix = DA.unique_name("-")
+job_name = f"{prefix}_webhook-job"
 
 # if the Job was created via UI, set it here.
 job_id = get_webhook_job(instance, 
                          headers, 
                          job_name,
                          spark.conf.get("spark.databricks.clusterUsageTags.clusterId"),
-                         notebook_path
-                        )
+                         notebook_path)
 
 print(f"Job ID:   {job_id}")
 print(f"Job name: {job_name}")
@@ -430,6 +431,18 @@ print(json.dumps(response.json(), indent=4))
 # )
 
 # print(json.dumps(response.json(), indent=4))
+
+# COMMAND ----------
+
+# MAGIC %md <i18n value="a2c7fb12-fd0b-493f-be4f-793d0a61695b"/>
+# MAGIC 
+# MAGIC ## Classroom Cleanup
+# MAGIC 
+# MAGIC Run the following cell to remove lessons-specific assets created during this lesson:
+
+# COMMAND ----------
+
+DA.cleanup()
 
 # COMMAND ----------
 
